@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
 const profileSchema = {
-    userID:{
-      type: mongoose.Types.ObjectId
-    },
     firstName:{
       type: String,
       required: true
