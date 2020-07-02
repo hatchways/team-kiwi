@@ -20,7 +20,7 @@ const profileSchema = {
       required: true
     },
     phone:{
-      type: Number
+      type: String
     },
     address:{
       type: String
@@ -28,7 +28,7 @@ const profileSchema = {
     description:{
       type: String
     },
-    availability:{
+    available:{
       type: Boolean
     }
   }
