@@ -1,20 +1,20 @@
 import React, { Fragment } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import { Box } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-
 import Edit from "../pages/profile/Edit";
 import Photo from "../pages/profile/Photo";
 import Availability from "../pages/profile/Availability";
 import Payment from "../pages/profile/Payment";
 import Security from "../pages/profile/Security";
 import Settings from "../pages/profile/Settings";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+
+import { makeStyles } from "@material-ui/core/styles";
+import { Box } from "@material-ui/core";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 
 function ProfileSidebar() {
   const useStyles = makeStyles((theme) => ({
