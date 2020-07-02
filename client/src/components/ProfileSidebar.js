@@ -62,7 +62,7 @@ function ProfileSidebar() {
 
   return (
     <Fragment>
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="lg">
         <Box pt={6}>
           <Grid container>
             <Grid container item xs={3}>
