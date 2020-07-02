@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { theme } from "./themes/theme";
 import Navbar from "./components/Navbar";
 
-import "./App.css";
+// import "./App.css";
 
 function App() {
   return (
