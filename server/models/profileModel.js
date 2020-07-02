@@ -10,32 +10,26 @@ const profileSchema = {
       required: true
     },
     gender:{
-      type: String,
-      required: true
+      type: String
     },
     birthDate:{
-      type: Date,
-      required: true
+      type: Date
     },
     email:{
       type: String,
       required: true
     },
     phone:{
-      type: Number,
-      required: true
+      type: Number
     },
     address:{
-      type: String,
-      required: true
+      type: String
     },
     description:{
-      type: String,
-      required: true
+      type: String
     },
     availability:{
-      type: Boolean,
-      required: true
+      type: Boolean
     }
   }
   
