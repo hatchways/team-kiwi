@@ -1,20 +1,18 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Button from "@material-ui/core/Button";
-import Badge from "@material-ui/core/Badge";
-import Avatar from "@material-ui/core/Avatar";
-
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import {
+  AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid
+} from "@material-ui/core";
+import Login from './Login'
+import SignUp from './SignUp'
 import Home from "../pages/Home";
 import MyJobs from "../pages/MyJobs";
 import Messages from "../pages/Messages";
 import Profile from "../pages/Profile";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = theme => ({
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
@@ -36,75 +34,132 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(6),
     height: theme.spacing(6),
   },
-}));
+});
 
-export default function Navbar(props) {
-  const classes = useStyles();
-  const invisible = false;
+class Navbar extends Component {
+  constructor() {
+    super()
+    this.logout = this.logout.bind(this)
+  }
 
-  return (
-    <Fragment>
-      <CssBaseline />
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        className={classes.appBar}
-      >
-        <Toolbar className={classes.toolbar}>
-          <Link to="/" className={classes.logo}>
-            <img src="/images/logo.png" alt="" />
-          </Link>
-          <Badge
-            color="secondary"
-            variant="dot"
-            invisible={invisible}
-            className={classes.link}
-          >
-            <Button component={Link} to="/notifications">
-              Notifications
-            </Button>
-          </Badge>
-          <Button component={Link} to="/myjobs" className={classes.link}>
-            My Jobs
-          </Button>
-          <Badge
-            color="secondary"
-            variant="dot"
-            invisible={invisible}
-            className={classes.link}
-          >
-            <Button component={Link} to="/messages">
-              Messages
-            </Button>
-          </Badge>
-          <Avatar
-            alt="Remy Sharp"
-            src="/images/profile_1.jpg"
-            component={Link}
-            to="/profile/edit"
-            className={classes.avater}
-          />
-        </Toolbar>
-      </AppBar>
+  logout(event) {
+    event.preventDefault()
+    console.log('logging out')
+    this.props.updateUser({
+      loggedIn: false,
+      username: null
+    })
+    // axios.post('/user/logout').then(response => {
+    //     console.log(response.data)
+    //     if (response.status === 200) {
+    //         this.props.updateUser({
+    //             loggedIn: false,
+    //             username: null
+    //         })
+    //     }
+    // }).catch(error => {
+    //     console.log('Logout error')
+    // })
+  }
 
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/notifications">
-          <MyJobs />
-        </Route>
-        <Route path="/myjobs">
-          <MyJobs />
-        </Route>
-        <Route path="/messages">
-          <Messages />
-        </Route>
-        <Route path="/profile/edit">
-          <Profile />
-        </Route>
-      </Switch>
-    </Fragment>
-  );
+  render() {
+    const { classes } = this.props;
+    const invisible = false;
+    const loggedIn = this.props.loggedIn;
+
+    return (
+
+      <div>
+        {loggedIn ? (
+          // if user logged In
+          <Fragment>
+            <CssBaseline />
+            <AppBar
+              position="static"
+              color="default"
+              elevation={0}
+              className={classes.appBar}
+            >
+              <Toolbar className={classes.toolbar}>
+                <Link to="/" className={classes.logo}>
+                  <img src="/images/logo.png" alt="" />
+                </Link>
+                <Badge
+                  color="secondary"
+                  variant="dot"
+                  invisible={invisible}
+                  className={classes.link}
+                >
+                  <Button component={Link} to="/notifications">
+                    Notifications
+                </Button>
+                </Badge>
+                <Button component={Link} to="/myjobs" className={classes.link}>
+                  My Jobs
+              </Button>
+                <Badge
+                  color="secondary"
+                  variant="dot"
+                  invisible={invisible}
+                  className={classes.link}
+                >
+                  <Button component={Link} to="/messages">
+                    Messages
+                </Button>
+                </Badge>
+
+                <Avatar
+                  alt="Remy Sharp"
+                  src="/images/profile_1.jpg"
+                  component={Link}
+                  to="/profile/edit"
+                  className={classes.avater}
+                />
+              </Toolbar>
+            </AppBar>
+
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/notifications">
+                <MyJobs />
+              </Route>
+              <Route path="/myjobs">
+                <MyJobs />
+              </Route>
+              <Route path="/messages">
+                <Messages />
+              </Route>
+              <Route path="/profile/edit">
+                <Profile />
+              </Route>
+            </Switch>
+          </Fragment>
+        ) : (
+            // If user NOT logged In
+            <div >
+              <AppBar position="static" color="default">
+                <Toolbar>
+                  <img src="/images/logo.png" alt="" />
+                  <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+
+                    <Link href="#" color="inherit" underline="always" style={{ marginRight: '35px', fontWeight: '700' }}>BECOME A SITTER</Link>
+
+                    <Login />
+                    <SignUp />
+
+                  </Grid>
+                </Toolbar>
+              </AppBar>
+            </div>
+
+          )}
+      </div>
+
+    );
+  }
+
 }
+
+export default withStyles(useStyles)(Navbar);
