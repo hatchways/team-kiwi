@@ -10,7 +10,6 @@ export const theme = createMuiTheme({
       fontWeight: 500,
     },
     h6: {
-      // could customize the h1 variant as well
       fontSize: 14,
       fontWeight: 500,
     },
