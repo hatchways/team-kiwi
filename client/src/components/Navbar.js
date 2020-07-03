@@ -36,16 +36,12 @@ const useStyles = theme => ({
   },
 });
 
-class Navbar extends Component {
-  constructor() {
-    super()
-    this.logout = this.logout.bind(this)
-  }
+function Navbar(props) {
 
-  logout(event) {
+  const logout = (event) => {
     event.preventDefault()
     console.log('logging out')
-    this.props.updateUser({
+    props.updateUser({
       loggedIn: false,
       username: null
     })
@@ -62,103 +58,101 @@ class Navbar extends Component {
     // })
   }
 
-  render() {
-    const { classes } = this.props;
-    const invisible = false;
-    const loggedIn = this.props.loggedIn;
+  // this.logout = props.logout.bind(this);
+  const { classes } = props;
+  const invisible = false;
+  const loggedIn = props.loggedIn;
 
-    return (
-
-      <div>
-        {loggedIn ? (
-          // if user logged In
-          <Fragment>
-            <CssBaseline />
-            <AppBar
-              position="static"
-              color="default"
-              elevation={0}
-              className={classes.appBar}
-            >
-              <Toolbar className={classes.toolbar}>
-                <Link to="/" className={classes.logo}>
-                  <img src="/images/logo.png" alt="" />
-                </Link>
-                <Badge
-                  color="secondary"
-                  variant="dot"
-                  invisible={invisible}
-                  className={classes.link}
-                >
-                  <Button component={Link} to="/notifications">
-                    Notifications
+  return (
+    <div>
+      {loggedIn ? (
+        // if user logged In
+        <Fragment>
+          <CssBaseline />
+          <AppBar
+            position="static"
+            color="default"
+            elevation={0}
+            className={classes.appBar}
+          >
+            <Toolbar className={classes.toolbar}>
+              <Link to="/" className={classes.logo}>
+                <img src="/images/logo.png" alt="" />
+              </Link>
+              <Badge
+                color="secondary"
+                variant="dot"
+                invisible={invisible}
+                className={classes.link}
+              >
+                <Button component={Link} to="/notifications">
+                  Notifications
                 </Button>
-                </Badge>
-                <Button component={Link} to="/myjobs" className={classes.link}>
-                  My Jobs
+              </Badge>
+              <Button component={Link} to="/myjobs" className={classes.link}>
+                My Jobs
               </Button>
-                <Badge
-                  color="secondary"
-                  variant="dot"
-                  invisible={invisible}
-                  className={classes.link}
-                >
-                  <Button component={Link} to="/messages">
-                    Messages
+              <Badge
+                color="secondary"
+                variant="dot"
+                invisible={invisible}
+                className={classes.link}
+              >
+                <Button component={Link} to="/messages">
+                  Messages
                 </Button>
-                </Badge>
+              </Badge>
 
-                <Avatar
-                  alt="Remy Sharp"
-                  src="/images/profile_1.jpg"
-                  component={Link}
-                  to="/profile/edit"
-                  className={classes.avater}
-                />
+              <Avatar
+                alt="Remy Sharp"
+                src="/images/profile_1.jpg"
+                component={Link}
+                to="/profile/edit"
+                className={classes.avater}
+              />
+            </Toolbar>
+          </AppBar>
+
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/notifications">
+              <MyJobs />
+            </Route>
+            <Route path="/myjobs">
+              <MyJobs />
+            </Route>
+            <Route path="/messages">
+              <Messages />
+            </Route>
+            <Route path="/profile/edit">
+              <Profile />
+            </Route>
+          </Switch>
+        </Fragment>
+      ) : (
+          // If user NOT logged In
+          <div >
+            <AppBar position="static" color="default">
+              <Toolbar>
+                <img src="/images/logo.png" alt="" />
+                <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+
+                  <Link href="#" color="inherit" underline="always" style={{ marginRight: '35px', fontWeight: '700' }}>BECOME A SITTER</Link>
+
+                  <Login />
+                  <SignUp />
+
+                </Grid>
               </Toolbar>
             </AppBar>
+          </div>
 
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <Route path="/notifications">
-                <MyJobs />
-              </Route>
-              <Route path="/myjobs">
-                <MyJobs />
-              </Route>
-              <Route path="/messages">
-                <Messages />
-              </Route>
-              <Route path="/profile/edit">
-                <Profile />
-              </Route>
-            </Switch>
-          </Fragment>
-        ) : (
-            // If user NOT logged In
-            <div >
-              <AppBar position="static" color="default">
-                <Toolbar>
-                  <img src="/images/logo.png" alt="" />
-                  <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+        )}
+    </div>
 
-                    <Link href="#" color="inherit" underline="always" style={{ marginRight: '35px', fontWeight: '700' }}>BECOME A SITTER</Link>
-
-                    <Login />
-                    <SignUp />
-
-                  </Grid>
-                </Toolbar>
-              </AppBar>
-            </div>
-
-          )}
-      </div>
-
-    );
-  }
+  );
 
 }
 
