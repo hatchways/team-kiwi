@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import {
+    withStyles, InputLabel, Link, Typography, DialogTitle, DialogContentText,
+    DialogContent, DialogActions, Dialog, TextField, Button, Snackbar
+} from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import { withStyles, InputLabel, Link, Typography } from '@material-ui/core';
+import axios from 'axios';
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -38,17 +35,41 @@ function Login(props) {
     const [password, setPassword] = useState('');
     const [emailErr, setEmailErr] = useState('');
     const [passwordErr, setPasswordErr] = useState('');
-
+    const [loginErr, setLoginErr] = useState(false);
     const onLoginSubmit = () => {
         const isValid = validate();
         if (isValid) {
-            // clear form and set the sucessful switch to true
-            setEmail('');
-            setPassword('');
-            setEmailErr('');
-            setPasswordErr('');
+            axios.post('users/login', {
+                userEmail: email,
+                password: password
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log("success")
+                        // update App.js state
+                        props.updateUser({
+                            loggedIn: true,
+                            username: response.data.username
+                        })
+                        // clear form and set the sucessful switch to true
+                        setEmail('');
+                        setPassword('');
+                        setEmailErr('');
+                        setPasswordErr('');
+                    }
+                }).catch(error => {
+                    setLoginErr(true);
+                })
         }
     }
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setLoginErr(false);
+    };
+
     const validate = () => {
         let emailErr = "";
         let passwordErr = "";
@@ -56,8 +77,8 @@ function Login(props) {
         if (!email.includes("@")) {
             emailErr = "Invalid email";
         }
-        if (password.length < 7) {
-            passwordErr = "Password Can not be less than 7 length";
+        if (password.length < 6) {
+            passwordErr = "Password Can not be less than 6 length";
         }
 
         if (emailErr || passwordErr) {
@@ -140,8 +161,13 @@ function Login(props) {
                         Not a member? <Link href="#" color="secondary">Sign Up</Link>
                     </DialogContentText>
                 </DialogActions>
-
             </Dialog>
+
+            <Snackbar open={loginErr} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity="error">
+                    Incorrect Email or Password!
+                    </Alert>
+            </Snackbar>
         </div>
     )
 

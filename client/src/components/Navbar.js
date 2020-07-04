@@ -11,6 +11,7 @@ import Home from "../pages/Home";
 import MyJobs from "../pages/MyJobs";
 import Messages from "../pages/Messages";
 import Profile from "../pages/Profile";
+import axios from 'axios';
 
 const useStyles = theme => ({
   appBar: {
@@ -45,17 +46,17 @@ function Navbar(props) {
       loggedIn: false,
       username: null
     })
-    // axios.post('/user/logout').then(response => {
-    //     console.log(response.data)
-    //     if (response.status === 200) {
-    //         this.props.updateUser({
-    //             loggedIn: false,
-    //             username: null
-    //         })
-    //     }
-    // }).catch(error => {
-    //     console.log('Logout error')
-    // })
+    axios.post('/users/logout').then(response => {
+      console.log(response.data)
+      if (response.status === 200) {
+        this.props.updateUser({
+          loggedIn: false,
+          username: null
+        })
+      }
+    }).catch(error => {
+      console.log('Logout error')
+    })
   }
 
   // this.logout = props.logout.bind(this);
@@ -103,6 +104,10 @@ function Navbar(props) {
                 </Button>
               </Badge>
 
+              <Button component={Link} to="#" onClick={logout}>
+                logout
+                </Button>
+
               <Avatar
                 alt="Remy Sharp"
                 src="/images/profile_1.jpg"
@@ -141,7 +146,7 @@ function Navbar(props) {
 
                   <Link href="#" color="inherit" underline="always" style={{ marginRight: '35px', fontWeight: '700' }}>BECOME A SITTER</Link>
 
-                  <Login />
+                  <Login updateUser={props.updateUser} />
                   <SignUp />
 
                 </Grid>
