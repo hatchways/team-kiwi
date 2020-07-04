@@ -61,7 +61,7 @@ router.post(
             userEmail: req.user.userEmail,
             password: req.user.password
         };
-        //  res.send(userInfo);
+
         //////////////////// jwt start //////////////
         const accessToken = jwt.sign(userInfo, process.env.ACCESS_TOKEN_LOGIN)
         res.json({ accessToken: accessToken });
