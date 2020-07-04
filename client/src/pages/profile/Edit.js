@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -10,6 +10,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import Button from '@material-ui/core/Button';
 
 function Edit() {
   const useStyles = makeStyles((theme) => ({
@@ -34,8 +35,37 @@ function Edit() {
       textAlign: "center",
       color: theme.palette.text.secondary,
     },
+    button: {
+      marginTop: "50px"
+    }
   }));
   const classes = useStyles();
+
+  const [user, setUser] = useState({
+    firstName: '',
+    lastName: '',
+    gender: '',
+    birthDate: '',
+    email: '',
+    phone: '',
+    address: '',
+    description: ''
+  })
+
+  const handleChange = event => {
+    const {name, value} = event.target;
+    setUser(prevUser => {
+      return {
+        ...prevUser,
+        [name]: value
+      }
+    })
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    console.log(user)
+  }
 
   return (
     <Fragment>
@@ -47,6 +77,13 @@ function Edit() {
                 Edit Profile
               </Typography>
             </Grid>
+            
+            <Grid item xs={12}>
+            <form 
+              noValidate 
+              autoComplete="off"
+              method="POST"  
+              >
 
             <Grid container item xs={12}>
               <Grid item xs={3} className={classes.label}>
@@ -62,6 +99,9 @@ function Edit() {
                   fullWidth
                   margin="normal"
                   variant="outlined"
+                  name="firstName"
+                  value={user.firstName}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
@@ -80,6 +120,9 @@ function Edit() {
                   fullWidth
                   margin="normal"
                   variant="outlined"
+                  name="lastName"
+                  value={user.lastName}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
@@ -97,17 +140,20 @@ function Edit() {
                   fullWidth
                 >
                   <InputLabel id="demo-simple-select-outlined-label">
-                    Age
+                    Gender
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
                     // value={age}
-                    label="Age"
+                    label="Gender"
+                    name="gender"
+                    value={user.gender}
+                    onChange={handleChange}
                   >
                     <MenuItem value="Male">Male</MenuItem>
                     <MenuItem value="Female">Female</MenuItem>
-                    <MenuItem value="Orther">Orther</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -124,11 +170,14 @@ function Edit() {
                   id="date"
                   // label="Birthday"
                   type="date"
-                  defaultValue="2010-01-01"
+                  // defaultValue="2010-01-01"
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  name="birthDate"
+                  value={user.birthDate}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
@@ -147,6 +196,9 @@ function Edit() {
                   fullWidth
                   margin="normal"
                   variant="outlined"
+                  name="email"
+                  value={user.email}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
@@ -165,6 +217,9 @@ function Edit() {
                   fullWidth
                   margin="normal"
                   variant="outlined"
+                  name="phone"
+                  value={user.phone}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
@@ -184,6 +239,9 @@ function Edit() {
                     fullWidth
                     margin="normal"
                     variant="outlined"
+                    name="address"
+                    value={user.address}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
@@ -198,7 +256,7 @@ function Edit() {
               <Grid item xs={8}>
                 <Grid item xs={8}>
                   <TextField
-                    id="address"
+                    id="description"
                     style={{ margin: 0 }}
                     placeholder="About you"
                     fullWidth
@@ -206,9 +264,30 @@ function Edit() {
                     rows={8}
                     margin="normal"
                     variant="outlined"
+                    name="description"
+                    value={user.description}
+                    onChange={handleChange}
                   />
                 </Grid>
               </Grid>
+            </Grid>
+
+            <Grid container item xs={12} justify="center" >
+              <Grid item xs={2}>
+                <Button
+                  fullWidth
+                  size="large"
+                  variant="contained"
+                  className={classes.button}
+                  onClick={handleSubmit}
+                  color="primary"
+                >
+                  Save
+                </Button>
+              </Grid>
+            </Grid>
+
+            </form>
             </Grid>
           </Grid>
         </Paper>
