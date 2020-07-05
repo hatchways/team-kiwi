@@ -42,14 +42,11 @@ function Navbar(props) {
   const logout = (event) => {
     event.preventDefault()
     console.log('logging out')
-    props.updateUser({
-      loggedIn: false,
-      username: null
-    })
+
     axios.post('/users/logout').then(response => {
-      console.log(response.data)
+      // console.log(response.data)
       if (response.status === 200) {
-        this.props.updateUser({
+        props.updateUser({
           loggedIn: false,
           username: null
         })
@@ -59,7 +56,6 @@ function Navbar(props) {
     })
   }
 
-  // this.logout = props.logout.bind(this);
   const { classes } = props;
   const invisible = false;
   const loggedIn = props.loggedIn;

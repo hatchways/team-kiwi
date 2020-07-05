@@ -4,11 +4,15 @@ const jwt = require('jsonwebtoken');
 const passport = require('../passport')
 require('dotenv').config()
 
-router.route('/').get((req, res) => {
-    User.find()
-        .then(users => res.json(users))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
+router.get('/', (req, res, next) => {
+    // console.log('===== user!!======')
+    // console.log(req.user)
+    if (req.user) {
+        res.json({ user: req.user })
+    } else {
+        res.json({ user: null })
+    }
+})
 
 router.route('/add').post((req, res) => {
 
@@ -80,7 +84,7 @@ function authenticateToken(req, res, next) {
 }
 router.post('/logout', (req, res) => {
     if (req.user) {
-        req.logout()
+        req.logOut()
         res.send({ msg: 'logging out' })
     } else {
         res.send({ msg: 'no user to log out' })
