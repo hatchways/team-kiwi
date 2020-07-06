@@ -1,4 +1,4 @@
-import validator from 'validator';
+const validator = require('validator');
 
 // Validate the profile inputs
 
@@ -21,7 +21,7 @@ const profileInputValidator = body => {
     } else {
         profile.lastName = body.lastName
     }
-
+    
     if (validator.isEmpty(body.email)){
         errMsg.email = 'Email is required!'
         err = true;
@@ -31,46 +31,46 @@ const profileInputValidator = body => {
     } else {
         profile.email = body.email
     }
-
+    
     if (validator.isEmpty(body.gender)){
         profile.gender = ''
     } else {
         profile.gender = body.gender
     }
-
+    
     if (validator.isDate(body.birthDate)){
         profile.birthDate = body.birthDate
     } else {
         profile.birthDate = ''
         errMsg.birthDate = 'BirthDate either not given or format is wrong!'
     }
-
+    
     if (validator.isMobilePhone(body.phone, 'en-CA')){
         profile.phone = body.phone
     } else {
         profile.phone = ''
         errMsg.phone = 'Phone number either not given or format is wrong!'
     }
-
+    
     if (validator.isEmpty(body.address)){
         profile.address = ''
     } else {
         profile.address = body.address
     }
-
+    
     if (validator.isEmpty(body.description)){
         profile.description = ''
     } else {
-        profile.description = body.address
+        profile.description = body.description
     }
-
-    if (validator.isBoolean(body.available)){
-        profile.available = body.available
-    } else {
-        profile.available = ''
-    }
+    
+    // if (validator.isBoolean(body.available)){
+    //     profile.available = body.available
+    // } else {
+    //     profile.available = ''
+    // }
     
     return {err, errMsg, profile};
 }
 
-export default profileInputValidator;
+module.exports = profileInputValidator;

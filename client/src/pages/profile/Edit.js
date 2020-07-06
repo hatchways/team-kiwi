@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from "react";
+import axios from "axios";
 
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -64,7 +65,10 @@ function Edit() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(user)
+
+    axios.post('/profile/add', user)
+      .then(res => console.log(res.data));
+      // .catch(err => )
   }
 
   return (
