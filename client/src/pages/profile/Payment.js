@@ -1,19 +1,19 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { Box } from "@material-ui/core";
-import CardComponent from "./CardComponent";
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { Box } from '@material-ui/core';
+import CardComponent from './CardComponent';
 
 function Payment() {
   const useStyles = makeStyles((theme) => ({
     root: {
-      display: "flex",
-      flexWrap: "wrap",
-      "& > *": {
+      display: 'flex',
+      flexWrap: 'wrap',
+      '& > *': {
         // margin: theme.spacing(1),
         width: theme.spacing(100),
         height: theme.spacing(80),
@@ -26,9 +26,9 @@ function Payment() {
       padding: theme.spacing(5),
     },
     innerbox: {
-      display: "flex",
+      display: 'flex',
       // flexDirection: "column",
-      alignItems: "left",
+      alignItems: 'left',
       padding: theme.spacing(4),
     },
     uploadBtn: {
