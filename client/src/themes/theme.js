@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme } from '@material-ui/core';
 
 export const theme = createMuiTheme({
   typography: {
@@ -10,13 +10,12 @@ export const theme = createMuiTheme({
       fontWeight: 500,
     },
     h6: {
-      // could customize the h1 variant as well
       fontSize: 14,
       fontWeight: 500,
     },
   },
   palette: {
-    primary: { main: "#DF1B1B" },
-    secondary: { main: "#4caf50" },
+    primary: { main: '#DF1B1B' },
+    secondary: { main: '#4caf50' },
   },
 });

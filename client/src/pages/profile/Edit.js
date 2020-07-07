@@ -1,25 +1,27 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
+import { Box } from '@material-ui/core';
 
 function Edit() {
   const useStyles = makeStyles((theme) => ({
     root: {
-      display: "flex",
-      flexWrap: "wrap",
-      "& > *": {
+      display: 'flex',
+      flexWrap: 'wrap',
+      '& > *': {
         // margin: theme.spacing(1),
         width: theme.spacing(100),
-        height: theme.spacing(110),
+        height: theme.spacing(130),
       },
     },
     grid: {
@@ -29,10 +31,17 @@ function Edit() {
     label: {
       padding: theme.spacing(2),
     },
-    paper: {
+    box: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    saveBtn: {
+      margin: theme.spacing(2),
       padding: theme.spacing(2),
-      textAlign: "center",
-      color: theme.palette.text.secondary,
+      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(5),
+      // marginRight: theme.spacing(1),
     },
   }));
   const classes = useStyles();
@@ -91,14 +100,8 @@ function Edit() {
                 </Typography>
               </Grid>
               <Grid item xs={4}>
-                <FormControl
-                  variant="outlined"
-                  className={classes.formControl}
-                  fullWidth
-                >
-                  <InputLabel id="demo-simple-select-outlined-label">
-                    Age
-                  </InputLabel>
+                <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                  <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
                   <Select
                     labelId="demo-simple-select-outlined-label"
                     id="demo-simple-select-outlined"
@@ -211,6 +214,11 @@ function Edit() {
               </Grid>
             </Grid>
           </Grid>
+          <Box className={classes.box}>
+            <Button variant="contained" color="primary" className={classes.saveBtn}>
+              SAVE
+            </Button>
+          </Box>
         </Paper>
       </Container>
     </Fragment>
