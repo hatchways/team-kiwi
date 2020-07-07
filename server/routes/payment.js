@@ -13,7 +13,6 @@ router.post('/', (req, res) => {
 
 // Display all payments
 router.get('/', (req, res, next) => {
-  console.log('===== payment======');
   Payment.find({}, (err, payment) => {
     if (err) res.send(err);
     res.json(payment);
