@@ -1,28 +1,29 @@
-import React, { Fragment } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import React, { Fragment } from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Button from "@material-ui/core/Button";
-import Badge from "@material-ui/core/Badge";
-import Avatar from "@material-ui/core/Avatar";
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Button from '@material-ui/core/Button';
+import Badge from '@material-ui/core/Badge';
+import Avatar from '@material-ui/core/Avatar';
 
-import Home from "../pages/Home";
-import MyJobs from "../pages/MyJobs";
-import Messages from "../pages/Messages";
-import Profile from "../pages/Profile";
+import Home from '../pages/Home';
+import Jobs from '../pages/Jobs';
+import Messages from '../pages/Messages';
+import Profile from '../pages/Profile';
+import Payment from '../pages/Payment';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbar: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     margin: theme.spacing(1.5),
-    "& > *": {
+    '& > *': {
       margin: theme.spacing(1),
     },
   },
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     margin: theme.spacing(0, 5),
   },
-  avater: {
+  avatar: {
     width: theme.spacing(6),
     height: theme.spacing(6),
   },
@@ -45,35 +46,25 @@ export default function Navbar(props) {
   return (
     <Fragment>
       <CssBaseline />
-      <AppBar
-        position="static"
-        color="default"
-        elevation={0}
-        className={classes.appBar}
-      >
+      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Link to="/" className={classes.logo}>
             <img src="/images/logo.png" alt="" />
           </Link>
-          <Badge
-            color="secondary"
-            variant="dot"
-            invisible={invisible}
-            className={classes.link}
-          >
+          <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
             <Button component={Link} to="/notifications">
               Notifications
             </Button>
           </Badge>
-          <Button component={Link} to="/myjobs" className={classes.link}>
+          <Button component={Link} to="/jobs" className={classes.link}>
             My Jobs
           </Button>
-          <Badge
-            color="secondary"
-            variant="dot"
-            invisible={invisible}
-            className={classes.link}
-          >
+          <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+            <Button component={Link} to="/payment">
+              My Payment
+            </Button>
+          </Badge>
+          <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
             <Button component={Link} to="/messages">
               Messages
             </Button>
@@ -83,7 +74,7 @@ export default function Navbar(props) {
             src="/images/profile_1.jpg"
             component={Link}
             to="/profile/edit"
-            className={classes.avater}
+            className={classes.avatar}
           />
         </Toolbar>
       </AppBar>
@@ -93,10 +84,13 @@ export default function Navbar(props) {
           <Home />
         </Route>
         <Route path="/notifications">
-          <MyJobs />
+          <Jobs />
         </Route>
-        <Route path="/myjobs">
-          <MyJobs />
+        <Route path="/jobs">
+          <Jobs />
+        </Route>
+        <Route path="/payment">
+          <Payment />
         </Route>
         <Route path="/messages">
           <Messages />
