@@ -1,27 +1,26 @@
-import React, { Fragment, Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import React, { Fragment, Component } from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import {
-  AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid
-} from "@material-ui/core";
-import Login from './Login'
-import SignUp from './SignUp'
-import Home from "../pages/Home";
-import MyJobs from "../pages/MyJobs";
-import Messages from "../pages/Messages";
-import Profile from "../pages/Profile";
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid } from '@material-ui/core';
+import Login from './Login';
+import SignUp from './SignUp';
+import Home from '../pages/Home';
+import MyJobs from '../pages/MyJobs';
+import Messages from '../pages/Messages';
+import Profile from '../pages/Profile';
+import ProfileDetails from '../pages/ProfileDetails';
 import axios from 'axios';
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbar: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     margin: theme.spacing(1.5),
-    "& > *": {
+    '& > *': {
       margin: theme.spacing(1),
     },
   },
@@ -38,23 +37,25 @@ const useStyles = theme => ({
 });
 
 function Navbar(props) {
-
   const logout = (event) => {
-    event.preventDefault()
-    console.log('logging out')
+    event.preventDefault();
+    console.log('logging out');
 
-    axios.post('/users/logout').then(response => {
-      // console.log(response.data)
-      if (response.status === 200) {
-        props.updateUser({
-          loggedIn: false,
-          username: null
-        })
-      }
-    }).catch(error => {
-      console.log('Logout error')
-    })
-  }
+    axios
+      .post('/users/logout')
+      .then((response) => {
+        // console.log(response.data)
+        if (response.status === 200) {
+          props.updateUser({
+            loggedIn: false,
+            username: null,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log('Logout error');
+      });
+  };
 
   const { classes } = props;
   const invisible = false;
@@ -66,22 +67,15 @@ function Navbar(props) {
         // if user logged In
         <Fragment>
           <CssBaseline />
-          <AppBar
-            position="static"
-            color="default"
-            elevation={0}
-            className={classes.appBar}
-          >
+          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
               <Link to="/" className={classes.logo}>
                 <img src="/images/logo.png" alt="" />
               </Link>
-              <Badge
-                color="secondary"
-                variant="dot"
-                invisible={invisible}
-                className={classes.link}
-              >
+              <Button component={Link} to="/profile/details">
+                Profile Detail
+              </Button>
+              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
                 <Button component={Link} to="/notifications">
                   Notifications
                 </Button>
@@ -89,12 +83,7 @@ function Navbar(props) {
               <Button component={Link} to="/myjobs" className={classes.link}>
                 My Jobs
               </Button>
-              <Badge
-                color="secondary"
-                variant="dot"
-                invisible={invisible}
-                className={classes.link}
-              >
+              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
                 <Button component={Link} to="/messages">
                   Messages
                 </Button>
@@ -102,7 +91,7 @@ function Navbar(props) {
 
               <Button component={Link} to="#" onClick={logout}>
                 logout
-                </Button>
+              </Button>
 
               <Avatar
                 alt="Remy Sharp"
@@ -130,31 +119,36 @@ function Navbar(props) {
             <Route path="/profile/edit">
               <Profile />
             </Route>
+            <Route path="/profile/details">
+              <ProfileDetails />
+            </Route>
           </Switch>
         </Fragment>
       ) : (
-          // If user NOT logged In
-          <div >
-            <AppBar position="static" color="default">
-              <Toolbar>
-                <img src="/images/logo.png" alt="" />
-                <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+        // If user NOT logged In
+        <div>
+          <AppBar position="static" color="default">
+            <Toolbar>
+              <img src="/images/logo.png" alt="" />
+              <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+                <Link
+                  href="#"
+                  color="inherit"
+                  underline="always"
+                  style={{ marginRight: '35px', fontWeight: '700' }}
+                >
+                  BECOME A SITTER
+                </Link>
 
-                  <Link href="#" color="inherit" underline="always" style={{ marginRight: '35px', fontWeight: '700' }}>BECOME A SITTER</Link>
-
-                  <Login updateUser={props.updateUser} />
-                  <SignUp />
-
-                </Grid>
-              </Toolbar>
-            </AppBar>
-          </div>
-
-        )}
+                <Login updateUser={props.updateUser} />
+                <SignUp />
+              </Grid>
+            </Toolbar>
+          </AppBar>
+        </div>
+      )}
     </div>
-
   );
-
 }
 
 export default withStyles(useStyles)(Navbar);
