@@ -22,6 +22,10 @@ mongoose.connect(process.env.DATABASE_CONNECT, {
   useUnifiedTopology: true,
 });
 
+mongoose.connection.once('open', () => {
+  console.log('MongoDB database connection established!');
+});
+
 var app = express();
 
 app.use(logger('dev'));
@@ -48,6 +52,7 @@ app.use(passport.session()); // calls the deserializeUser
 app.use('/', indexRouter);
 app.use('/ping', pingRouter);
 app.use('/users', usersRouter);
+app.use('/profile', profileRouter);
 app.use('/payment', paymentRouter);
 
 // catch 404 and forward to error handler
