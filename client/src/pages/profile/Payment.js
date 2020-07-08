@@ -1,34 +1,29 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import { Box } from "@material-ui/core";
-import CardComponent from "./CardComponent";
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { Box } from '@material-ui/core';
+import CardComponent from './CardComponent';
 
 function Payment() {
   const useStyles = makeStyles((theme) => ({
     root: {
-      display: "flex",
-      flexWrap: "wrap",
-      "& > *": {
-        // margin: theme.spacing(1),
+      display: 'flex',
+      flexWrap: 'wrap',
+      '& > *': {
         width: theme.spacing(100),
         height: theme.spacing(80),
       },
     },
     box: {
-      // display: "flex",
-      // flexDirection: "column",
-      // alignItems: "center",
       padding: theme.spacing(5),
     },
     innerbox: {
-      display: "flex",
-      // flexDirection: "column",
-      alignItems: "left",
+      display: 'flex',
+      alignItems: 'left',
       padding: theme.spacing(4),
     },
     uploadBtn: {
@@ -38,11 +33,6 @@ function Payment() {
     },
     deleteBtn: {
       color: theme.palette.text.secondary,
-    },
-    paper: {
-      // padding: theme.spacing(2),
-      // color: theme.palette.text.secondary,
-      // marginTop: theme.spacing(8),
     },
     photo: {
       margin: theme.spacing(5),

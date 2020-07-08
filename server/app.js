@@ -6,7 +6,11 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const pingRouter = require('./routes/ping');
+const usersRouter = require('./routes/users');
 const paymentRouter = require('./routes/payment');
+const passport = require('./passport');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const { json, urlencoded } = express;
 
@@ -14,6 +18,7 @@ const { json, urlencoded } = express;
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASE_CONNECT, {
   useNewUrlParser: true,
+  useCreateIndex: true,
   useUnifiedTopology: true,
 });
 
@@ -25,8 +30,24 @@ app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
+// Sessions
+app.use(
+  session({
+    secret: 'fraggle-rock', //pick a random string to make the hash that is generated secure
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    resave: false, //required
+    saveUninitialized: false, //required
+  })
+);
+
+// Passport
+app.use(passport.initialize());
+app.use(passport.session()); // calls the deserializeUser
+
+// Routes
 app.use('/', indexRouter);
 app.use('/ping', pingRouter);
+app.use('/users', usersRouter);
 app.use('/payment', paymentRouter);
 
 // catch 404 and forward to error handler

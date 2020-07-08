@@ -1,4 +1,4 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme } from '@material-ui/core';
 
 export const theme = createMuiTheme({
   typography: {
@@ -15,7 +15,7 @@ export const theme = createMuiTheme({
     },
   },
   palette: {
-    primary: { main: "#DF1B1B" },
-    secondary: { main: "#4caf50" },
+    primary: { main: '#DF1B1B' },
+    secondary: { main: '#4caf50' },
   },
 });
