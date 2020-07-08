@@ -34,11 +34,6 @@ function Photo() {
     deleteBtn: {
       color: theme.palette.text.secondary,
     },
-    paper: {
-      // padding: theme.spacing(2),
-      // color: theme.palette.text.secondary,
-      // marginTop: theme.spacing(8),
-    },
     photo: {
       margin: theme.spacing(5),
       width: theme.spacing(25),

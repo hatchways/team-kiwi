@@ -24,7 +24,8 @@
     "nodemon": "^1.19.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "validator": "^13.1.1"
+    "validator": "^13.1.1",
+    "stripe": "^8.69.0"
   },
   "husky": {
     "hooks": {
