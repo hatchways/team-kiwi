@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Checkbox from "@material-ui/core/Checkbox";
-import Avatar from "@material-ui/core/Avatar";
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import Checkbox from '@material-ui/core/Checkbox';
+import Avatar from '@material-ui/core/Avatar';
 
 function CardComponent(props) {
   const { brand } = props;
@@ -16,18 +16,13 @@ function CardComponent(props) {
 
   const useStyles = makeStyles((theme) => ({
     box: {
-      // display: "flex",
-      // flexWrap: "wrap",
-      // "& > *": {
-      //   // margin: theme.spacing(1),
-      // },
       width: theme.spacing(15.8 * scale),
       height: theme.spacing(10 * scale),
     },
     logo: {
       width: 100,
       height: 60,
-      borderRadius: "0.75rem",
+      borderRadius: '0.75rem',
     },
     checkbox: {
       width: theme.spacing(2),
@@ -48,10 +43,8 @@ function CardComponent(props) {
           avatar={
             <Avatar
               className={classes.logo}
-              variant={"rounded"}
-              src={
-                brand === "master" ? "/images/master.png" : "/images/visa.png"
-              }
+              variant={'rounded'}
+              src={brand === 'master' ? '/images/master.png' : '/images/visa.png'}
             />
           }
           action={
@@ -60,7 +53,7 @@ function CardComponent(props) {
               onChange={handleChange}
               color="primary"
               size="medium"
-              inputProps={{ "aria-label": "primary checkbox" }}
+              inputProps={{ 'aria-label': 'primary checkbox' }}
             />
           }
         />
@@ -68,12 +61,7 @@ function CardComponent(props) {
           <Typography variant="h6" align="left" gutterBottom>
             **** **** **** 2445
           </Typography>
-          <Typography
-            variant="h6"
-            align="left"
-            gutterBottom
-            color="theme.palette.text.secondary"
-          >
+          <Typography variant="h6" align="left" gutterBottom color="theme.palette.text.secondary">
             Exp. Date 11/24
           </Typography>
           <Typography variant="h6" align="left" gutterBottom>
