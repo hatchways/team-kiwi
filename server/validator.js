@@ -37,15 +37,15 @@ const profileInputValidator = (body) => {
     profile.gender = body.gender;
   }
 
-  if (validator.isDate(body.birthDate)) {
-    profile.birthDate = body.birthDate;
+  if (validator.isDate(body.birth)) {
+    profile.birthDate = body.birth;
   } else {
     profile.birthDate = '';
     errMsg.birthDate = 'BirthDate either not given or format is wrong!';
   }
 
-  if (validator.isMobilePhone(body.phone, 'en-CA')) {
-    profile.phone = body.phone;
+  if (validator.isMobilePhone(body.phoneNumber, 'en-CA')) {
+    profile.phone = body.phoneNumber;
   } else {
     profile.phone = '';
     errMsg.phone = 'Phone number either not given or format is wrong!';
