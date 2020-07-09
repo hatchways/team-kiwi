@@ -1,15 +1,16 @@
-const createError = require("http-errors");
-const express = require("express");
-const { join } = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const mongoose = require("mongoose");
-const indexRouter = require("./routes/index");
-const pingRouter = require("./routes/ping");
+const createError = require('http-errors');
+const express = require('express');
+const { join } = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const indexRouter = require('./routes/index');
+const pingRouter = require('./routes/ping');
 const usersRouter = require('./routes/users');
+const paymentRouter = require('./routes/payment');
 const passport = require('./passport');
-const session = require('express-session')
-const MongoStore = require('connect-mongo')(session)
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 const { json, urlencoded } = express;
 
@@ -21,14 +22,17 @@ mongoose.connect(process.env.DATABASE_CONNECT, {
   useUnifiedTopology: true,
 });
 
+mongoose.connection.once('open', () => {
+  console.log('MongoDB database connection established!');
+});
+
 var app = express();
 
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(join(__dirname, "public")));
-
+app.use(express.static(join(__dirname, 'public')));
 
 // Sessions
 app.use(
@@ -36,20 +40,20 @@ app.use(
     secret: 'fraggle-rock', //pick a random string to make the hash that is generated secure
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     resave: false, //required
-    saveUninitialized: false //required
+    saveUninitialized: false, //required
   })
-)
+);
 
 // Passport
-app.use(passport.initialize())
-app.use(passport.session()) // calls the deserializeUser
-
+app.use(passport.initialize());
+app.use(passport.session()); // calls the deserializeUser
 
 // Routes
-app.use("/", indexRouter);
-app.use("/ping", pingRouter);
+app.use('/', indexRouter);
+app.use('/ping', pingRouter);
 app.use('/users', usersRouter);
-
+app.use('/profile', profileRouter);
+app.use('/payment', paymentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -60,7 +64,7 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);

@@ -1,47 +1,46 @@
 import React, { Component } from 'react';
-import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter as Router } from "react-router-dom";
+import { MuiThemeProvider } from '@material-ui/core';
+import { BrowserRouter as Router } from 'react-router-dom';
 import axios from 'axios';
-import { theme } from "./themes/theme";
-import Navbar from "./components/Navbar";
+import { theme } from './themes/theme';
+import Navbar from './components/Navbar';
 
 // import "./App.css";
 
 class App extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       loggedIn: false,
-      userEmail: null
-    }
-    this.getUser = this.getUser.bind(this)
-    this.componentDidMount = this.componentDidMount.bind(this)
-    this.updateUser = this.updateUser.bind(this)
+      userEmail: null,
+    };
+    this.getUser = this.getUser.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.updateUser = this.updateUser.bind(this);
   }
   componentDidMount() {
-    this.getUser()
+    this.getUser();
   }
   updateUser(userObject) {
-    this.setState(userObject)
+    this.setState(userObject);
   }
   getUser() {
-    axios.get('/users/').then(response => {
-      //console.log('Get user response: ',response.data)
+    axios.get('/users/').then((response) => {
       if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ', response.data.user)
+        console.log('Get User: There is a user saved in the server session: ', response.data.user);
 
         this.setState({
           loggedIn: true,
-          userEmail: response.data.user.userEmail
-        })
+          userEmail: response.data.user.userEmail,
+        });
       } else {
         console.log('Get user: no user');
         this.setState({
           loggedIn: false,
-          userEmail: null
-        })
+          userEmail: null,
+        });
       }
-    })
+    });
   }
   render() {
     return (

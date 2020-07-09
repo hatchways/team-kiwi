@@ -10,6 +10,10 @@ import MyJobs from '../pages/MyJobs';
 import Messages from '../pages/Messages';
 import Profile from '../pages/Profile';
 import ProfileDetails from '../pages/ProfileDetails';
+import Jobs from '../pages/Jobs';
+import Messages from '../pages/Messages';
+import Profile from '../pages/Profile';
+import Payment from '../pages/Payment';
 import axios from 'axios';
 
 const useStyles = (theme) => ({
@@ -30,7 +34,7 @@ const useStyles = (theme) => ({
   link: {
     margin: theme.spacing(0, 5),
   },
-  avater: {
+  avatar: {
     width: theme.spacing(6),
     height: theme.spacing(6),
   },
@@ -72,18 +76,27 @@ function Navbar(props) {
               <Link to="/" className={classes.logo}>
                 <img src="/images/logo.png" alt="" />
               </Link>
+
               <Button component={Link} to="/profile/details">
                 Profile Detail
               </Button>
+
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
                 <Button component={Link} to="/notifications">
                   Notifications
                 </Button>
               </Badge>
-              <Button component={Link} to="/myjobs" className={classes.link}>
+              <Button component={Link} to="/jobs" className={classes.link}>
                 My Jobs
               </Button>
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+
+                <Button component={Link} to="/payment">
+                  My Payment
+                </Button>
+              </Badge>
+              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+
                 <Button component={Link} to="/messages">
                   Messages
                 </Button>
@@ -98,7 +111,7 @@ function Navbar(props) {
                 src="/images/profile_1.jpg"
                 component={Link}
                 to="/profile/edit"
-                className={classes.avater}
+                className={classes.avatar}
               />
             </Toolbar>
           </AppBar>
@@ -108,10 +121,13 @@ function Navbar(props) {
               <Home />
             </Route>
             <Route path="/notifications">
-              <MyJobs />
+              <Jobs />
             </Route>
-            <Route path="/myjobs">
-              <MyJobs />
+            <Route path="/jobs">
+              <Jobs />
+            </Route>
+            <Route path="/payment">
+              <Payment />
             </Route>
             <Route path="/messages">
               <Messages />
