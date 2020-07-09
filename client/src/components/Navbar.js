@@ -6,6 +6,10 @@ import { AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid } from '@mate
 import Login from './Login';
 import SignUp from './SignUp';
 import Home from '../pages/Home';
+import MyJobs from '../pages/MyJobs';
+import Messages from '../pages/Messages';
+import Profile from '../pages/Profile';
+import ProfileDetails from '../pages/ProfileDetails';
 import Jobs from '../pages/Jobs';
 import Messages from '../pages/Messages';
 import Profile from '../pages/Profile';
@@ -72,6 +76,11 @@ function Navbar(props) {
               <Link to="/" className={classes.logo}>
                 <img src="/images/logo.png" alt="" />
               </Link>
+
+              <Button component={Link} to="/profile/details">
+                Profile Detail
+              </Button>
+
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
                 <Button component={Link} to="/notifications">
                   Notifications
@@ -81,11 +90,13 @@ function Navbar(props) {
                 My Jobs
               </Button>
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+
                 <Button component={Link} to="/payment">
                   My Payment
                 </Button>
               </Badge>
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+
                 <Button component={Link} to="/messages">
                   Messages
                 </Button>
@@ -123,6 +134,9 @@ function Navbar(props) {
             </Route>
             <Route path="/profile/edit">
               <Profile />
+            </Route>
+            <Route path="/profile/details">
+              <ProfileDetails />
             </Route>
           </Switch>
         </Fragment>
