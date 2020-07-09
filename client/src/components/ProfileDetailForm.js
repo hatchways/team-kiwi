@@ -78,7 +78,7 @@ function ProfileDetailForm(props) {
   console.log(props.sitterID);
 
   useEffect(() => {
-    axios.get('/profile').then(({ data }) => {
+    axios.get('/userProfile/profile').then(({ data }) => {
       setSitter(data);
       // console.log(props);
       // console.log(props.location);

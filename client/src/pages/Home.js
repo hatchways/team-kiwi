@@ -59,7 +59,7 @@ function Home(props) {
   const [sitters, setSitters] = useState();
 
   useEffect(() => {
-    axios.get('/profile').then(({ data }) => {
+    axios.get('/userProfile/profile').then(({ data }) => {
       setSitters(data);
     });
   }, []);
