@@ -51,50 +51,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6];
-
 function Home() {
   const classes = useStyles();
   const [sitters, setSitters] = useState();
+
   useEffect(() => {
-    axios.get().then(({ data }) => {
+    axios.get('/profile').then(({ data }) => {
       setSitters(data);
     });
   }, []);
 
-  return (
+  return sitters ? (
     <React.Fragment>
       <CssBaseline />
-      <main>
-        {/* Hero unit */}
-        <div className={classes.search}>
-          <Container maxWidth="sm">
-            <Typography component="h1" variant="h1" align="center" gutterBottom>
-              Your search results
-            </Typography>
-            <div className={classes.searchButtons}>
-              <Grid container spacing={1} justify="center" alignItems="flex-end">
-                <Grid item>
-                  <SearchIcon />
-                </Grid>
-                <Grid item>
-                  <TextField id="input-with-icon-grid" label="Location" />
-                </Grid>
-                <Grid item>
-                  <DateRangeIcon />
-                </Grid>
-                <Grid item>
-                  <TextField id="input-with-icon-grid" label="Date" />
-                </Grid>
+      <div className={classes.search}>
+        <Container maxWidth="sm">
+          <Typography component="h1" variant="h1" align="center" gutterBottom>
+            Your search results
+          </Typography>
+          <div className={classes.searchButtons}>
+            <Grid container spacing={1} justify="center" alignItems="flex-end">
+              <Grid item>
+                <SearchIcon />
               </Grid>
-            </div>
-          </Container>
-        </div>
-        <div className={classes.searchContent}>
+              <Grid item>
+                <TextField id="input-with-icon-grid" label="Location" />
+              </Grid>
+              <Grid item>
+                <DateRangeIcon />
+              </Grid>
+              <Grid item>
+                <TextField id="input-with-icon-grid" label="Date" />
+              </Grid>
+            </Grid>
+          </div>
+        </Container>
+      </div>
+      <div className={classes.searchContent}>
+        {sitters.length > 0 ? (
           <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
+              {sitters.map((sitter) => (
+                <Grid item key={sitter.id} xs={12} sm={6} md={4}>
                   <Card className={classes.card} elevation={3}>
                     <Avatar
                       alt="Remy Sharp"
@@ -103,11 +101,9 @@ function Home() {
                     />
                     <CardContent className={classes.cardContent}>
                       <Typography variant="h5" component="h2" align="center" gutterBottom>
-                        John Doe
+                        {sitter.firstName} {sitter.lastName}
                       </Typography>
-                      <Typography align="center">
-                        I am dog walker that can't wait to meet your pet!
-                      </Typography>
+                      <Typography align="center">{sitter.description}</Typography>
                     </CardContent>
                     <Divider light />
                     <CardActions>
@@ -123,14 +119,22 @@ function Home() {
               ))}
             </Grid>
           </Container>
-        </div>
-      </main>
+        ) : (
+          <div>No sitters matched</div>
+        )}
+      </div>
       <footer className={classes.footer}>
-        <Button size="large" variant="outlined">
-          Show more
-        </Button>
+        {sitters.length > 0 && (
+          <Button size="large" variant="outlined">
+            Show more
+          </Button>
+        )}
       </footer>
     </React.Fragment>
+  ) : (
+    <Typography component="h1" variant="h1" align="center" className={classes.search} gutterBottom>
+      Loading...
+    </Typography>
   );
 }
 

@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const pingRouter = require('./routes/ping');
 const usersRouter = require('./routes/users');
 const paymentRouter = require('./routes/payment');
+const profileRouter = require('./routes/profile');
 const passport = require('./passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
