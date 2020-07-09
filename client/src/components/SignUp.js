@@ -70,7 +70,7 @@ function SignUp(props) {
             console.log('successful signup');
             // clear form and set the sucessful switch to true
             setEmail('');
-            setName('');
+            // setName('');
             setPassword('');
             setNameErr('');
             setEmailErr('');

@@ -9,7 +9,6 @@ const pingRouter = require('./routes/ping');
 const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');
 const paymentRouter = require('./routes/payment');
-const profileRouter = require('./routes/profile');
 const requestRouter = require('./routes/request');
 const passport = require('./passport');
 const session = require('express-session');
@@ -58,7 +57,6 @@ app.use('/userProfile', profileRouter);
 app.use('/users', usersRouter);
 app.use('/payment', paymentRouter);
 app.use('/request', requestRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
