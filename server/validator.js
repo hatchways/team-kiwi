@@ -39,12 +39,10 @@ const profileInputValidator = (body) => {
 
   if (validator.isDate(body.birth)) {
     profile.birthDate = body.birth;
-
   } else {
     profile.birthDate = '';
     errMsg.birthDate = 'BirthDate either not given or format is wrong!';
   }
-
 
   if (validator.isMobilePhone(body.phoneNumber, 'en-CA')) {
     profile.phone = body.phoneNumber;

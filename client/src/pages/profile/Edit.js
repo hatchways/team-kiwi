@@ -14,7 +14,6 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box, Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
 function Alert(props) {
@@ -64,7 +63,6 @@ function Edit(props) {
   const [description, setDescription] = useState('N/A');
   const [redirect, setRedirect] = useState(null);
   const [onSuccesful, setOnSuccesful] = useState(false);
-
 
   const handleSubmit = (e) => {
     const user = {

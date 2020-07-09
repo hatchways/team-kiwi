@@ -6,7 +6,7 @@ const Stripe = require('stripe');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Add a new payment
-router.post('/', (req, res) => {
+router.post('/add', (req, res) => {
   const payment = new Payment(req.body);
   payment.save((err, payment) => {
     if (err) res.send(err);

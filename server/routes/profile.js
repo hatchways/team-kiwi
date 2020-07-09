@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const Profile = require('../models/profileModel');
@@ -7,7 +6,6 @@ const profileInputValidator = require('../validator');
 
 // Add a new profile
 router.post('/add', (req, res) => {
-
   if (err) {
     res.status(400).json(errMsg);
   } else {

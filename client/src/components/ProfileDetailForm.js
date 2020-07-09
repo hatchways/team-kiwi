@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   makeStyles,
   Paper,
@@ -14,53 +14,54 @@ import {
 } from '@material-ui/core';
 import RoomIcon from '@material-ui/icons/Room';
 import Rating from '@material-ui/lab/Rating';
+import axios from 'axios';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexWrap: 'wrap',
+    width: theme.spacing(100),
+  },
+  topBackground: {
+    minHeight: 'calc(50vh - 66px)',
+    background: 'url(/images/detail_background.jpg) center/cover no-repeat',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  about: {
+    margin: theme.spacing(5),
+  },
+  requestForm: {
+    flexWrap: 'wrap',
+    width: 345,
+    height: 400,
+    marginLeft: theme.spacing(10),
+  },
+  subPhotos: {
+    margin: theme.spacing(5),
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+  },
+  datePicker: {
+    marginRight: theme.spacing(1),
+    width: 200,
+    float: 'left',
+  },
+  gridList: {
+    flexWrap: 'nowrap',
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: 'translateZ(0)',
+  },
+  photo: {
+    margin: theme.spacing(5),
+    width: theme.spacing(20),
+    height: theme.spacing(20),
+  },
+}));
 
 function ProfileDetailForm(props) {
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      flexWrap: 'wrap',
-      width: theme.spacing(100),
-    },
-    topBackground: {
-      minHeight: 'calc(50vh - 66px)',
-      background: 'url(/images/detail_background.jpg) center/cover no-repeat',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    about: {
-      margin: theme.spacing(5),
-    },
-    requestForm: {
-      flexWrap: 'wrap',
-      width: 345,
-      height: 400,
-      marginLeft: theme.spacing(10),
-    },
-    subPhotos: {
-      margin: theme.spacing(5),
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      overflow: 'hidden',
-    },
-    datePicker: {
-      marginRight: theme.spacing(1),
-      width: 200,
-      float: 'left',
-    },
-    gridList: {
-      flexWrap: 'nowrap',
-      // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-      transform: 'translateZ(0)',
-    },
-    photo: {
-      margin: theme.spacing(5),
-      width: theme.spacing(20),
-      height: theme.spacing(20),
-    },
-  }));
-  const classes = useStyles();
   const dogPics = [
     {
       img: '/images/dog_1.jpg',
@@ -71,8 +72,20 @@ function ProfileDetailForm(props) {
       title: 'Dog_2',
     },
   ];
+  const classes = useStyles();
+  const [sitter, setSitter] = useState();
 
-  return (
+  console.log(props.sitterID);
+
+  useEffect(() => {
+    axios.get('/profile').then(({ data }) => {
+      setSitter(data);
+      // console.log(props);
+      // console.log(props.location);
+    });
+  }, []);
+
+  return sitter ? (
     <>
       <Grid container spacing={0} align="center" justify="center" style={{ marginTop: '5%' }}>
         <Grid maxWidth="md" className={classes.root}>
@@ -166,6 +179,10 @@ function ProfileDetailForm(props) {
         </Card>
       </Grid>
     </>
+  ) : (
+    <Typography component="h1" variant="h1" align="center" className={classes.search} gutterBottom>
+      Loading...
+    </Typography>
   );
 }
 

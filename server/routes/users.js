@@ -22,13 +22,11 @@ router.get('/', (req, res, next) => {
 });
 
 router.route('/add').post((req, res) => {
-
   const { firstName, lastName, userEmail, password } = req.body;
 
   // ADD VALIDATION
   User.findOne({ userEmail: userEmail }, (err, user) => {
     if (err) {
-
       res.json({
         error: err,
       });
