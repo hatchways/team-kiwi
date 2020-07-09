@@ -1,26 +1,26 @@
-import React, { Fragment } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import React, { Fragment } from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 
-import Edit from "../pages/profile/Edit";
-import Photo from "../pages/profile/Photo";
-import Availability from "../pages/profile/Availability";
-import Payment from "../pages/profile/Payment";
-import Security from "../pages/profile/Security";
-import Settings from "../pages/profile/Settings";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
+import Edit from '../pages/profile/Edit';
+import Photo from '../pages/profile/Photo';
+import Availability from '../pages/profile/Availability';
+import Payment from '../pages/profile/Payment';
+import Security from '../pages/profile/Security';
+import Settings from '../pages/profile/Settings';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
 
-import { makeStyles } from "@material-ui/core/styles";
-import { Box } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
-function ProfileSidebar() {
+function ProfileSidebar(props) {
   const useStyles = makeStyles((theme) => ({
     list: {
       color: theme.palette.text.secondary,
-      width: "100%",
+      width: '100%',
       maxWidth: 360,
     },
     listitem: {
@@ -40,10 +40,7 @@ function ProfileSidebar() {
     const { primary, to, index } = props;
 
     const CustomLink = React.useMemo(
-      () =>
-        React.forwardRef((linkProps, ref) => (
-          <Link ref={ref} to={to} {...linkProps} />
-        )),
+      () => React.forwardRef((linkProps, ref) => <Link ref={ref} to={to} {...linkProps} />),
       [to]
     );
 
@@ -59,7 +56,7 @@ function ProfileSidebar() {
       </ListItem>
     );
   }
-
+  const userInfo = props.userInfo;
   return (
     <Fragment>
       <Container maxWidth="lg">
@@ -67,42 +64,22 @@ function ProfileSidebar() {
           <Grid container>
             <Grid container item xs={3}>
               <List className={classes.list}>
-                <ListItemLink
-                  to="/profile/edit"
-                  primary="Edit Profile"
-                  index={0}
-                ></ListItemLink>
-                <ListItemLink
-                  to="/profile/photo"
-                  primary="Profile Photo"
-                  index={1}
-                ></ListItemLink>
+                <ListItemLink to="/profile/edit" primary="Edit Profile" index={0}></ListItemLink>
+                <ListItemLink to="/profile/photo" primary="Profile Photo" index={1}></ListItemLink>
                 <ListItemLink
                   to="/profile/availability"
                   primary="Your availability"
                   index={2}
                 ></ListItemLink>
-                <ListItemLink
-                  to="/profile/payment"
-                  primary="Payment"
-                  index={3}
-                ></ListItemLink>
-                <ListItemLink
-                  to="/profile/security"
-                  primary="Security"
-                  index={4}
-                ></ListItemLink>
-                <ListItemLink
-                  to="/profile/settings"
-                  primary="Settings"
-                  index={5}
-                ></ListItemLink>
+                <ListItemLink to="/profile/payment" primary="Payment" index={3}></ListItemLink>
+                <ListItemLink to="/profile/security" primary="Security" index={4}></ListItemLink>
+                <ListItemLink to="/profile/settings" primary="Settings" index={5}></ListItemLink>
               </List>
             </Grid>
             <Grid container item xs={9}>
               <Switch>
                 <Route exact path="/profile/edit">
-                  <Edit />
+                  <Edit userInfo={userInfo} />
                 </Route>
                 <Route path="/profile/photo">
                   <Photo />

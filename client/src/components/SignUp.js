@@ -22,7 +22,6 @@ const useStyles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     margin: 'auto',
-    // width: 'fit-content',
     width: '50vw',
   },
   title: {
@@ -43,7 +42,8 @@ function Alert(props) {
 function SignUp(props) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [nameErr, setNameErr] = useState('');
   const [emailErr, setEmailErr] = useState('');
@@ -57,11 +57,11 @@ function SignUp(props) {
     if (isValid) {
       /////////// START here to store the data in the back//////////
       const user = {
-        username: name,
+        firstName: firstName,
+        lastName: lastName,
         userEmail: email,
         password: password,
       };
-      //console.log(user);
       axios
         .post('/users/add', user)
         .then((response) => {
@@ -104,7 +104,7 @@ function SignUp(props) {
     let emailErr = '';
     let passwordErr = '';
 
-    if (!name) {
+    if (!firstName || !lastName) {
       nameErr = 'Name cannot be blank';
     }
 
@@ -177,18 +177,36 @@ function SignUp(props) {
                 </div>
                 <br />
                 <InputLabel color="secondary" className={classes.inputLabel}>
-                  NAME
+                  FIRST NAME
                 </InputLabel>
                 <TextField
                   fullWidth
                   margin="dense"
-                  id="name"
-                  placeholder="Your name"
-                  type="name"
+                  id="firstName"
+                  placeholder="Your first name"
+                  type="firstName"
                   variant="outlined"
                   color="secondary"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <div className={classes.errMsg}>
+                  {nameErr.length > 0 ? <Alert severity="error">{nameErr}</Alert> : ''}
+                </div>
+                <br />
+                <InputLabel color="secondary" className={classes.inputLabel}>
+                  LAST NAME
+                </InputLabel>
+                <TextField
+                  fullWidth
+                  margin="dense"
+                  id="lastName"
+                  placeholder="Your last name"
+                  type="lastName"
+                  variant="outlined"
+                  color="secondary"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
                 <div className={classes.errMsg}>
                   {nameErr.length > 0 ? <Alert severity="error">{nameErr}</Alert> : ''}
@@ -237,5 +255,4 @@ function SignUp(props) {
     );
   }
 }
-
 export default withStyles(useStyles)(SignUp);

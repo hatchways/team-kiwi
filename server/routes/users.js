@@ -1,48 +1,70 @@
 const router = require('express').Router();
 let User = require('../models/userModel');
+let Profile = require('../models/profileModel');
 const jwt = require('jsonwebtoken');
 const passport = require('../passport');
 require('dotenv').config();
 
 router.get('/', (req, res, next) => {
-  // console.log('===== user!!======')
-  // console.log(req.user)
   if (req.user) {
-    res.json({ user: req.user });
+    User.findOne({ _id: req.user._id }, (err, user) => {
+      var userInfo = {
+        id: user._id,
+        userEmail: user.userEmail,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      };
+      res.json({ user: userInfo });
+    });
   } else {
     res.json({ user: null });
   }
 });
 
 router.route('/add').post((req, res) => {
-  // const username = req.body.username;
-  // const password = req.body.password;
-  const { username, userEmail, password } = req.body;
+
+  const { firstName, lastName, userEmail, password } = req.body;
 
   // ADD VALIDATION
   User.findOne({ userEmail: userEmail }, (err, user) => {
     if (err) {
-      console.log('User.js post error: ', err);
+
+      res.json({
+        error: err,
+      });
     } else if (user) {
-      console.log('already exist');
       res.json({
         error: `Sorry, ${userEmail} is already exist email address`,
       });
     } else {
       const newUser = new User({
-        username: username,
+        firstName: firstName,
+        lastName: lastName,
         userEmail: userEmail,
         password: password,
+      });
+
+      newUser.save(function (err, savedUser) {
+        if (err) {
+          console.log(err);
+        } else {
+          const profile = new Profile({
+            user: newUser._id,
+            firstName: firstName,
+            lastName: lastName,
+            email: userEmail,
+          });
+          profile.save(function (err) {
+            if (err) {
+              console.log(err);
+            }
+          });
+          res.json(savedUser);
+        }
       });
       //Create a JWT token
       const token = jwt.sign({ newUser }, process.env.ACCESS_TOKEN_SIGNIN);
       res.cookie('token', token, { httpOnly: true });
-
-      newUser.save((err, savedUser) => {
-        if (err) return res.json(err);
-        //console.log(savedUser);
-        res.json(savedUser);
-      });
     }
   });
 });
@@ -52,15 +74,14 @@ router.post('/protected', authenticateToken, (req, res) => {
 router.post(
   '/login',
   function (req, res, next) {
-    console.log('here', req.body);
     next();
   },
   passport.authenticate('local'),
   (req, res) => {
-    console.log('logged in', req.user);
     var userInfo = {
       userEmail: req.user.userEmail,
-      password: req.user.password,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
     };
 
     //////////////////// jwt start //////////////

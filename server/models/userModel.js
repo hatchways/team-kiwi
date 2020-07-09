@@ -5,9 +5,14 @@ mongoose.promise = Promise;
 
 const userSchema = new Schema(
   {
-    username: { type: String, unique: true, trim: true },
+    firstName: { type: String, unique: false },
+    lastName: { type: String, unique: false },
     password: { type: String, unique: false, minlength: 7 },
     userEmail: { type: String, unique: true },
+    profile: {
+      type: Schema.Types.ObjectId,
+      ref: 'Profile',
+    },
   },
   {
     timestamps: true,
@@ -29,11 +34,9 @@ userSchema.methods = {
 // Define hooks for pre-saving
 userSchema.pre('save', function (next) {
   if (!this.password) {
-    console.log('models/user.js =======NO PASSWORD PROVIDED=======');
     next();
-  } else {
-    console.log('models/user.js hashPassword in pre save');
-
+  } 
+else {
     this.password = this.hashPassword(this.password);
     // so the next() function is needed to move on to the next middleware method
     next();

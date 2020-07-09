@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import Messages from '../pages/Messages';
 import Profile from '../pages/Profile';
 import Payment from '../pages/Payment';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = (theme) => ({
   appBar: {
@@ -41,30 +42,32 @@ const useStyles = (theme) => ({
 });
 
 function Navbar(props) {
+  const [redirect, setRedirect] = useState(null);
+
+  // logout button event handler
   const logout = (event) => {
     event.preventDefault();
-    console.log('logging out');
 
     axios
       .post('/users/logout')
       .then((response) => {
-        // console.log(response.data)
         if (response.status === 200) {
           props.updateUser({
             loggedIn: false,
             username: null,
           });
+          setRedirect('/');
         }
       })
       .catch((error) => {
-        console.log('Logout error');
+        console.log(error);
       });
   };
 
   const { classes } = props;
   const invisible = false;
   const loggedIn = props.loggedIn;
-
+  const userInfo = props.userInfo;
   return (
     <div>
       {loggedIn ? (
@@ -133,16 +136,18 @@ function Navbar(props) {
               <Messages />
             </Route>
             <Route path="/profile/edit">
-              <Profile />
+              <Profile userInfo={userInfo} />
             </Route>
             <Route path="/profile/details">
-              <ProfileDetails />
+              <ProfileDetails userInfo={userInfo} />
             </Route>
           </Switch>
         </Fragment>
       ) : (
         // If user NOT logged In
         <div>
+          <Redirect to={{ pathname: redirect }} />
+
           <AppBar position="static" color="default">
             <Toolbar>
               <img src="/images/logo.png" alt="" />

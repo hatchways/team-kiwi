@@ -24,7 +24,6 @@ const useStyles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     margin: 'auto',
-    // width: 'fit-content',
     width: '50vw',
   },
   title: {
@@ -54,11 +53,12 @@ function Login(props) {
         })
         .then((response) => {
           if (response.status === 200) {
-            console.log('success');
             // update App.js state
             props.updateUser({
               loggedIn: true,
-              username: response.data.username,
+            // update App.js state
+            props.updateUser({
+              loggedIn: true,
             });
             // clear form and set the sucessful switch to true
             setEmail('');

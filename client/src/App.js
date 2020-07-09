@@ -12,7 +12,7 @@ class App extends Component {
     super();
     this.state = {
       loggedIn: false,
-      userEmail: null,
+      userInfo: null,
     };
     this.getUser = this.getUser.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -27,14 +27,16 @@ class App extends Component {
   getUser() {
     axios.get('/users/').then((response) => {
       if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ', response.data.user);
-
         this.setState({
           loggedIn: true,
-          userEmail: response.data.user.userEmail,
+          userInfo: {
+            id: response.data.user.id,
+            firstName: response.data.user.firstName,
+            lastName: response.data.user.lastName,
+            email: response.data.user.userEmail,
+          },
         });
       } else {
-        console.log('Get user: no user');
         this.setState({
           loggedIn: false,
           userEmail: null,
@@ -46,7 +48,11 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <Router>
-          <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+          <Navbar
+            updateUser={this.updateUser}
+            loggedIn={this.state.loggedIn}
+            userInfo={this.state.userInfo}
+          />
         </Router>
       </MuiThemeProvider>
     );
