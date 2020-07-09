@@ -15,7 +15,7 @@ import {
 import RoomIcon from '@material-ui/icons/Room';
 import Rating from '@material-ui/lab/Rating';
 
-function ProfileDetailForm() {
+function ProfileDetailForm(props) {
   const useStyles = makeStyles((theme) => ({
     root: {
       flexWrap: 'wrap',
@@ -83,7 +83,7 @@ function ProfileDetailForm() {
             <Grid style={{ marginTop: '-120px' }}>
               <Avatar alt="Remy Sharp" src="/images/profile_1.jpg" className={classes.photo} />
               <Typography variant="h1" align="center">
-                Thanos
+                {props.userInfo.firstName}
               </Typography>
               <Typography variant="h6" align="center" style={{ color: 'grey' }} gutterBottom>
                 Loving pet sitter
@@ -97,7 +97,7 @@ function ProfileDetailForm() {
               >
                 <RoomIcon style={{ color: '#f44336' }} />
                 <Typography variant="subtitle1" style={{ color: 'grey', marginLeft: '7px' }}>
-                  Toronto, Ontario
+                  {props.userInfo.address}
                 </Typography>
               </Grid>
             </Grid>
@@ -107,14 +107,7 @@ function ProfileDetailForm() {
                 About me
               </Typography>
               <Typography variant="body1" align="left" gutterBottom>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled it to make a type specimen book.
-                It has survived not only five centuries, but also the leap into electronic
-                typesetting, remaining essentially unchanged. It was popularised in the 1960s with
-                the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-                with desktop publishing software like Aldus PageMaker including versions of Lorem
-                Ipsum.
+                {props.userInfo.description}
               </Typography>
             </Grid>
 
