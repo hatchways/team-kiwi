@@ -9,6 +9,7 @@ const pingRouter = require('./routes/ping');
 const usersRouter = require('./routes/users');
 const paymentRouter = require('./routes/payment');
 const profileRouter = require('./routes/profile');
+const requestRouter = require('./routes/request');
 const passport = require('./passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -55,6 +56,7 @@ app.use('/ping', pingRouter);
 app.use('/users', usersRouter);
 app.use('/profile', profileRouter);
 app.use('/payment', paymentRouter);
+app.use('/request', requestRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
