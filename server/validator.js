@@ -6,7 +6,6 @@ const profileInputValidator = (body) => {
   let err = false;
   const errMsg = {};
   const profile = {};
-  console.log('hi');
 
   if (validator.isEmpty(body.firstName)) {
     errMsg.firstName = 'First name is required!';
@@ -40,10 +39,12 @@ const profileInputValidator = (body) => {
 
   if (validator.isDate(body.birth)) {
     profile.birthDate = body.birth;
+
   } else {
     profile.birthDate = '';
     errMsg.birthDate = 'BirthDate either not given or format is wrong!';
   }
+
 
   if (validator.isMobilePhone(body.phoneNumber, 'en-CA')) {
     profile.phone = body.phoneNumber;
@@ -63,12 +64,6 @@ const profileInputValidator = (body) => {
   } else {
     profile.description = body.description;
   }
-
-  // if (validator.isBoolean(body.available)) {
-  //     profile.available = body.available
-  // } else {
-  //     profile.available = ''
-  // }
 
   return { err, errMsg, profile };
 };

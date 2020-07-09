@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 
+import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
@@ -48,6 +49,9 @@ function Edit(props) {
       paddingLeft: theme.spacing(5),
       paddingRight: theme.spacing(5),
     },
+    button: {
+      marginTop: '50px',
+    },
   }));
   const classes = useStyles();
   const [firstName, setFirstName] = useState(props.userInfo.firstName);
@@ -60,6 +64,7 @@ function Edit(props) {
   const [description, setDescription] = useState('N/A');
   const [redirect, setRedirect] = useState(null);
   const [onSuccesful, setOnSuccesful] = useState(false);
+
 
   const handleSubmit = (e) => {
     const user = {

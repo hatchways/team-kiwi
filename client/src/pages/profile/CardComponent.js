@@ -16,11 +16,6 @@ function CardComponent(props) {
 
   const useStyles = makeStyles((theme) => ({
     box: {
-      // display: "flex",
-      // flexWrap: "wrap",
-      // "& > *": {
-      //   // margin: theme.spacing(1),
-      // },
       width: theme.spacing(15.8 * scale),
       height: theme.spacing(10 * scale),
     },

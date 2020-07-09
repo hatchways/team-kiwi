@@ -14,20 +14,15 @@ function Payment() {
       display: 'flex',
       flexWrap: 'wrap',
       '& > *': {
-        // margin: theme.spacing(1),
         width: theme.spacing(100),
         height: theme.spacing(80),
       },
     },
     box: {
-      // display: "flex",
-      // flexDirection: "column",
-      // alignItems: "center",
       padding: theme.spacing(5),
     },
     innerbox: {
       display: 'flex',
-      // flexDirection: "column",
       alignItems: 'left',
       padding: theme.spacing(4),
     },
@@ -38,11 +33,6 @@ function Payment() {
     },
     deleteBtn: {
       color: theme.palette.text.secondary,
-    },
-    paper: {
-      // padding: theme.spacing(2),
-      // color: theme.palette.text.secondary,
-      // marginTop: theme.spacing(8),
     },
     photo: {
       margin: theme.spacing(5),

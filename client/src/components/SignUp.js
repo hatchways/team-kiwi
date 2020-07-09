@@ -65,11 +65,12 @@ function SignUp(props) {
       axios
         .post('/users/add', user)
         .then((response) => {
+          // console.log(response)
           if (!response.data.error) {
+            console.log('successful signup');
             // clear form and set the sucessful switch to true
             setEmail('');
-            setFirstName('');
-            setLastName('');
+            setName('');
             setPassword('');
             setNameErr('');
             setEmailErr('');
@@ -79,7 +80,6 @@ function SignUp(props) {
             setExistEmailErr(false);
             setRedirect('/');
           } else {
-            console.log('exist');
             // if the email is already exist in the database.
             setExistEmailErr(true);
             setRedirect(null);
@@ -255,5 +255,4 @@ function SignUp(props) {
     );
   }
 }
-
 export default withStyles(useStyles)(SignUp);

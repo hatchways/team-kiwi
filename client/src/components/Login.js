@@ -56,7 +56,9 @@ function Login(props) {
             // update App.js state
             props.updateUser({
               loggedIn: true,
-              // username: response.data.username
+            // update App.js state
+            props.updateUser({
+              loggedIn: true,
             });
             // clear form and set the sucessful switch to true
             setEmail('');

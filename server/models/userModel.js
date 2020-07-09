@@ -35,7 +35,8 @@ userSchema.methods = {
 userSchema.pre('save', function (next) {
   if (!this.password) {
     next();
-  } else {
+  } 
+else {
     this.password = this.hashPassword(this.password);
     // so the next() function is needed to move on to the next middleware method
     next();

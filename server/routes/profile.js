@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const Profile = require('../models/profileModel');
@@ -6,7 +7,6 @@ const profileInputValidator = require('../validator');
 
 // Add a new profile
 router.post('/add', (req, res) => {
-  //const { err, errMsg, profile: newProfile } = profileInputValidator(req.body);
 
   if (err) {
     res.status(400).json(errMsg);
@@ -38,7 +38,6 @@ router.get('/profile', (req, res) => {
 router.get('/profile/:id', (req, res) => {
   Profile.findOne({ user: req.params.id }, (err, foundProfile) => {
     if (err) {
-      console.log(err);
       res.status(404).send('Profile not found!');
     } else {
       res.status(200).send(foundProfile);
@@ -99,5 +98,4 @@ router.put('/profile/:id', (req, res) => {
     }
   });
 });
-
 module.exports = router;

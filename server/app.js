@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const pingRouter = require('./routes/ping');
 const usersRouter = require('./routes/users');
 const profileRouter = require('./routes/profile');
+const paymentRouter = require('./routes/payment');
 const passport = require('./passport');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
@@ -20,6 +21,10 @@ mongoose.connect(process.env.DATABASE_CONNECT, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
+});
+
+mongoose.connection.once('open', () => {
+  console.log('MongoDB database connection established!');
 });
 
 var app = express();
@@ -49,6 +54,8 @@ app.use('/', indexRouter);
 app.use('/ping', pingRouter);
 app.use('/userProfile', profileRouter);
 app.use('/users', usersRouter);
+app.use('/payment', paymentRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
