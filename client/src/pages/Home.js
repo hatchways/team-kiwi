@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Switch, Route, Link } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -15,7 +16,6 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import DateRangeIcon from '@material-ui/icons/DateRange';
-
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home() {
+function Home(props) {
   const classes = useStyles();
   const [sitters, setSitters] = useState();
 
@@ -95,7 +95,7 @@ function Home() {
           <Container className={classes.cardGrid} maxWidth="md">
             <Grid container spacing={4}>
               {sitters.map((sitter) => (
-                <Grid item key={sitter.id} xs={12} sm={6} md={4}>
+                <Grid item key={sitter._id} xs={12} sm={6} md={4}>
                   <Card className={classes.card} elevation={3}>
                     <Avatar
                       alt="Remy Sharp"
@@ -110,11 +110,17 @@ function Home() {
                     </CardContent>
                     <Divider light />
                     <CardActions>
-                      <Button size="small" color="primary">
-                        View
-                      </Button>
-                      <Button size="small" color="primary">
-                        Request
+                      <Button
+                        size="small"
+                        color="primary"
+                        // onClick={() => {
+                        //   console.log('user ' + props.userID);
+                        //   console.log('sitter ' + sitter._id);
+                        // }}
+                        component={Link}
+                        to={{ pathname: '/profile/details', query: sitter._id }}
+                      >
+                        View Profile
                       </Button>
                     </CardActions>
                   </Card>

@@ -6,13 +6,10 @@ import { AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid } from '@mate
 import Login from './Login';
 import SignUp from './SignUp';
 import Home from '../pages/Home';
-import MyJobs from '../pages/MyJobs';
 import Messages from '../pages/Messages';
 import Profile from '../pages/Profile';
-import ProfileDetails from '../pages/ProfileDetails';
+import ProfileDetailForm from '../components/ProfileDetailForm';
 import Jobs from '../pages/Jobs';
-import Messages from '../pages/Messages';
-import Profile from '../pages/Profile';
 import Payment from '../pages/Payment';
 import axios from 'axios';
 
@@ -90,13 +87,11 @@ function Navbar(props) {
                 My Jobs
               </Button>
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-
                 <Button component={Link} to="/payment">
                   My Payment
                 </Button>
               </Badge>
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-
                 <Button component={Link} to="/messages">
                   Messages
                 </Button>
@@ -118,7 +113,7 @@ function Navbar(props) {
 
           <Switch>
             <Route exact path="/">
-              <Home />
+              <Home userID={props.userInfo.userID} />
             </Route>
             <Route path="/notifications">
               <Jobs />
@@ -136,7 +131,7 @@ function Navbar(props) {
               <Profile />
             </Route>
             <Route path="/profile/details">
-              <ProfileDetails />
+              <ProfileDetailForm />
             </Route>
           </Switch>
         </Fragment>

@@ -12,6 +12,7 @@ class App extends Component {
     super();
     this.state = {
       loggedIn: false,
+      userID: null,
       userEmail: null,
     };
     this.getUser = this.getUser.bind(this);
@@ -31,6 +32,7 @@ class App extends Component {
 
         this.setState({
           loggedIn: true,
+          userID: response.data.user._id,
           userEmail: response.data.user.userEmail,
         });
       } else {
@@ -46,7 +48,11 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <Router>
-          <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+          <Navbar
+            updateUser={this.updateUser}
+            loggedIn={this.state.loggedIn}
+            userInfo={this.state}
+          />
         </Router>
       </MuiThemeProvider>
     );
