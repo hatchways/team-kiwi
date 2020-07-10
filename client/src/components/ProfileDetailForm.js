@@ -75,10 +75,10 @@ function ProfileDetailForm(props) {
   const classes = useStyles();
   const [sitter, setSitter] = useState();
 
-  console.log(props.sitterID);
+  // console.log(props.location.sitterID);
 
   useEffect(() => {
-    axios.get('/userProfile/profile').then(({ data }) => {
+    axios.get(`/profile/${props.location.sitterID}`).then(({ data }) => {
       setSitter(data);
       // console.log(props);
       // console.log(props.location);
@@ -96,7 +96,7 @@ function ProfileDetailForm(props) {
             <Grid style={{ marginTop: '-120px' }}>
               <Avatar alt="Remy Sharp" src="/images/profile_1.jpg" className={classes.photo} />
               <Typography variant="h1" align="center">
-                {props.userInfo.firstName}
+                {sitter.firstName} {sitter.lastName}
               </Typography>
               <Typography variant="h6" align="center" style={{ color: 'grey' }} gutterBottom>
                 Loving pet sitter
@@ -110,7 +110,7 @@ function ProfileDetailForm(props) {
               >
                 <RoomIcon style={{ color: '#f44336' }} />
                 <Typography variant="subtitle1" style={{ color: 'grey', marginLeft: '7px' }}>
-                  {props.userInfo.address}
+                  {/* {props.userInfo.address} */}
                 </Typography>
               </Grid>
             </Grid>
@@ -120,7 +120,7 @@ function ProfileDetailForm(props) {
                 About me
               </Typography>
               <Typography variant="body1" align="left" gutterBottom>
-                {props.userInfo.description}
+                {/* {props.userInfo.description} */}
               </Typography>
             </Grid>
 

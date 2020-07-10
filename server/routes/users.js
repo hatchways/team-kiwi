@@ -66,9 +66,11 @@ router.route('/add').post((req, res) => {
     }
   });
 });
+
 router.post('/protected', authenticateToken, (req, res) => {
   res.json(req.userInfo);
 });
+
 router.post(
   '/login',
   function (req, res, next) {
@@ -87,6 +89,7 @@ router.post(
     res.json({ accessToken: accessToken });
   }
 );
+
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -98,6 +101,7 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
+
 router.post('/logout', (req, res) => {
   if (req.user) {
     req.logOut();

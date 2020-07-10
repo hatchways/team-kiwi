@@ -4,13 +4,7 @@ import ProfileSidebar from '../components/ProfileSidebar';
 
 class Profile extends Component {
   render() {
-    return (
-      <>
-        <Router>
-          <ProfileSidebar userInfo={this.props.userInfo} />
-        </Router>
-      </>
-    );
+    return <ProfileSidebar userInfo={this.props.userInfo} />;
   }
 }
 

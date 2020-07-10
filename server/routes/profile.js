@@ -22,7 +22,7 @@ router.post('/add', (req, res) => {
 });
 
 // Display all the profiles
-router.get('/profile', (req, res) => {
+router.get('/', (req, res) => {
   Profile.find({}, (err, foundProfile) => {
     if (err) {
       res.status(404).send('No profiles were found!');
@@ -33,8 +33,8 @@ router.get('/profile', (req, res) => {
 });
 
 // Display a specific profile
-router.get('/profile/:id', (req, res) => {
-  Profile.findOne({ user: req.params.id }, (err, foundProfile) => {
+router.get('/:id', (req, res) => {
+  Profile.findOne({ _id: req.params.id }, (err, foundProfile) => {
     if (err) {
       res.status(404).send('Profile not found!');
     } else {
@@ -44,7 +44,7 @@ router.get('/profile/:id', (req, res) => {
 });
 
 // Update a specific profile
-router.put('/profile/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   Profile.findOne({ user: req.params.id }, (err, foundProfile) => {
     if (err) {
       console.log(err);

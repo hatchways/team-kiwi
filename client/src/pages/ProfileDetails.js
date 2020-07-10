@@ -4,13 +4,8 @@ import ProfileDetailForm from '../components/ProfileDetailForm';
 
 class ProfileDetails extends Component {
   render() {
-    return (
-      <Router>
-        <ProfileDetailForm />
-      </Router>
-    );
+    return <ProfileDetailForm />;
   }
-  햐;
 }
 
 export default ProfileDetails;

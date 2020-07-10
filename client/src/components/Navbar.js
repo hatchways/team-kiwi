@@ -5,12 +5,12 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid } from '@material-ui/core';
 import Login from './Login';
 import SignUp from './SignUp';
-import Home from '../pages/Home';
-import Messages from '../pages/Messages';
-import Profile from '../pages/Profile';
-import ProfileDetailForm from '../components/ProfileDetailForm';
-import Jobs from '../pages/Jobs';
-import Payment from '../pages/Payment';
+// import Home from '../pages/Home';
+// import Messages from '../pages/Messages';
+// import Profile from '../pages/Profile';
+// import ProfileDetailForm from '../components/ProfileDetailForm';
+// import Jobs from '../pages/Jobs';
+// import Payment from '../pages/Payment';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const useStyles = (theme) => ({
   toolbar: {
     display: 'flex',
     flexDirection: 'row',
-    margin: theme.spacing(1.5),
+    margin: theme.spacing(1),
     '& > *': {
       margin: theme.spacing(1),
     },
@@ -69,16 +69,19 @@ function Navbar(props) {
     <div>
       {loggedIn ? (
         // if user logged In
-        <Fragment>
+        <div>
           <CssBaseline />
           <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
-              <Link to="/" className={classes.logo}>
-                <img src="/images/logo.png" alt="" />
-              </Link>
+              {/* <Link to="/" className={classes.logo}> */}
+              <img src="/images/logo.png" alt="" />
+              {/* </Link> */}
 
-              <Button component={Link} to="/profile/details">
+              <Button component={Link} to="/details">
                 Profile Detail
+              </Button>
+              <Button component={Link} to="/list" className={classes.link}>
+                list
               </Button>
 
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
@@ -114,7 +117,7 @@ function Navbar(props) {
             </Toolbar>
           </AppBar>
 
-          <Switch>
+          {/* <Switch>
             <Route exact path="/">
               <Home userID={props.userInfo.userID} />
             </Route>
@@ -136,15 +139,15 @@ function Navbar(props) {
             <Route path="/profile/details">
               <ProfileDetailForm />
             </Route>
-          </Switch>
-        </Fragment>
+          </Switch> */}
+        </div>
       ) : (
         // If user NOT logged In
         <div>
-          <Redirect to={{ pathname: redirect }} />
-
-          <AppBar position="static" color="default">
-            <Toolbar>
+          {/* <Redirect to={{ pathname: redirect }} /> */}
+          <CssBaseline />
+          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+            <Toolbar className={classes.toolbar}>
               <img src="/images/logo.png" alt="" />
               <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
                 <Link

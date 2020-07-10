@@ -78,7 +78,7 @@ function Edit(props) {
     };
 
     axios
-      .put(`/userProfile/profile/${user.id}`, user)
+      .put(`/profile/${user.id}`, user)
       .then((response) => {
         if (!response.data.error) {
           // If successfully added

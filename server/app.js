@@ -53,7 +53,7 @@ app.use(passport.session()); // calls the deserializeUser
 // Routes
 app.use('/', indexRouter);
 app.use('/ping', pingRouter);
-app.use('/userProfile', profileRouter);
+app.use('/profile', profileRouter);
 app.use('/users', usersRouter);
 app.use('/payment', paymentRouter);
 app.use('/request', requestRouter);
