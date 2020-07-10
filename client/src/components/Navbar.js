@@ -134,7 +134,7 @@ function Navbar(props) {
               <Profile userInfo={userInfo} />
             </Route>
             <Route path="/profile/details">
-              <ProfileDetailForm userInfo={userInfo} />
+              <ProfileDetailForm />
             </Route>
           </Switch>
         </Fragment>
