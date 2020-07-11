@@ -1,5 +1,4 @@
-import React, { Fragment, useState } from 'react';
-
+import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
@@ -7,83 +6,101 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box, Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import { Redirect } from 'react-router-dom';
+import moment from 'moment-timezone';
+import InputMask from 'react-input-mask';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    '& > *': {
+      width: theme.spacing(100),
+      height: theme.spacing(130),
+    },
+  },
+  grid: {
+    flexGrow: 1,
+    padding: theme.spacing(5),
+  },
+  label: {
+    padding: theme.spacing(2),
+  },
+  box: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  saveBtn: {
+    margin: theme.spacing(2),
+    padding: theme.spacing(2),
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(5),
+  },
+  button: {
+    marginTop: '50px',
+  },
+}));
+
 function Edit(props) {
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      '& > *': {
-        width: theme.spacing(100),
-        height: theme.spacing(130),
-      },
-    },
-    grid: {
-      flexGrow: 1,
-      padding: theme.spacing(5),
-    },
-    label: {
-      padding: theme.spacing(2),
-    },
-    box: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    saveBtn: {
-      margin: theme.spacing(2),
-      padding: theme.spacing(2),
-      paddingLeft: theme.spacing(5),
-      paddingRight: theme.spacing(5),
-    },
-    button: {
-      marginTop: '50px',
-    },
-  }));
-  const classes = useStyles();
-  const [firstName, setFirstName] = useState(props.userInfo.firstName);
-  const [lastName, setLastName] = useState(props.userInfo.lastName);
-  const [email, setEmail] = useState(props.userInfo.email);
-  const [gender, setGender] = useState('Other');
-  const [birth, setBirth] = useState('1900-01-01');
-  const [phoneNumber, setPhoneNumber] = useState('N/A');
-  const [address, setAddress] = useState('N/A');
-  const [description, setDescription] = useState('N/A');
-  const [redirect, setRedirect] = useState(null);
-  const [onSuccesful, setOnSuccesful] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [gender, setGender] = useState('');
+  const [birthDate, setBirth] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [description, setDescription] = useState('');
+  const [dataLoaded, setLoaded] = useState(false);
+  const [messageOpen, setOpen] = useState(false);
+
+  useEffect(() => {
+    axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
+      console.log(data);
+      setFirstName(data.firstName);
+      setLastName(data.lastName);
+      setEmail(data.email);
+      setGender(data.gender);
+      setBirth(moment.utc(data.birthDate).format('YYYY-MM-DD'));
+      setPhoneNumber(data.phoneNumber);
+      setAddress(data.address);
+      setDescription(data.description);
+      setLoaded(true);
+    });
+  }, [props.userID]);
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+
     const user = {
-      id: props.userInfo.id,
+      userId: props.userID,
       firstName: firstName,
       lastName: lastName,
-      email: email,
+      // email: email,
       gender: gender,
-      birth: birth,
-      phoneNumber: phoneNumber,
+      birthDate: birthDate,
+      phoneNumber: phoneNumber.replace(/ /g, ''),
       address: address,
       description: description,
     };
 
+    console.log(user);
+
     axios
-      .put(`/profile/${user.id}`, user)
+      .put(`/profile/${props.userID}`, user)
       .then((response) => {
         if (!response.data.error) {
-          // If successfully added
-          setOnSuccesful(true);
-          setRedirect('/profile/edit');
+          console.log('success');
+          handleClick();
         }
       })
       .catch((error) => {
@@ -91,29 +108,24 @@ function Edit(props) {
       });
   };
 
-  const handleCloseSnackbar = (event, reason) => {
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOnSuccesful(false);
+    setOpen(false);
   };
-  if (redirect) {
-    return (
-      <>
-        <Redirect to={{ pathname: redirect }} />
-        {/* once everthing entered successfully, popup snackbar */}
-        <Snackbar open={onSuccesful} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-          <Alert onClose={handleCloseSnackbar} severity="success">
-            Successfully Edited!
-          </Alert>
-        </Snackbar>
-      </>
-    );
-  } else {
-    return (
-      <Fragment>
-        <Container maxWidth="lg" className={classes.root}>
-          <Paper elevation={3}>
+
+  const classes = useStyles();
+
+  return dataLoaded ? (
+    <Fragment>
+      <Container maxWidth="lg" className={classes.root}>
+        <Paper elevation={3}>
+          <form onSubmit={handleSubmit}>
             <Grid container spacing={3} className={classes.grid}>
               <Grid item xs={12}>
                 <Typography variant="h1" align="center" gutterBottom>
@@ -135,7 +147,8 @@ function Edit(props) {
                     fullWidth
                     margin="normal"
                     variant="outlined"
-                    value={firstName}
+                    defaultValue={firstName}
+                    type="text"
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                 </Grid>
@@ -155,7 +168,7 @@ function Edit(props) {
                     fullWidth
                     margin="normal"
                     variant="outlined"
-                    value={lastName}
+                    defaultValue={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
                 </Grid>
@@ -169,17 +182,15 @@ function Edit(props) {
                 </Grid>
                 <Grid item xs={4}>
                   <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                    <InputLabel id="demo-simple-select-outlined-label">Gender</InputLabel>
                     <Select
                       labelId="demo-simple-select-outlined-label"
                       id="demo-simple-select-outlined"
-                      label="gender"
-                      value={gender}
+                      value={gender || 'Other'}
                       onChange={(e) => setGender(e.target.value)}
                     >
                       <MenuItem value="Male">Male</MenuItem>
                       <MenuItem value="Female">Female</MenuItem>
-                      <MenuItem value="Orther">Orther</MenuItem>
+                      <MenuItem value="Other">Other</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -194,14 +205,12 @@ function Edit(props) {
                 <Grid item xs={8} className={classes.label}>
                   <TextField
                     id="date"
-                    // label="Birthday"
                     type="date"
-                    defaultValue="2010-01-01"
                     className={classes.textField}
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    value={birth}
+                    defaultValue={birthDate}
                     onChange={(e) => setBirth(e.target.value)}
                   />
                 </Grid>
@@ -215,14 +224,13 @@ function Edit(props) {
                 </Grid>
                 <Grid item xs={8}>
                   <TextField
+                    disabled
                     id="email"
                     style={{ margin: 0 }}
-                    placeholder="john-doe@gmail.com"
                     fullWidth
                     margin="normal"
-                    variant="outlined"
+                    variant="filled"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </Grid>
               </Grid>
@@ -234,17 +242,23 @@ function Edit(props) {
                   </Typography>
                 </Grid>
                 <Grid item xs={8}>
-                  <TextField
-                    id="phone"
-                    style={{ margin: 0 }}
-                    placeholder="Phone number"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    variant="outlined"
+                  <InputMask
+                    mask="999 999 9999"
                     value={phoneNumber}
+                    disabled={false}
+                    maskChar=" "
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                  />
+                  >
+                    {() => (
+                      <TextField
+                        style={{ margin: 0 }}
+                        placeholder="Phone number"
+                        fullWidth
+                        margin="normal"
+                        variant="outlined"
+                      />
+                    )}
+                  </InputMask>
                 </Grid>
               </Grid>
 
@@ -263,7 +277,7 @@ function Edit(props) {
                       fullWidth
                       margin="normal"
                       variant="outlined"
-                      value={address}
+                      defaultValue={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />
                   </Grid>
@@ -287,7 +301,7 @@ function Edit(props) {
                       rows={8}
                       margin="normal"
                       variant="outlined"
-                      value={description}
+                      defaultValue={description}
                       onChange={(e) => setDescription(e.target.value)}
                     />
                   </Grid>
@@ -295,20 +309,24 @@ function Edit(props) {
               </Grid>
             </Grid>
             <Box className={classes.box}>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.saveBtn}
-                onClick={handleSubmit}
-              >
+              <Button type="submit" variant="contained" color="primary" className={classes.saveBtn}>
                 SAVE
               </Button>
             </Box>
-          </Paper>
-        </Container>
-      </Fragment>
-    );
-  }
+          </form>
+        </Paper>
+      </Container>
+      <Snackbar open={messageOpen} autoHideDuration={1500} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Saved successfully!
+        </Alert>
+      </Snackbar>
+    </Fragment>
+  ) : (
+    <Typography component="h1" variant="h1" align="center" className={classes.search} gutterBottom>
+      Loading...
+    </Typography>
+  );
 }
 
 export default Edit;

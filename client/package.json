@@ -11,8 +11,10 @@
     "@stripe/stripe-js": "^1.7.0",
     "axios": "^0.19.2",
     "lint-staged": "^10.2.11",
+    "moment-timezone": "^0.5.31",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-input-mask": "^2.0.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.0.1",
     "stripe": "^8.69.0"

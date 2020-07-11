@@ -6,13 +6,13 @@ import { theme } from './themes/theme';
 import Navbar from './components/Navbar';
 import { createBrowserHistory } from 'history';
 
-import Home from './pages/Home';
-import List from './pages/List';
-import Messages from './pages/Messages';
-import Profile from './pages/Profile';
-import ProfileDetailForm from './components/ProfileDetailForm';
-import Jobs from './pages/Jobs';
-import Payment from './pages/Payment';
+import LandingPage from './pages/LandingPage/LandingPage';
+import ListPage from './pages/ListPage/ListPage';
+import MessagePage from './pages/MessagePage/MessagePage';
+import SitterDetailPage from './pages/SitterDetailPage/SitterDetailPage';
+import JobPage from './pages/JobPage/JobPage';
+import PaymentPage from './pages/PaymentPage/PaymentPage';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 // import "./App.css";
 export const history = createBrowserHistory();
@@ -28,12 +28,16 @@ class App extends Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.updateUser = this.updateUser.bind(this);
   }
+
   componentDidMount() {
     this.getUser();
+    console.log(this.state.userInfo);
   }
+
   updateUser(userObject) {
     this.setState(userObject);
   }
+
   getUser() {
     axios.get('/users/').then((response) => {
       if (response.data.user) {
@@ -45,6 +49,7 @@ class App extends Component {
             lastName: response.data.user.lastName,
             email: response.data.user.userEmail,
           },
+          userId: response.data.user.id,
         });
       } else {
         this.setState({
@@ -67,28 +72,28 @@ class App extends Component {
 
           <Switch>
             <Route exact path="/">
-              <Home />
+              <LandingPage />
             </Route>
             <Route exact path="/list">
-              <List />
+              <ListPage />
             </Route>
             <Route exact path="/notifications">
-              <Jobs />
+              <JobPage />
             </Route>
             <Route exact path="/jobs">
-              <Jobs />
+              <JobPage />
             </Route>
             <Route path="/payment">
-              <Payment />
+              <PaymentPage />
             </Route>
             <Route path="/messages">
-              <Messages />
+              <MessagePage />
             </Route>
-            <Route path="/profile/edit">
-              <Profile />
+            <Route path="/profile">
+              <ProfilePage userID={this.state.userId} />
+              {/* <ProfilePage userID="5f07d97055aca11393aeda5e" /> */}
             </Route>
-            <Route path="/details" component={ProfileDetailForm} />
-            {/* </Route> */}
+            <Route path="/details" component={SitterDetailPage} />
           </Switch>
         </Router>
 

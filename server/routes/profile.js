@@ -4,7 +4,7 @@ const Profile = require('../models/profileModel');
 const User = require('../models/userModel');
 const profileInputValidator = require('../validator');
 
-// Add a new profile
+// POST a new profile
 router.post('/add', (req, res) => {
   if (err) {
     res.status(400).json(errMsg);
@@ -21,7 +21,7 @@ router.post('/add', (req, res) => {
   }
 });
 
-// Display all the profiles
+// GET all the profiles
 router.get('/', (req, res) => {
   Profile.find({}, (err, foundProfile) => {
     if (err) {
@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// Display a specific profile
+// GET a profile by id
 router.get('/:id', (req, res) => {
   Profile.findOne({ _id: req.params.id }, (err, foundProfile) => {
     if (err) {
@@ -43,9 +43,20 @@ router.get('/:id', (req, res) => {
   });
 });
 
-// Update a specific profile
+// GET a profile by userId
+router.get('/ref/:id', (req, res) => {
+  Profile.findOne({ userID: req.params.id }, (err, foundProfile) => {
+    if (err) {
+      res.status(404).send('Profile not found!');
+    } else {
+      res.status(200).send(foundProfile);
+    }
+  });
+});
+
+// PUT a specific profile
 router.put('/:id', (req, res) => {
-  Profile.findOne({ user: req.params.id }, (err, foundProfile) => {
+  Profile.findOne({ userID: req.params.id }, (err, foundProfile) => {
     if (err) {
       console.log(err);
       res.status(500).send();
@@ -57,22 +68,22 @@ router.put('/:id', (req, res) => {
         const {
           firstName,
           lastName,
-          email,
+          // email,
           gender,
-          birth,
+          birthDate,
           phoneNumber,
           address,
           description,
         } = req.body;
         foundProfile.firstName = firstName;
         foundProfile.lastName = lastName;
-        foundProfile.email = email;
+        // foundProfile.email = email;
         foundProfile.gender = gender;
-        foundProfile.birthDate = birth;
-        foundProfile.phone = phoneNumber;
+        foundProfile.birthDate = birthDate;
+        foundProfile.phoneNumber = phoneNumber;
         foundProfile.address = address;
         foundProfile.description = description;
-        foundProfile.available = true;
+        // foundProfile.available = false;
 
         foundProfile.save(function (err, savedProfile) {
           if (err) {
@@ -80,7 +91,9 @@ router.put('/:id', (req, res) => {
           } else {
             // update the user database as well if any related updates available
             User.findOne({ _id: req.params.id }, (err, user) => {
-              (user.userEmail = email), (user.firstName = firstName), (user.lastName = lastName);
+              // (user.userEmail = email),
+              user.firstName = firstName;
+              user.lastName = lastName;
 
               user.save(function (err) {
                 if (err) {

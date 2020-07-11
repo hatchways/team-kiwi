@@ -65,107 +65,135 @@ function Navbar(props) {
   const invisible = false;
   const loggedIn = props.loggedIn;
   const userInfo = props.userInfo;
+
   return (
+    // <div>
+    //   {loggedIn ? (
+    //     // if user logged In
+    //     <div>
+    //       <CssBaseline />
+    //       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+    //         <Toolbar className={classes.toolbar}>
+    //           {/* <Link to="/" className={classes.logo}> */}
+    //           <img src="/images/logo.png" alt="" />
+    //           {/* </Link> */}
+
+    //           <Button component={Link} to="/details">
+    //             Profile Detail
+    //           </Button>
+    //           <Button component={Link} to="/list" className={classes.link}>
+    //             list
+    //           </Button>
+
+    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+    //             <Button component={Link} to="/notifications">
+    //               Notifications
+    //             </Button>
+    //           </Badge>
+    //           <Button component={Link} to="/jobs" className={classes.link}>
+    //             My Jobs
+    //           </Button>
+    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+    //             <Button component={Link} to="/payment">
+    //               My Payment
+    //             </Button>
+    //           </Badge>
+    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+    //             <Button component={Link} to="/messages">
+    //               Messages
+    //             </Button>
+    //           </Badge>
+
+    //           <Button component={Link} to="#" onClick={logout}>
+    //             logout
+    //           </Button>
+
+    //           <Avatar
+    //             alt="Remy Sharp"
+    //             src="/images/profile_1.jpg"
+    //             component={Link}
+    //             to="/profile"
+    //             className={classes.avatar}
+    //           />
+    //         </Toolbar>
+    //       </AppBar>
+    //     </div>
+    //   ) : (
+    //     // If user NOT logged In
+    //     <div>
+    //       {/* <Redirect to={{ pathname: redirect }} /> */}
+    //       <CssBaseline />
+    //       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+    //         <Toolbar className={classes.toolbar}>
+    //           <img src="/images/logo.png" alt="" />
+    //           <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+    //             <Link
+    //               href="#"
+    //               color="inherit"
+    //               underline="always"
+    //               style={{ marginRight: '35px', fontWeight: '700' }}
+    //             >
+    //               BECOME A SITTER
+    //             </Link>
+
+    //             <Login updateUser={props.updateUser} />
+    //             <SignUp />
+    //           </Grid>
+    //         </Toolbar>
+    //       </AppBar>
+    //     </div>
+    //   )}
+    // </div>
+
     <div>
-      {loggedIn ? (
-        // if user logged In
-        <div>
-          <CssBaseline />
-          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-            <Toolbar className={classes.toolbar}>
-              {/* <Link to="/" className={classes.logo}> */}
-              <img src="/images/logo.png" alt="" />
-              {/* </Link> */}
+      <div>
+        <CssBaseline />
+        <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            {/* <Link to="/" className={classes.logo}> */}
+            <img src="/images/logo.png" alt="" />
+            {/* </Link> */}
 
-              <Button component={Link} to="/details">
-                Profile Detail
+            <Button component={Link} to="/details">
+              Profile Detail
+            </Button>
+            <Button component={Link} to="/list" className={classes.link}>
+              list
+            </Button>
+
+            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Button component={Link} to="/notifications">
+                Notifications
               </Button>
-              <Button component={Link} to="/list" className={classes.link}>
-                list
+            </Badge>
+            <Button component={Link} to="/jobs" className={classes.link}>
+              My Jobs
+            </Button>
+            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Button component={Link} to="/payment">
+                My Payment
               </Button>
-
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/notifications">
-                  Notifications
-                </Button>
-              </Badge>
-              <Button component={Link} to="/jobs" className={classes.link}>
-                My Jobs
+            </Badge>
+            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Button component={Link} to="/messages">
+                Messages
               </Button>
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/payment">
-                  My Payment
-                </Button>
-              </Badge>
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/messages">
-                  Messages
-                </Button>
-              </Badge>
+            </Badge>
 
-              <Button component={Link} to="#" onClick={logout}>
-                logout
-              </Button>
+            <Button component={Link} to="#" onClick={logout}>
+              logout
+            </Button>
 
-              <Avatar
-                alt="Remy Sharp"
-                src="/images/profile_1.jpg"
-                component={Link}
-                to="/profile/edit"
-                className={classes.avatar}
-              />
-            </Toolbar>
-          </AppBar>
-
-          {/* <Switch>
-            <Route exact path="/">
-              <Home userID={props.userInfo.userID} />
-            </Route>
-            <Route path="/notifications">
-              <Jobs />
-            </Route>
-            <Route path="/jobs">
-              <Jobs />
-            </Route>
-            <Route path="/payment">
-              <Payment />
-            </Route>
-            <Route path="/messages">
-              <Messages />
-            </Route>
-            <Route path="/profile/edit">
-              <Profile userInfo={userInfo} />
-            </Route>
-            <Route path="/profile/details">
-              <ProfileDetailForm />
-            </Route>
-          </Switch> */}
-        </div>
-      ) : (
-        // If user NOT logged In
-        <div>
-          {/* <Redirect to={{ pathname: redirect }} /> */}
-          <CssBaseline />
-          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-            <Toolbar className={classes.toolbar}>
-              <img src="/images/logo.png" alt="" />
-              <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
-                <Link
-                  href="#"
-                  color="inherit"
-                  underline="always"
-                  style={{ marginRight: '35px', fontWeight: '700' }}
-                >
-                  BECOME A SITTER
-                </Link>
-
-                <Login updateUser={props.updateUser} />
-                <SignUp />
-              </Grid>
-            </Toolbar>
-          </AppBar>
-        </div>
-      )}
+            <Avatar
+              alt="Remy Sharp"
+              src="/images/profile_1.jpg"
+              component={Link}
+              to="/profile"
+              className={classes.avatar}
+            />
+          </Toolbar>
+        </AppBar>
+      </div>
     </div>
   );
 }

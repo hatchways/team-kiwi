@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 // import Blank from "src/components/Blank";
 
 const Settings = () => {

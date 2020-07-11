@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function List(props) {
+function ListPage(props) {
   const classes = useStyles();
   const [sitters, setSitters] = useState();
 
@@ -147,4 +147,4 @@ function List(props) {
   );
 }
 
-export default List;
+export default ListPage;

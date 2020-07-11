@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProfileDetailForm(props) {
+function SitterDetailPage(props) {
   const dogPics = [
     {
       img: '/images/dog_1.jpg',
@@ -83,7 +83,7 @@ function ProfileDetailForm(props) {
       // console.log(props);
       // console.log(props.location);
     });
-  }, []);
+  }, [props.location.sitterID]);
 
   return sitter ? (
     <>
@@ -186,4 +186,4 @@ function ProfileDetailForm(props) {
   );
 }
 
-export default ProfileDetailForm;
+export default SitterDetailPage;
