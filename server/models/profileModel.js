@@ -33,6 +33,9 @@ const profileSchema = new Schema(
     available: {
       type: Boolean,
     },
+    profileImg: {
+      type: String,
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User',

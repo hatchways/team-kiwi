@@ -67,7 +67,6 @@ function SignUp(props) {
         .then((response) => {
           // console.log(response)
           if (!response.data.error) {
-            console.log('successful signup');
             // clear form and set the sucessful switch to true
             setEmail('');
             // setName('');

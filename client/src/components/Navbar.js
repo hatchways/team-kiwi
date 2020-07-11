@@ -116,7 +116,7 @@ function Navbar(props) {
 
           <Switch>
             <Route exact path="/">
-              <Home userID={props.userInfo.userID} />
+              <Home />
             </Route>
             <Route path="/notifications">
               <Jobs />

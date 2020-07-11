@@ -82,7 +82,7 @@ function ProfileSidebar(props) {
                   <Edit userInfo={userInfo} />
                 </Route>
                 <Route path="/profile/photo">
-                  <Photo />
+                  <Photo userInfo={userInfo} />
                 </Route>
                 <Route path="/profile/availability">
                   <Availability />

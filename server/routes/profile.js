@@ -1,8 +1,56 @@
 const express = require('express');
+const multer = require('multer');
+const AWS = require('aws-sdk');
+const { v4: uuid } = require('uuid');
+
 const router = express.Router();
 const Profile = require('../models/profileModel');
 const User = require('../models/userModel');
 const profileInputValidator = require('../validator');
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ID,
+  secretAccessKey: process.env.AWS_SECRET,
+});
+
+const storage = multer.memoryStorage({
+  destination: function (req, file, callback) {
+    callback(null, '');
+  },
+});
+const upload = multer({ storage }).single('image');
+
+// Add profile photo
+router.post('/uploadPhoto/:id', upload, (req, res) => {
+  let uploadedImg = req.file.originalname.split('.');
+  let fileType = uploadedImg[uploadedImg.length - 1];
+
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: `${uuid()}.${fileType}`,
+    Body: req.file.buffer,
+    ACL: 'public-read',
+  };
+
+  s3.upload(params, (error, data) => {
+    if (error) {
+      console.log(error);
+      res.status(400).send(error);
+    } else {
+      // Adding the Image url stored in S3 into the database
+      Profile.findOne({ user: req.params.id }, (err, foundProfile) => {
+        foundProfile.profileImg = data.key;
+
+        foundProfile.save(function (err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      });
+      res.status(200).send(data);
+    }
+  });
+});
+// Get Profile Image
 
 // Add a new profile
 router.post('/add', (req, res) => {
