@@ -1,7 +1,7 @@
 import React from 'react';
-import Blank from '../components/Blank';
+import Blank from '../../components/Blank';
 
-const Jobs = () => {
+const JobPage = () => {
   return (
     <div>
       <Blank>My Jobs</Blank>
@@ -9,4 +9,4 @@ const Jobs = () => {
   );
 };
 
-export default Jobs;
+export default JobPage;

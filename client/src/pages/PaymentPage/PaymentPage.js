@@ -42,7 +42,8 @@ const CheckoutForm = ({ success }) => {
 };
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-const Payment = () => {
+
+const PaymentPage = () => {
   const [status, setStatus] = React.useState('');
 
   if (status === 'success') {
@@ -60,4 +61,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default PaymentPage;

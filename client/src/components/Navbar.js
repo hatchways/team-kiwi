@@ -5,12 +5,12 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid } from '@material-ui/core';
 import Login from './Login';
 import SignUp from './SignUp';
-import Home from '../pages/Home';
-import Messages from '../pages/Messages';
-import Profile from '../pages/Profile';
-import ProfileDetailForm from '../components/ProfileDetailForm';
-import Jobs from '../pages/Jobs';
-import Payment from '../pages/Payment';
+// import Home from '../pages/Home';
+// import Messages from '../pages/Messages';
+// import Profile from '../pages/Profile';
+// import ProfileDetailForm from '../components/ProfileDetailForm';
+// import Jobs from '../pages/Jobs';
+// import Payment from '../pages/Payment';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const useStyles = (theme) => ({
   toolbar: {
     display: 'flex',
     flexDirection: 'row',
-    margin: theme.spacing(1.5),
+    margin: theme.spacing(1),
     '& > *': {
       margin: theme.spacing(1),
     },
@@ -65,104 +65,135 @@ function Navbar(props) {
   const invisible = false;
   const loggedIn = props.loggedIn;
   const userInfo = props.userInfo;
+
   return (
+    // <div>
+    //   {loggedIn ? (
+    //     // if user logged In
+    //     <div>
+    //       <CssBaseline />
+    //       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+    //         <Toolbar className={classes.toolbar}>
+    //           {/* <Link to="/" className={classes.logo}> */}
+    //           <img src="/images/logo.png" alt="" />
+    //           {/* </Link> */}
+
+    //           <Button component={Link} to="/details">
+    //             Profile Detail
+    //           </Button>
+    //           <Button component={Link} to="/list" className={classes.link}>
+    //             list
+    //           </Button>
+
+    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+    //             <Button component={Link} to="/notifications">
+    //               Notifications
+    //             </Button>
+    //           </Badge>
+    //           <Button component={Link} to="/jobs" className={classes.link}>
+    //             My Jobs
+    //           </Button>
+    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+    //             <Button component={Link} to="/payment">
+    //               My Payment
+    //             </Button>
+    //           </Badge>
+    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+    //             <Button component={Link} to="/messages">
+    //               Messages
+    //             </Button>
+    //           </Badge>
+
+    //           <Button component={Link} to="#" onClick={logout}>
+    //             logout
+    //           </Button>
+
+    //           <Avatar
+    //             alt="Remy Sharp"
+    //             src="/images/profile_1.jpg"
+    //             component={Link}
+    //             to="/profile"
+    //             className={classes.avatar}
+    //           />
+    //         </Toolbar>
+    //       </AppBar>
+    //     </div>
+    //   ) : (
+    //     // If user NOT logged In
+    //     <div>
+    //       {/* <Redirect to={{ pathname: redirect }} /> */}
+    //       <CssBaseline />
+    //       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+    //         <Toolbar className={classes.toolbar}>
+    //           <img src="/images/logo.png" alt="" />
+    //           <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+    //             <Link
+    //               href="#"
+    //               color="inherit"
+    //               underline="always"
+    //               style={{ marginRight: '35px', fontWeight: '700' }}
+    //             >
+    //               BECOME A SITTER
+    //             </Link>
+
+    //             <Login updateUser={props.updateUser} />
+    //             <SignUp />
+    //           </Grid>
+    //         </Toolbar>
+    //       </AppBar>
+    //     </div>
+    //   )}
+    // </div>
+
     <div>
-      {loggedIn ? (
-        // if user logged In
-        <Fragment>
-          <CssBaseline />
-          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-            <Toolbar className={classes.toolbar}>
-              <Link to="/" className={classes.logo}>
-                <img src="/images/logo.png" alt="" />
-              </Link>
+      <div>
+        <CssBaseline />
+        <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            {/* <Link to="/" className={classes.logo}> */}
+            <img src="/images/logo.png" alt="" />
+            {/* </Link> */}
 
-              <Button component={Link} to="/profile/details">
-                Profile Detail
+            <Button component={Link} to="/details">
+              Profile Detail
+            </Button>
+            <Button component={Link} to="/list" className={classes.link}>
+              list
+            </Button>
+
+            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Button component={Link} to="/notifications">
+                Notifications
               </Button>
-
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/notifications">
-                  Notifications
-                </Button>
-              </Badge>
-              <Button component={Link} to="/jobs" className={classes.link}>
-                My Jobs
+            </Badge>
+            <Button component={Link} to="/jobs" className={classes.link}>
+              My Jobs
+            </Button>
+            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Button component={Link} to="/payment">
+                My Payment
               </Button>
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/payment">
-                  My Payment
-                </Button>
-              </Badge>
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/messages">
-                  Messages
-                </Button>
-              </Badge>
-
-              <Button component={Link} to="#" onClick={logout}>
-                logout
+            </Badge>
+            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Button component={Link} to="/messages">
+                Messages
               </Button>
+            </Badge>
 
-              <Avatar
-                alt="Remy Sharp"
-                src="/images/profile_1.jpg"
-                component={Link}
-                to="/profile/edit"
-                className={classes.avatar}
-              />
-            </Toolbar>
-          </AppBar>
+            <Button component={Link} to="#" onClick={logout}>
+              logout
+            </Button>
 
-          <Switch>
-            <Route exact path="/">
-              <Home userID={props.userInfo.userID} />
-            </Route>
-            <Route path="/notifications">
-              <Jobs />
-            </Route>
-            <Route path="/jobs">
-              <Jobs />
-            </Route>
-            <Route path="/payment">
-              <Payment />
-            </Route>
-            <Route path="/messages">
-              <Messages />
-            </Route>
-            <Route path="/profile/edit">
-              <Profile userInfo={userInfo} />
-            </Route>
-            <Route path="/profile/details">
-              <ProfileDetailForm userInfo={userInfo} />
-            </Route>
-          </Switch>
-        </Fragment>
-      ) : (
-        // If user NOT logged In
-        <div>
-          <Redirect to={{ pathname: redirect }} />
-
-          <AppBar position="static" color="default">
-            <Toolbar>
-              <img src="/images/logo.png" alt="" />
-              <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
-                <Link
-                  href="#"
-                  color="inherit"
-                  underline="always"
-                  style={{ marginRight: '35px', fontWeight: '700' }}
-                >
-                  BECOME A SITTER
-                </Link>
-
-                <Login updateUser={props.updateUser} />
-                <SignUp />
-              </Grid>
-            </Toolbar>
-          </AppBar>
-        </div>
-      )}
+            <Avatar
+              alt="Remy Sharp"
+              src="/images/profile_1.jpg"
+              component={Link}
+              to="/profile"
+              className={classes.avatar}
+            />
+          </Toolbar>
+        </AppBar>
+      </div>
     </div>
   );
 }

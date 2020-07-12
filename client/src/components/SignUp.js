@@ -78,7 +78,7 @@ function SignUp(props) {
             setOpen(false);
             setOnSuccesful(true);
             setExistEmailErr(false);
-            setRedirect('/');
+            setRedirect('/list');
           } else {
             // if the email is already exist in the database.
             setExistEmailErr(true);

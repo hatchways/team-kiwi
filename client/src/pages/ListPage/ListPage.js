@@ -54,12 +54,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home(props) {
+function ListPage(props) {
   const classes = useStyles();
   const [sitters, setSitters] = useState();
 
   useEffect(() => {
-    axios.get('/userProfile/profile').then(({ data }) => {
+    axios.get('/profile').then(({ data }) => {
       setSitters(data);
     });
   }, []);
@@ -113,12 +113,12 @@ function Home(props) {
                       <Button
                         size="small"
                         color="primary"
-                        // onClick={() => {
-                        //   console.log('user ' + props.userID);
-                        //   console.log('sitter ' + sitter._id);
-                        // }}
+                        onClick={() => {
+                          console.log('user ' + props.userID);
+                          console.log('sitter ' + sitter._id);
+                        }}
                         component={Link}
-                        to={{ pathname: '/profile/details', query: sitter._id }}
+                        to={{ pathname: '/details', userID: props.userID, sitterID: sitter._id }}
                       >
                         View Profile
                       </Button>
@@ -147,4 +147,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default ListPage;

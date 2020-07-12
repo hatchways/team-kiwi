@@ -21,7 +21,7 @@ const profileSchema = new Schema(
       type: String,
       required: true,
     },
-    phone: {
+    phoneNumber: {
       type: String,
     },
     address: {
@@ -32,8 +32,9 @@ const profileSchema = new Schema(
     },
     available: {
       type: Boolean,
+      default: false,
     },
-    user: {
+    userID: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },

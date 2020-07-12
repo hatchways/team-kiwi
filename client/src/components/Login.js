@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import {
   withStyles,
   InputLabel,
@@ -19,6 +20,7 @@ import axios from 'axios';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+
 const useStyles = (theme) => ({
   form: {
     display: 'flex',
@@ -36,6 +38,7 @@ const useStyles = (theme) => ({
     fontSize: '12px',
   },
 });
+
 function Login(props) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
@@ -43,6 +46,7 @@ function Login(props) {
   const [emailErr, setEmailErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
   const [loginErr, setLoginErr] = useState(false);
+
   const onLoginSubmit = () => {
     const isValid = validate();
     if (isValid) {
@@ -57,11 +61,12 @@ function Login(props) {
             props.updateUser({
               loggedIn: true,
             });
-            // clear form and set the sucessful switch to true
+            // clear form and set the successful switch to true
             setEmail('');
             setPassword('');
             setEmailErr('');
             setPasswordErr('');
+            // return <Redirect to="/list" />;
           }
         })
         .catch((error) => {
@@ -96,7 +101,9 @@ function Login(props) {
 
     return true;
   };
+
   const { classes } = props;
+
   return (
     <div>
       <Button
@@ -179,7 +186,7 @@ function Login(props) {
         </DialogActions>
       </Dialog>
 
-      <Snackbar open={loginErr} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+      <Snackbar open={loginErr} autoHideDuration={2000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity="error">
           Incorrect Email or Password!
         </Alert>
