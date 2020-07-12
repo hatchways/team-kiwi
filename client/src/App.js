@@ -75,7 +75,7 @@ class App extends Component {
               <LandingPage />
             </Route>
             <Route exact path="/list">
-              <ListPage />
+              <ListPage userID="5f07d97055aca11393aeda5e" />
             </Route>
             <Route exact path="/notifications">
               <JobPage />
@@ -90,8 +90,8 @@ class App extends Component {
               <MessagePage />
             </Route>
             <Route path="/profile">
-              <ProfilePage userID={this.state.userId} />
-              {/* <ProfilePage userID="5f07d97055aca11393aeda5e" /> */}
+              {/* <ProfilePage userID={this.state.userId} /> */}
+              <ProfilePage userID="5f07d97055aca11393aeda5e" />
             </Route>
             <Route path="/details" component={SitterDetailPage} />
           </Switch>

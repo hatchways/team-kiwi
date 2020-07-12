@@ -113,12 +113,12 @@ function ListPage(props) {
                       <Button
                         size="small"
                         color="primary"
-                        // onClick={() => {
-                        //   console.log('user ' + props.userID);
-                        //   console.log('sitter ' + sitter._id);
-                        // }}
+                        onClick={() => {
+                          console.log('user ' + props.userID);
+                          console.log('sitter ' + sitter._id);
+                        }}
                         component={Link}
-                        to={{ pathname: '/details', sitterID: sitter._id }}
+                        to={{ pathname: '/details', userID: props.userID, sitterID: sitter._id }}
                       >
                         View Profile
                       </Button>

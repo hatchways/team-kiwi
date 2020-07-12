@@ -78,7 +78,7 @@ function ProfilePage(props) {
 
   return (
     <Fragment>
-      <Container maxWidth="lg">
+      <Container maxwidth="lg">
         <Box pt={6}>
           <Grid container>
             <Router>

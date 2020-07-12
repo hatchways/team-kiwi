@@ -12,7 +12,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { Box, Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
-import moment from 'moment-timezone';
+import Moment from 'moment-timezone';
 import InputMask from 'react-input-mask';
 
 function Alert(props) {
@@ -61,7 +61,7 @@ function Edit(props) {
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
   const [dataLoaded, setLoaded] = useState(false);
-  const [messageOpen, setOpen] = useState(false);
+  const [messageOpen, setMessageOpen] = useState(false);
 
   useEffect(() => {
     axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
@@ -70,7 +70,7 @@ function Edit(props) {
       setLastName(data.lastName);
       setEmail(data.email);
       setGender(data.gender);
-      setBirth(moment.utc(data.birthDate).format('YYYY-MM-DD'));
+      setBirth(Moment.utc(data.birthDate).format('YYYY-MM-DD'));
       setPhoneNumber(data.phoneNumber);
       setAddress(data.address);
       setDescription(data.description);
@@ -109,21 +109,21 @@ function Edit(props) {
   };
 
   const handleClick = () => {
-    setOpen(true);
+    setMessageOpen(true);
   };
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(false);
+    setMessageOpen(false);
   };
 
   const classes = useStyles();
 
   return dataLoaded ? (
     <Fragment>
-      <Container maxWidth="lg" className={classes.root}>
+      <Container maxwidth="lg" className={classes.root}>
         <Paper elevation={3}>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={3} className={classes.grid}>

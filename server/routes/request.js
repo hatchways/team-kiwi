@@ -7,9 +7,9 @@ router.post('/add', (req, res) => {
   const request = new Request(req.body);
   request.save((err) => {
     if (err) {
-      res.status(400);
+      return res.status(400);
     } else {
-      res.status(200).send('Request created!');
+      return res.status(200).send('Request created!');
     }
   });
 });
