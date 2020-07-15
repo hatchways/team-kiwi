@@ -77,7 +77,7 @@ class App extends Component {
         <Router>
           <Navbar />
           <Typography component="h1" variant="h1" align="center" gutterBottom>
-            Loading...
+            <ListPage />
           </Typography>
         </Router>
       </MuiThemeProvider>

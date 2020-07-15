@@ -83,7 +83,9 @@ function Navbar(props) {
           <CssBaseline />
           <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
-              <img src="/images/logo.png" alt="" />
+              <Link to="/list">
+                <img src="/images/logo.png" alt="" />
+              </Link>
               <Button component={Link} to="/list" className={classes.link}>
                 list
               </Button>
