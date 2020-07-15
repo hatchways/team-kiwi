@@ -17,12 +17,10 @@ const CheckoutForm = ({ success }) => {
     });
 
     if (!error) {
-      console.log(paymentMethod);
       const { id } = paymentMethod;
 
       try {
         const { data } = await axios.post('/payment/charge', { id, amount: 2588 });
-        console.log(data);
         success();
       } catch {
         console.log(error);

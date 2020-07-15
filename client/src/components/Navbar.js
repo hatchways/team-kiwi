@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid } from '@material-ui/core';
+import {
+  AppBar,
+  Typography,
+  Toolbar,
+  CssBaseline,
+  Button,
+  Badge,
+  Avatar,
+  Grid,
+} from '@material-ui/core';
 import Login from './Login';
 import SignUp from './SignUp';
 import axios from 'axios';
@@ -34,9 +42,8 @@ const useStyles = (theme) => ({
 
 function Navbar(props) {
   const [redirect, setRedirect] = useState(null);
-  const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-
+  const [profileImg, setProfileImg] = useState(null);
   const logout = (event) => {
     event.preventDefault();
 
@@ -58,10 +65,13 @@ function Navbar(props) {
   useEffect(() => {
     const token = localStorage.getItem('loginToken');
     if (token !== null) {
-      setLoggedIn(true);
       setRedirect('/');
+      axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
+        setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
+      });
+      setLoggedIn(true);
     }
-  });
+  }, [props.userID]);
 
   const { classes } = props;
   const invisible = false;
@@ -103,7 +113,7 @@ function Navbar(props) {
 
               <Avatar
                 alt="Remy Sharp"
-                src="/images/profile_1.jpg"
+                src={profileImg}
                 component={Link}
                 to="/profile"
                 className={classes.avatar}
@@ -114,7 +124,6 @@ function Navbar(props) {
       ) : (
         <div>
           <Redirect to={{ pathname: redirect }} />
-
           <AppBar position="static" color="default">
             <Toolbar>
               <img src="/images/logo.png" alt="" />

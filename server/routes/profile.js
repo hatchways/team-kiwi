@@ -33,7 +33,6 @@ router.post('/uploadPhoto/:id', upload, (req, res) => {
 
   s3.upload(params, (error, data) => {
     if (error) {
-      console.log(error);
       res.status(400).send(error);
     } else {
       // Adding the Image url stored in S3 into the database
@@ -145,7 +144,6 @@ router.get('/ref/:id', (req, res) => {
 router.put('/:id', (req, res) => {
   Profile.findOne({ userID: req.params.id }, (err, foundProfile) => {
     if (err) {
-      console.log(err);
       res.status(500).send();
     } else {
       if (!foundProfile) {

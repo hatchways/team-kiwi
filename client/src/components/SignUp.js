@@ -65,9 +65,7 @@ function SignUp(props) {
         .post('/users/add', user)
         .then((response) => {
           if (!response.data.error) {
-            // clear form and set the sucessful switch to true
             setEmail('');
-            // setName('');
             setPassword('');
             setNameErr('');
             setEmailErr('');

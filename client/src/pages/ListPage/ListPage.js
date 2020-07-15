@@ -25,13 +25,6 @@ const useStyles = makeStyles((theme) => ({
   searchButtons: {
     marginTop: theme.spacing(0),
   },
-  searchContent: {
-    // padding: theme.spacing(5, 0, 6),
-  },
-  cardGrid: {
-    // paddingTop: theme.spacing(4),
-    // paddingBottom: theme.spacing(8),
-  },
   card: {
     height: '100%',
     display: 'flex',
@@ -113,10 +106,6 @@ function ListPage(props) {
                       <Button
                         size="small"
                         color="primary"
-                        onClick={() => {
-                          console.log('user ' + props.userID);
-                          console.log('sitter ' + sitter._id);
-                        }}
                         component={Link}
                         to={{ pathname: '/details', userID: props.userID, sitterID: sitter._id }}
                       >

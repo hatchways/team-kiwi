@@ -37,19 +37,6 @@ router.get('/:id', (req, res) => {
 });
 
 // Update a specific request
-router.put('/:id', (req, res) => {
-  //   const { err, errMsg, newRequest } = profileInputValidator(req.body);
-  //   if (err) {
-  //     res.status(400).json(errMsg);
-  //   } else {
-  //     Request.updateOne({ _id: req.body.id }, newRequest, (err) => {
-  //       if (err) {
-  //         res.status(404).send("Request doesn't exist!");
-  //       } else {
-  //         res.status(200).send('Successfully updated a request.');
-  //       }
-  //     });
-  //   }
-});
+router.put('/:id', (req, res) => {});
 
 module.exports = router;

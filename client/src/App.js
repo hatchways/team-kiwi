@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MuiThemeProvider } from '@material-ui/core';
+import { MuiThemeProvider, Typography } from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { theme } from './themes/theme';
@@ -21,7 +21,6 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: false,
       userId: null,
     };
     this.getUser = this.getUser.bind(this);
@@ -43,10 +42,10 @@ class App extends Component {
   }
 
   render() {
-    return (
+    return this.state.userId ? (
       <MuiThemeProvider theme={theme}>
         <Router>
-          <Navbar />
+          <Navbar userID={this.state.userId} />
           <Switch>
             <Route exact path="/">
               <LandingPage />
@@ -72,8 +71,15 @@ class App extends Component {
             <Route path="/details" component={SitterDetailPage} />
           </Switch>
         </Router>
-
-        {/* <Route path="/" exact render={(props) => <LoginPage {...props} />} /> */}
+      </MuiThemeProvider>
+    ) : (
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <Navbar />
+          <Typography component="h1" variant="h1" align="center" gutterBottom>
+            Loading...
+          </Typography>
+        </Router>
       </MuiThemeProvider>
     );
   }

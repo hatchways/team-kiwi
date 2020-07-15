@@ -12,7 +12,6 @@ const paymentRouter = require('./routes/payment');
 const requestRouter = require('./routes/request');
 const passport = require('./passport');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
 
 const { json, urlencoded } = express;
 
@@ -41,7 +40,6 @@ app.use(express.static(join(__dirname, 'public')));
 app.use(
   session({
     secret: 'fraggle-rock', //pick a random string to make the hash that is generated secure
-    // store: new MongoStore({ mongooseConnection: mongoose.connection }),
     resave: false, //required
     saveUninitialized: false, //required
   })

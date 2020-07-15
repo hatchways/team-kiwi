@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const strategy = new LocalStrategy(
   {
-    usernameField: 'userEmail', // not necessary, DEFAULT
+    usernameField: 'userEmail',
   },
   function (userEmail, password, done) {
     // Validation to verify password and email match

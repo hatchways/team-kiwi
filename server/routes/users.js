@@ -6,7 +6,6 @@ const passport = require('../passport');
 require('dotenv').config();
 
 router.get('/', (req, res, next) => {
-  console.log(req.user._id);
   if (req.user) {
     User.findOne({ _id: req.user._id }, (err, user) => {
       var userInfo = {
