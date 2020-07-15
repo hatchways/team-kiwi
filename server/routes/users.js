@@ -6,6 +6,7 @@ const passport = require('../passport');
 require('dotenv').config();
 
 router.get('/', (req, res, next) => {
+  console.log(req.user._id);
   if (req.user) {
     User.findOne({ _id: req.user._id }, (err, user) => {
       var userInfo = {
@@ -47,7 +48,7 @@ router.route('/add').post((req, res) => {
           console.log(err);
         } else {
           const profile = new Profile({
-            user: newUser._id,
+            userID: newUser._id,
             firstName: firstName,
             lastName: lastName,
             email: userEmail,
@@ -60,9 +61,6 @@ router.route('/add').post((req, res) => {
           res.json(savedUser);
         }
       });
-      //Create a JWT token
-      const token = jwt.sign({ newUser }, process.env.ACCESS_TOKEN_SIGNIN);
-      res.cookie('token', token, { httpOnly: true });
     }
   });
 });

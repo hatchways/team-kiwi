@@ -1,8 +1,95 @@
+const multer = require('multer');
+const AWS = require('aws-sdk');
+const { v4: uuid } = require('uuid');
+
 const express = require('express');
 const router = express.Router();
 const Profile = require('../models/profileModel');
 const User = require('../models/userModel');
 const profileInputValidator = require('../validator');
+
+const s3 = new AWS.S3({
+  accessKeyId: process.env.AWS_ID,
+  secretAccessKey: process.env.AWS_SECRET,
+});
+const storage = multer.memoryStorage({
+  destination: function (req, file, callback) {
+    callback(null, '');
+  },
+});
+
+// ADD profile photo
+const upload = multer({ storage }).single('image');
+router.post('/uploadPhoto/:id', upload, (req, res) => {
+  let uploadedImg = req.file.originalname.split('.');
+  let fileType = uploadedImg[uploadedImg.length - 1];
+
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: `${uuid()}.${fileType}`,
+    Body: req.file.buffer,
+    ACL: 'public-read',
+  };
+
+  s3.upload(params, (error, data) => {
+    if (error) {
+      console.log(error);
+      res.status(400).send(error);
+    } else {
+      // Adding the Image url stored in S3 into the database
+      Profile.findOne({ userID: req.params.id }, (err, foundProfile) => {
+        foundProfile.profileImg = data.key;
+
+        foundProfile.save(function (err) {
+          if (err) {
+            console.log(err);
+          }
+        });
+      });
+      res.status(200).send(data);
+    }
+  });
+});
+
+// UPDATE Album Images
+const uploadAlbum = multer({ storage }).array('images');
+router.put('/uploadAlbum/:id', uploadAlbum, (req, res) => {
+  const files = req.files;
+
+  if (!files) {
+    res.status(400).send('uploaded file is empty');
+  } else {
+    files.forEach((file) => {
+      let uploadedImg = file.originalname.split('.'); // filename without the file type
+      let fileType = uploadedImg[uploadedImg.length - 1]; // file type
+
+      const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: `${uuid()}.${fileType}`,
+        Body: file.buffer,
+        ACL: 'public-read',
+      };
+
+      s3.upload(params, (error, data) => {
+        if (error) {
+          res.status(400).send(error);
+        } else {
+          // Adding the Image url stored in S3 into the database
+          Profile.updateOne(
+            { userID: req.params.id },
+            { $push: { albumImgs: { $each: [data.key], $slice: -4 } } },
+            function (error, success) {
+              if (error) {
+                res.status(400).send(error);
+              }
+            }
+          );
+        }
+      });
+    }); // end forEach loop
+    res.status(200).send('Album Images Edited!');
+  }
+});
 
 // POST a new profile
 router.post('/add', (req, res) => {
@@ -43,7 +130,7 @@ router.get('/:id', (req, res) => {
   });
 });
 
-// GET a profile by userId
+// GET a profile by userID
 router.get('/ref/:id', (req, res) => {
   Profile.findOne({ userID: req.params.id }, (err, foundProfile) => {
     if (err) {
@@ -68,7 +155,6 @@ router.put('/:id', (req, res) => {
         const {
           firstName,
           lastName,
-          // email,
           gender,
           birthDate,
           phoneNumber,
@@ -77,13 +163,11 @@ router.put('/:id', (req, res) => {
         } = req.body;
         foundProfile.firstName = firstName;
         foundProfile.lastName = lastName;
-        // foundProfile.email = email;
         foundProfile.gender = gender;
         foundProfile.birthDate = birthDate;
         foundProfile.phoneNumber = phoneNumber;
         foundProfile.address = address;
         foundProfile.description = description;
-        // foundProfile.available = false;
 
         foundProfile.save(function (err, savedProfile) {
           if (err) {

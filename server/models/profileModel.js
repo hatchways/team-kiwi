@@ -23,6 +23,7 @@ const profileSchema = new Schema(
     },
     phoneNumber: {
       type: String,
+      required: true,
     },
     address: {
       type: String,
@@ -33,6 +34,12 @@ const profileSchema = new Schema(
     available: {
       type: Boolean,
       default: false,
+    },
+    profileImg: {
+      type: String,
+    },
+    albumImgs: {
+      type: [String],
     },
     userID: {
       type: Schema.Types.ObjectId,

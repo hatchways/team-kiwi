@@ -55,7 +55,6 @@ function SignUp(props) {
   const handleSubmit = (e) => {
     const isValid = validate();
     if (isValid) {
-      /////////// START here to store the data in the back//////////
       const user = {
         firstName: firstName,
         lastName: lastName,
@@ -65,9 +64,7 @@ function SignUp(props) {
       axios
         .post('/users/add', user)
         .then((response) => {
-          // console.log(response)
           if (!response.data.error) {
-            console.log('successful signup');
             // clear form and set the sucessful switch to true
             setEmail('');
             // setName('');
@@ -78,7 +75,7 @@ function SignUp(props) {
             setOpen(false);
             setOnSuccesful(true);
             setExistEmailErr(false);
-            setRedirect('/list');
+            setRedirect('/');
           } else {
             // if the email is already exist in the database.
             setExistEmailErr(true);
