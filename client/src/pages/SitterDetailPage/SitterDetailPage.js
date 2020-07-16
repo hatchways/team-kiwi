@@ -365,7 +365,7 @@ function SitterDetailPage(props) {
         </Snackbar>
         <Snackbar open={reqError} autoHideDuration={2000} onClose={handleMessageClose}>
           <Alert onClose={handleMessageClose} severity="error">
-            Check request dates!
+            Please check request dates and time.
           </Alert>
         </Snackbar>
       </Card>

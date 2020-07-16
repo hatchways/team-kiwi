@@ -32,6 +32,7 @@ router.get('/:id', (req, res) => {
   Request.aggregate(
     [
       { $match: { user_id: ObjectId(req.params.id) } },
+      { $sort: { start: 1, end: 1 } },
       {
         $lookup: {
           from: 'profiles',
@@ -64,6 +65,28 @@ router.get('/ref/:id', (req, res) => {
 });
 
 // Update a specific request
-router.put('/:id', (req, res) => {});
+router.put('/:id', async (req, res) => {
+  await Request.findOne({ _id: req.params.id }, (err, foundRequest) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      if (!foundRequest) {
+        res.status(404).send();
+      } else {
+        const { start, end } = req.body;
+        foundRequest.start = start;
+        foundRequest.end = end;
+        foundRequest.save(function (err, savedRequest) {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).send(savedRequest);
+          }
+        });
+      }
+    }
+  });
+});
 
 module.exports = router;
