@@ -7,7 +7,7 @@ const userSchema = new Schema(
   {
     firstName: { type: String, unique: false },
     lastName: { type: String, unique: false },
-    password: { type: String, unique: false, minlength: 7 },
+    password: { type: String, unique: false },
     userEmail: { type: String, unique: true },
     profile: {
       type: Schema.Types.ObjectId,
@@ -22,7 +22,12 @@ const userSchema = new Schema(
 // Define schema methods
 userSchema.methods = {
   checkPassword: function (inputPassword) {
-    return bcrypt.compareSync(inputPassword, this.password);
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(inputPassword, this.password, (err, success) => {
+        if (err) return reject(err);
+        return resolve(success);
+      });
+    });
   },
   // it hashes the password
   hashPassword: (plainTextPassword) => {
