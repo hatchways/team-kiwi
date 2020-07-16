@@ -18,7 +18,7 @@
     "express-session": "^1.17.1",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
-    "lint-staged": "^8.1.7",
+    "lint-staged": "^10.2.11",
     "mongo": "^0.1.0",
     "mongoose": "^5.9.21",
     "morgan": "^1.9.1",
