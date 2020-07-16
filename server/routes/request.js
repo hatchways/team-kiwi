@@ -74,11 +74,9 @@ router.put('/:id', async (req, res) => {
       if (!foundRequest) {
         res.status(404).send();
       } else {
-        // update the request
         const { start, end } = req.body;
         foundRequest.start = start;
         foundRequest.end = end;
-
         foundRequest.save(function (err, savedRequest) {
           if (err) {
             console.log(err);
