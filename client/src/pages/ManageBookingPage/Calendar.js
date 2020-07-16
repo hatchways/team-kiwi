@@ -1,6 +1,5 @@
 import React from 'react';
 import './Calendar.scss';
-// import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import moment, { Moment as MomentTypes } from 'moment';
@@ -36,44 +35,6 @@ function Calendar() {
       );
     }
     return calendar;
-
-    // const today = moment();
-    // const startWeek = props.date.clone().startOf('month').week();
-    // const endWeek =
-    //   props.date.clone().endOf('month').week() === 1
-    //     ? 53
-    //     : props.date.clone().endOf('month').week();
-    // let calendar = [];
-    // for (let week = startWeek; week <= endWeek; week++) {
-    //   calendar.push(
-    //     <div className="row" key={week}>
-    //       {Array(7)
-    //         .fill(0)
-    //         .map((n, i) => {
-    //           let current = props.date
-    //             .clone()
-    //             .week(week)
-    //             .startOf('week')
-    //             .add(n + i, 'day');
-    //           let isToday = today.format('YYYYMMDD') === current.format('YYYYMMDD') ? 'today' : '';
-    //           let isSelected =
-    //             props.date.format('YYYYMMDD') === current.format('YYYYMMDD') ? 'selected' : '';
-    //           let isGrayed = current.format('MM') === props.date.format('MM') ? '' : 'grayed';
-
-    //           return (
-    //             <div
-    //               className={`box ${isSelected} ${isGrayed} ${isToday}`}
-    //               key={i}
-    //               onClick={() => props.changeDate(current)}
-    //             >
-    //               <span className={`text`}>{current.format('D')}</span>
-    //             </div>
-    //           );
-    //         })}
-    //     </div>
-    //   );
-    // }
-    // return calendar;
   }
 
   return (

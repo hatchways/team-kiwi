@@ -32,6 +32,7 @@ router.get('/:id', (req, res) => {
   Request.aggregate(
     [
       { $match: { user_id: ObjectId(req.params.id) } },
+      { $sort: { start: 1, end: 1 } },
       {
         $lookup: {
           from: 'profiles',
@@ -64,19 +65,30 @@ router.get('/ref/:id', (req, res) => {
 });
 
 // Update a specific request
-router.put('/:id', (req, res) => {
-  //   const { err, errMsg, newRequest } = profileInputValidator(req.body);
-  //   if (err) {
-  //     res.status(400).json(errMsg);
-  //   } else {
-  //     Request.updateOne({ _id: req.body.id }, newRequest, (err) => {
-  //       if (err) {
-  //         res.status(404).send("Request doesn't exist!");
-  //       } else {
-  //         res.status(200).send('Successfully updated a request.');
-  //       }
-  //     });
-  //   }
+router.put('/:id', async (req, res) => {
+  await Request.findOne({ _id: req.params.id }, (err, foundRequest) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send();
+    } else {
+      if (!foundRequest) {
+        res.status(404).send();
+      } else {
+        // update the request
+        const { start, end } = req.body;
+        foundRequest.start = start;
+        foundRequest.end = end;
+
+        foundRequest.save(function (err, savedRequest) {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).send(savedRequest);
+          }
+        });
+      }
+    }
+  });
 });
 
 module.exports = router;

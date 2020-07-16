@@ -32,7 +32,6 @@ class App extends Component {
 
   componentDidMount() {
     this.getUser();
-    console.log(this.state.userInfo);
   }
 
   updateUser(userObject) {
