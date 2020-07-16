@@ -1,16 +1,18 @@
-import React, { Fragment, useState } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, CssBaseline, Button, Badge, Avatar, Grid } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import {
+  AppBar,
+  Typography,
+  Toolbar,
+  CssBaseline,
+  Button,
+  Badge,
+  Avatar,
+  Grid,
+} from '@material-ui/core';
 import Login from './Login';
 import SignUp from './SignUp';
-// import Home from '../pages/Home';
-// import Messages from '../pages/Messages';
-// import Profile from '../pages/Profile';
-// import ProfileDetailForm from '../components/ProfileDetailForm';
-// import Jobs from '../pages/Jobs';
-// import Payment from '../pages/Payment';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
@@ -40,8 +42,8 @@ const useStyles = (theme) => ({
 
 function Navbar(props) {
   const [redirect, setRedirect] = useState(null);
-
-  // logout button event handler
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [profileImg, setProfileImg] = useState(null);
   const logout = (event) => {
     event.preventDefault();
 
@@ -49,11 +51,10 @@ function Navbar(props) {
       .post('/users/logout')
       .then((response) => {
         if (response.status === 200) {
-          props.updateUser({
-            loggedIn: false,
-            username: null,
-          });
+          setLoggedIn(false);
+          localStorage.clear();
           setRedirect('/');
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -61,91 +62,41 @@ function Navbar(props) {
       });
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem('loginToken');
+    if (token !== null) {
+      setRedirect('/');
+      axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
+        setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
+      });
+      setLoggedIn(true);
+    }
+  }, [props.userID]);
+
   const { classes } = props;
   const invisible = false;
-  const loggedIn = props.loggedIn;
-  const userInfo = props.userInfo;
 
   return (
-    // <div>
-    //   {loggedIn ? (
-    //     // if user logged In
-    //     <div>
-    //       <CssBaseline />
-    //       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-    //         <Toolbar className={classes.toolbar}>
-    //           {/* <Link to="/" className={classes.logo}> */}
-    //           <img src="/images/logo.png" alt="" />
-    //           {/* </Link> */}
-
-    //           <Button component={Link} to="/details">
-    //             Profile Detail
-    //           </Button>
-    //           <Button component={Link} to="/list" className={classes.link}>
-    //             list
-    //           </Button>
-
-    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-    //             <Button component={Link} to="/notifications">
-    //               Notifications
-    //             </Button>
-    //           </Badge>
-    //           <Button component={Link} to="/jobs" className={classes.link}>
-    //             My Jobs
-    //           </Button>
-    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-    //             <Button component={Link} to="/payment">
-    //               My Payment
-    //             </Button>
-    //           </Badge>
-    //           <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-    //             <Button component={Link} to="/messages">
-    //               Messages
-    //             </Button>
-    //           </Badge>
-
-    //           <Button component={Link} to="#" onClick={logout}>
-    //             logout
-    //           </Button>
-
-    //           <Avatar
-    //             alt="Remy Sharp"
-    //             src="/images/profile_1.jpg"
-    //             component={Link}
-    //             to="/profile"
-    //             className={classes.avatar}
-    //           />
-    //         </Toolbar>
-    //       </AppBar>
-    //     </div>
-    //   ) : (
-    //     // If user NOT logged In
-    //     <div>
-    //       {/* <Redirect to={{ pathname: redirect }} /> */}
-    //       <CssBaseline />
-    //       <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-    //         <Toolbar className={classes.toolbar}>
-    //           <img src="/images/logo.png" alt="" />
-    //           <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
-    //             <Link
-    //               href="#"
-    //               color="inherit"
-    //               underline="always"
-    //               style={{ marginRight: '35px', fontWeight: '700' }}
-    //             >
-    //               BECOME A SITTER
-    //             </Link>
-
-    //             <Login updateUser={props.updateUser} />
-    //             <SignUp />
-    //           </Grid>
-    //         </Toolbar>
-    //       </AppBar>
-    //     </div>
-    //   )}
-    // </div>
-
     <div>
+      {loggedIn ? (
+        <>
+          <CssBaseline />
+          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+            <Toolbar className={classes.toolbar}>
+              <Link to="/list">
+                <img src="/images/logo.png" alt="" />
+              </Link>
+              <Button component={Link} to="/list" className={classes.link}>
+                list
+              </Button>
+
+              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+                <Button component={Link} to="/notifications">
+                  Notifications
+                </Button>
+              </Badge>
+              <Button component={Link} to="/jobs" className={classes.link}>
+                My Jobs
       <div>
         <CssBaseline />
         <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
@@ -171,28 +122,56 @@ function Navbar(props) {
             <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
               <Button component={Link} to="/payment">
                 My Payment
-              </Button>
-            </Badge>
-            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-              <Button component={Link} to="/messages">
-                Messages
-              </Button>
-            </Badge>
 
-            <Button component={Link} to="#" onClick={logout}>
-              logout
-            </Button>
+              </Button>
+              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+                <Button component={Link} to="/payment">
+                  My Payment
+                </Button>
+              </Badge>
+              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+                <Button component={Link} to="/messages">
+                  Messages
+                </Button>
+              </Badge>
 
-            <Avatar
-              alt="Remy Sharp"
-              src="/images/profile_1.jpg"
-              component={Link}
-              to="/profile"
-              className={classes.avatar}
-            />
-          </Toolbar>
-        </AppBar>
-      </div>
+              <Button component={Link} to="#" onClick={logout}>
+                logout
+              </Button>
+
+              <Avatar
+                alt="Remy Sharp"
+                src={profileImg}
+                component={Link}
+                to="/profile"
+                className={classes.avatar}
+              />
+            </Toolbar>
+          </AppBar>
+        </>
+      ) : (
+        <div>
+          <Redirect to={{ pathname: redirect }} />
+          <AppBar position="static" color="default">
+            <Toolbar>
+              <img src="/images/logo.png" alt="" />
+              <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+                <Link
+                  href="#"
+                  color="inherit"
+                  underline="always"
+                  style={{ marginRight: '35px', fontWeight: '700' }}
+                >
+                  BECOME A SITTER
+                </Link>
+
+                <Login />
+                <SignUp />
+              </Grid>
+            </Toolbar>
+          </AppBar>
+        </div>
+      )}
     </div>
   );
 }

@@ -80,7 +80,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2, 4, 3),
   },
   confirmForm: {
-    // flexWrap: 'wrap',
     alignItems: 'center',
     width: 400,
     height: 500,
@@ -88,6 +87,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SitterDetailPage(props) {
+
+  var defaultTime = Moment('1200', 'HH:mm').add(1, 'day');
+
   const dogPics = [
     {
       img: '/images/dog_1.jpg',
@@ -100,6 +102,7 @@ function SitterDetailPage(props) {
   ];
 
   const defaultTime = moment('1200', 'HH:mm').add(1, 'day');
+
   const classes = useStyles();
   const [sitter, setSitter] = useState();
   const [start, setStart] = useState(defaultTime.format('YYYY-MM-DDTHH:mm'));
@@ -107,6 +110,8 @@ function SitterDetailPage(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [reqSuccess, setSuccess] = useState(false);
   const [reqError, setError] = useState(false);
+  const [profileImg, setProfileImg] = useState(null);
+  const [album, setAlbum] = useState(null);
   const [sittingCost, setSittingCost] = useState(0);
   const cost = 14;
 
@@ -143,7 +148,6 @@ function SitterDetailPage(props) {
       .post('/request/add', request)
       .then((response) => {
         if (!response.data.error) {
-          console.log('success');
           handleModalClose();
           setSuccess(true);
         }
@@ -156,10 +160,15 @@ function SitterDetailPage(props) {
   useEffect(() => {
     axios.get(`/profile/${props.location.sitterID}`).then(({ data }) => {
       setSitter(data);
+      if (data.profileImg !== undefined)
+        setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
+
+      if (data.albumImgs !== undefined) setAlbum(data.albumImgs);
+
     });
   }, [props.location.sitterID]);
 
-  return sitter ? (
+  return sitter && album ? (
     <Grid container spacing={0} align="center" justify="center" style={{ marginTop: '5%' }}>
       <Grid maxwidth="md" className={classes.root}>
         <Paper elevation={5}>
@@ -167,7 +176,7 @@ function SitterDetailPage(props) {
           <Box className={classes.topBackground} />
 
           <Grid style={{ marginTop: '-120px' }}>
-            <Avatar alt="Remy Sharp" src="/images/profile_3.jpg" className={classes.photo} />
+            <Avatar alt="Remy Sharp" src={profileImg} className={classes.photo} />
             <Typography variant="h1" align="center">
               {sitter.firstName} {sitter.lastName}
             </Typography>
@@ -183,26 +192,30 @@ function SitterDetailPage(props) {
             >
               <RoomIcon style={{ color: '#f44336' }} />
               <Typography variant="subtitle1" style={{ color: 'grey', marginLeft: '7px' }}>
-                {/* {props.userInfo.address} */}
+                {sitter.address}
               </Typography>
             </Grid>
           </Grid>
+
           {/* About section */}
           <Grid className={classes.about}>
             <Typography variant="h1" align="left" gutterBottom>
               About me
             </Typography>
             <Typography variant="body1" align="left" gutterBottom>
-              {/* {props.userInfo.description} */}
+              {sitter.description}
             </Typography>
           </Grid>
 
           {/* sub photos */}
           <Grid className={classes.subPhotos}>
             <GridList className={classes.gridList} cols={4} spacing={10}>
-              {dogPics.map((pic) => (
-                <GridListTile key={pic.img} style={{ marginBottom: '25px' }}>
-                  <img src={pic.img} alt={pic.title} />
+              {album.map((pic) => (
+                <GridListTile key={pic} style={{ marginBottom: '25px' }}>
+                  <img
+                    src={`https://team-kiwi.s3.ca-central-1.amazonaws.com/${pic}`}
+                    alt={'albumImg'}
+                  />
                 </GridListTile>
               ))}
             </GridList>

@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginTop: '50px',
   },
+  errMsg: {
+    width: '100%',
+  },
 }));
 
 function Edit(props) {
@@ -62,10 +65,11 @@ function Edit(props) {
   const [description, setDescription] = useState('');
   const [dataLoaded, setLoaded] = useState(false);
   const [messageOpen, setMessageOpen] = useState(false);
-
+  const [phoneNumberErr, setPhoneNumberErr] = useState('');
+  const [firstNameErr, setFirstNameErr] = useState('');
+  const [lastNameErr, setLastNameErr] = useState('');
   useEffect(() => {
     axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
-      console.log(data);
       setFirstName(data.firstName);
       setLastName(data.lastName);
       setEmail(data.email);
@@ -76,36 +80,64 @@ function Edit(props) {
       setDescription(data.description);
       setLoaded(true);
     });
-  }, [props.userID]);
+  }, []);
+
+  const validate = () => {
+    let firstNameErr = '';
+    let lastNameErr = '';
+    let phoneNumberErr = '';
+
+    if (!firstName) {
+      firstNameErr = 'First Name cannot be empty';
+    }
+    if (!lastName) {
+      lastNameErr = 'Last Name connot be empty';
+    }
+
+    if (!phoneNumber) {
+      phoneNumberErr = 'Phone number cannot empty';
+    }
+
+    if (firstNameErr || lastNameErr || phoneNumberErr) {
+      setFirstNameErr(firstNameErr);
+      setLastNameErr(lastNameErr);
+      setPhoneNumberErr(phoneNumberErr);
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const isValid = validate();
 
-    const user = {
-      userId: props.userID,
-      firstName: firstName,
-      lastName: lastName,
-      // email: email,
-      gender: gender,
-      birthDate: birthDate,
-      phoneNumber: phoneNumber.replace(/ /g, ''),
-      address: address,
-      description: description,
-    };
+    if (isValid) {
+      setFirstNameErr('');
+      setLastNameErr('');
+      setPhoneNumberErr('');
+      const user = {
+        userId: props.userID,
+        firstName: firstName,
+        lastName: lastName,
+        gender: gender,
+        birthDate: birthDate,
+        phoneNumber: phoneNumber.replace(/ /g, ''),
+        address: address,
+        description: description,
+      };
 
-    console.log(user);
-
-    axios
-      .put(`/profile/${props.userID}`, user)
-      .then((response) => {
-        if (!response.data.error) {
-          console.log('success');
-          handleClick();
-        }
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-      });
+      axios
+        .put(`/profile/${props.userID}`, user)
+        .then((response) => {
+          if (!response.data.error) {
+            handleClick();
+          }
+        })
+        .catch((error) => {
+          console.log('error: ', error);
+        });
+    }
   };
 
   const handleClick = () => {
@@ -152,6 +184,9 @@ function Edit(props) {
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                 </Grid>
+                <div className={classes.errMsg}>
+                  {firstNameErr.length > 0 ? <Alert severity="error">{firstNameErr}</Alert> : ''}
+                </div>
               </Grid>
 
               <Grid container item xs={12}>
@@ -172,6 +207,9 @@ function Edit(props) {
                     onChange={(e) => setLastName(e.target.value)}
                   />
                 </Grid>
+                <div className={classes.errMsg}>
+                  {lastNameErr.length > 0 ? <Alert severity="error">{lastNameErr}</Alert> : ''}
+                </div>
               </Grid>
 
               <Grid container item xs={12}>
@@ -244,6 +282,7 @@ function Edit(props) {
                 <Grid item xs={8}>
                   <InputMask
                     mask="999 999 9999"
+                    defaultValue={'000 000 0000'}
                     value={phoneNumber}
                     disabled={false}
                     maskChar=" "
@@ -259,6 +298,13 @@ function Edit(props) {
                       />
                     )}
                   </InputMask>
+                  <div className={classes.errMsg}>
+                    {phoneNumberErr.length > 0 ? (
+                      <Alert severity="error">{phoneNumberErr}</Alert>
+                    ) : (
+                      ''
+                    )}
+                  </div>
                 </Grid>
               </Grid>
 
@@ -309,7 +355,13 @@ function Edit(props) {
               </Grid>
             </Grid>
             <Box className={classes.box}>
-              <Button type="submit" variant="contained" color="primary" className={classes.saveBtn}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.saveBtn}
+                onClick={handleSubmit}
+              >
                 SAVE
               </Button>
             </Box>

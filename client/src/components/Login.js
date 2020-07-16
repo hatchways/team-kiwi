@@ -46,6 +46,7 @@ function Login(props) {
   const [emailErr, setEmailErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
   const [loginErr, setLoginErr] = useState(false);
+  const [redirect, setRedirect] = useState(null);
 
   const onLoginSubmit = () => {
     const isValid = validate();
@@ -57,16 +58,13 @@ function Login(props) {
         })
         .then((response) => {
           if (response.status === 200) {
-            // update App.js state
-            props.updateUser({
-              loggedIn: true,
-            });
-            // clear form and set the successful switch to true
+            localStorage.setItem('loginToken', response.data.accessToken);
             setEmail('');
             setPassword('');
             setEmailErr('');
             setPasswordErr('');
-            // return <Redirect to="/list" />;
+            setRedirect('/');
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -106,6 +104,7 @@ function Login(props) {
 
   return (
     <div>
+      <Redirect to={{ pathname: redirect }} />
       <Button
         size="large"
         variant="outlined"

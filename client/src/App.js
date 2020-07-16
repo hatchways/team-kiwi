@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { MuiThemeProvider } from '@material-ui/core';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { MuiThemeProvider, Typography } from '@material-ui/core';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { theme } from './themes/theme';
 import Navbar from './components/Navbar';
@@ -22,61 +22,37 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: false,
-      userInfo: null,
+      userId: null,
     };
     this.getUser = this.getUser.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.updateUser = this.updateUser.bind(this);
   }
 
   componentDidMount() {
     this.getUser();
-    console.log(this.state.userInfo);
-  }
-
-  updateUser(userObject) {
-    this.setState(userObject);
   }
 
   getUser() {
     axios.get('/users/').then((response) => {
       if (response.data.user) {
         this.setState({
-          loggedIn: true,
-          userInfo: {
-            id: response.data.user.id,
-            firstName: response.data.user.firstName,
-            lastName: response.data.user.lastName,
-            email: response.data.user.userEmail,
-          },
           userId: response.data.user.id,
-        });
-      } else {
-        this.setState({
-          loggedIn: false,
-          userInfo: null,
         });
       }
     });
   }
 
   render() {
-    return (
+    return this.state.userId ? (
       <MuiThemeProvider theme={theme}>
         <Router>
-          <Navbar
-            updateUser={this.updateUser}
-            loggedIn={this.state.loggedIn}
-            userInfo={this.state.userInfo}
-          />
-
+          <Navbar userID={this.state.userId} />
           <Switch>
             <Route exact path="/">
               <LandingPage />
             </Route>
             <Route exact path="/list">
-              <ListPage userID="5f07d97055aca11393aeda5e" />
+              <ListPage userID={this.state.userId} />
             </Route>
             <Route exact path="/notifications">
               <JobPage />
@@ -94,14 +70,20 @@ class App extends Component {
               <MessagePage />
             </Route>
             <Route path="/profile">
-              {/* <ProfilePage userID={this.state.userId} /> */}
-              <ProfilePage userID="5f07d97055aca11393aeda5e" />
+              <ProfilePage userID={this.state.userId} />
             </Route>
             <Route path="/details" component={SitterDetailPage} />
           </Switch>
         </Router>
-
-        {/* <Route path="/" exact render={(props) => <LoginPage {...props} />} /> */}
+      </MuiThemeProvider>
+    ) : (
+      <MuiThemeProvider theme={theme}>
+        <Router>
+          <Navbar />
+          <Typography component="h1" variant="h1" align="center" gutterBottom>
+            <ListPage />
+          </Typography>
+        </Router>
       </MuiThemeProvider>
     );
   }

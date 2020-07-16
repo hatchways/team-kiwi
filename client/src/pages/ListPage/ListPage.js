@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -24,13 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
   searchButtons: {
     marginTop: theme.spacing(0),
-  },
-  searchContent: {
-    // padding: theme.spacing(5, 0, 6),
-  },
-  cardGrid: {
-    // paddingTop: theme.spacing(4),
-    // paddingBottom: theme.spacing(8),
   },
   card: {
     height: '100%',
