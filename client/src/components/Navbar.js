@@ -10,11 +10,13 @@ import {
   Badge,
   Avatar,
   Grid,
+  Popover,
 } from '@material-ui/core';
 import Login from './Login';
 import SignUp from './SignUp';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import NotificationList from '../pages/NotificationPage/NotificationList';
 
 const useStyles = (theme) => ({
   appBar: {
@@ -44,6 +46,8 @@ function Navbar(props) {
   const [redirect, setRedirect] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [profileImg, setProfileImg] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const logout = (event) => {
     event.preventDefault();
 
@@ -62,6 +66,14 @@ function Navbar(props) {
       });
   };
 
+  const handleNotificationClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleNotificationClose = () => {
+    setAnchorEl(null);
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('loginToken');
     if (token !== null) {
@@ -75,7 +87,8 @@ function Navbar(props) {
 
   const { classes } = props;
   const invisible = false;
-
+  const openNotification = Boolean(anchorEl);
+  const popOverId = openNotification ? 'simple-popover' : undefined;
   return (
     <div>
       {loggedIn ? (
@@ -91,9 +104,23 @@ function Navbar(props) {
               </Button>
 
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/notifications">
-                  Notifications
-                </Button>
+                <Button onClick={handleNotificationClick}>Notifications</Button>
+                <Popover
+                  id={popOverId}
+                  open={openNotification}
+                  anchorEl={anchorEl}
+                  onClose={handleNotificationClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <NotificationList />
+                </Popover>
               </Badge>
               <Button component={Link} to="/jobs" className={classes.link}>
                 My Jobs

@@ -14,7 +14,6 @@ import JobPage from './pages/JobPage/JobPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 
-// import "./App.css";
 export const history = createBrowserHistory();
 
 class App extends Component {
@@ -22,6 +21,7 @@ class App extends Component {
     super();
     this.state = {
       userId: null,
+      openNotification: null,
     };
     this.getUser = this.getUser.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -54,7 +54,7 @@ class App extends Component {
               <ListPage userID={this.state.userId} />
             </Route>
             <Route exact path="/notifications">
-              <JobPage />
+              {/* <NotificationPage /> */}
             </Route>
             <Route exact path="/jobs">
               <JobPage />
