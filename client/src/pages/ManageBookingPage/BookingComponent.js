@@ -154,6 +154,8 @@ export default function BookingComponent(props) {
         if (!response.data.error) {
           handleModalClose();
           setSuccess(true);
+          setStart(modifiedStart);
+          setEnd(modifiedEnd);
         }
       })
       .catch((error) => {

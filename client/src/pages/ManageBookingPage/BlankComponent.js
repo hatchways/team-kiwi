@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BookingComponent(props) {
+export default function BlankComponent(props) {
   const classes = useStyles();
 
   return (
