@@ -99,7 +99,7 @@ function ListPage(props) {
                   <Card className={classes.card} elevation={3}>
                     <Avatar
                       alt="Remy Sharp"
-                      src="/images/profile_1.jpg"
+                      src="/images/profile_3.jpg"
                       className={classes.avatar}
                     />
                     <CardContent className={classes.cardContent}>
@@ -113,10 +113,6 @@ function ListPage(props) {
                       <Button
                         size="small"
                         color="primary"
-                        onClick={() => {
-                          console.log('user ' + props.userID);
-                          console.log('sitter ' + sitter._id);
-                        }}
                         component={Link}
                         to={{ pathname: '/details', userID: props.userID, sitterID: sitter._id }}
                       >

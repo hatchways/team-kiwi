@@ -153,10 +153,6 @@ function Navbar(props) {
             {/* <Link to="/" className={classes.logo}> */}
             <img src="/images/logo.png" alt="" />
             {/* </Link> */}
-
-            <Button component={Link} to="/details">
-              Profile Detail
-            </Button>
             <Button component={Link} to="/list" className={classes.link}>
               list
             </Button>
@@ -166,6 +162,9 @@ function Navbar(props) {
                 Notifications
               </Button>
             </Badge>
+            <Button component={Link} to="/requests" className={classes.link}>
+              My Sitters
+            </Button>
             <Button component={Link} to="/jobs" className={classes.link}>
               My Jobs
             </Button>

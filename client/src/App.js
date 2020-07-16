@@ -13,6 +13,7 @@ import SitterDetailPage from './pages/SitterDetailPage/SitterDetailPage';
 import JobPage from './pages/JobPage/JobPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import ManageBookingPage from './pages/ManageBookingPage/ManageBookingPage';
 
 // import "./App.css";
 export const history = createBrowserHistory();
@@ -79,6 +80,9 @@ class App extends Component {
             </Route>
             <Route exact path="/notifications">
               <JobPage />
+            </Route>
+            <Route exact path="/requests">
+              <ManageBookingPage userID="5f07d97055aca11393aeda5e" />
             </Route>
             <Route exact path="/jobs">
               <JobPage />
