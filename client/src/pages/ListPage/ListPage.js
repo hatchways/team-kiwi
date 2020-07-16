@@ -92,7 +92,7 @@ function ListPage(props) {
                   <Card className={classes.card} elevation={3}>
                     <Avatar
                       alt="Remy Sharp"
-                      src="/images/profile_1.jpg"
+                      src="/images/profile_3.jpg"
                       className={classes.avatar}
                     />
                     <CardContent className={classes.cardContent}>

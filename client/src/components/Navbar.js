@@ -97,6 +97,32 @@ function Navbar(props) {
               </Badge>
               <Button component={Link} to="/jobs" className={classes.link}>
                 My Jobs
+      <div>
+        <CssBaseline />
+        <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            {/* <Link to="/" className={classes.logo}> */}
+            <img src="/images/logo.png" alt="" />
+            {/* </Link> */}
+            <Button component={Link} to="/list" className={classes.link}>
+              list
+            </Button>
+
+            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Button component={Link} to="/notifications">
+                Notifications
+              </Button>
+            </Badge>
+            <Button component={Link} to="/requests" className={classes.link}>
+              My Sitters
+            </Button>
+            <Button component={Link} to="/jobs" className={classes.link}>
+              My Jobs
+            </Button>
+            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Button component={Link} to="/payment">
+                My Payment
+
               </Button>
               <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
                 <Button component={Link} to="/payment">

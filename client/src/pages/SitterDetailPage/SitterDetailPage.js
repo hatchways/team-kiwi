@@ -19,7 +19,7 @@ import axios from 'axios';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import Moment from 'moment-timezone';
+import moment from 'moment';
 import MuiAlert from '@material-ui/lab/Alert';
 
 function Alert(props) {
@@ -87,7 +87,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SitterDetailPage(props) {
+
   var defaultTime = Moment('1200', 'HH:mm').add(1, 'day');
+
+  const dogPics = [
+    {
+      img: '/images/dog_1.jpg',
+      title: 'Dog_1',
+    },
+    {
+      img: '/images/dog_2.jpg',
+      title: 'Dog_2',
+    },
+  ];
+
+  const defaultTime = moment('1200', 'HH:mm').add(1, 'day');
+
   const classes = useStyles();
   const [sitter, setSitter] = useState();
   const [start, setStart] = useState(defaultTime.format('YYYY-MM-DDTHH:mm'));
@@ -97,10 +112,15 @@ function SitterDetailPage(props) {
   const [reqError, setError] = useState(false);
   const [profileImg, setProfileImg] = useState(null);
   const [album, setAlbum] = useState(null);
+  const [sittingCost, setSittingCost] = useState(0);
   const cost = 14;
 
   const handleModalOpen = () => {
-    start < end ? setModalOpen(true) : setError(true);
+    if (start < end) {
+      const rawCost = moment.duration(moment(end).diff(moment(start))).asHours() * cost;
+      setSittingCost(rawCost.toFixed(2));
+      setModalOpen(true);
+    } else setError(true);
   };
 
   const handleModalClose = () => {
@@ -121,6 +141,7 @@ function SitterDetailPage(props) {
       sitter_id: props.location.sitterID,
       start: start,
       end: end,
+      cost: sittingCost,
     };
 
     axios
@@ -139,13 +160,13 @@ function SitterDetailPage(props) {
   useEffect(() => {
     axios.get(`/profile/${props.location.sitterID}`).then(({ data }) => {
       setSitter(data);
-
       if (data.profileImg !== undefined)
         setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
 
       if (data.albumImgs !== undefined) setAlbum(data.albumImgs);
+
     });
-  }, [props.location.userID, props.location.sitterID]);
+  }, [props.location.sitterID]);
 
   return sitter && album ? (
     <Grid container spacing={0} align="center" justify="center" style={{ marginTop: '5%' }}>
@@ -273,9 +294,16 @@ function SitterDetailPage(props) {
                     gutterBottom
                     style={{ marginTop: '35px' }}
                   >
-                    $14/hr
+                    Confirm Request
                   </Typography>
-                  <Rating name="half-rating-read" defaultValue={3.5} precision={0.5} readOnly />
+                  <Typography
+                    variant="h2"
+                    align="center"
+                    gutterBottom
+                    style={{ marginTop: '20px' }}
+                  >
+                    Total Cost : ${sittingCost}
+                  </Typography>
                 </Grid>
                 <Grid style={{ margin: '35px' }}>
                   <Typography

@@ -57,13 +57,13 @@ function CardComponent(props) {
           }
         />
         <CardContent>
-          <Typography variant="h6" align="left" gutterBottom>
+          <Typography variant="h5" align="left" gutterBottom>
             **** **** **** 2445
           </Typography>
-          <Typography variant="h6" align="left" gutterBottom color="theme.palette.text.secondary">
+          <Typography variant="h5" align="left" gutterBottom color="theme.palette.text.secondary">
             Exp. Date 11/24
           </Typography>
-          <Typography variant="h6" align="left" gutterBottom>
+          <Typography variant="h5" align="left" gutterBottom>
             John Doe
           </Typography>
         </CardContent>
