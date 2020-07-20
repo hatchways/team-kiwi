@@ -67,7 +67,7 @@ class App extends Component {
               <ManageJobPage userID={this.state.userId} />
             </Route>
             <Route path="/payment">
-              <PaymentPage />
+              <PaymentPage userID={this.state.userId} />
             </Route>
             <Route path="/messages">
               <MessagePage />

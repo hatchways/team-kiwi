@@ -1,62 +1,313 @@
-import React from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Button } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import {
+  makeStyles,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Divider,
+  Paper,
+  Avatar,
+  TextField,
+  Button,
+  Snackbar,
+} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import axios from 'axios';
+import moment from 'moment';
+import JobComponent from './JobComponent';
+import BlankComponent from './BlankComponent';
 
-const CheckoutForm = ({ success }) => {
-  const stripe = useStripe();
-  const elements = useElements();
+function Alert(props) {
+  return <MuiAlert elevation={7} variant="filled" {...props} />;
+}
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexWrap: 'wrap',
+    width: theme.spacing(50),
+  },
+  list: {
+    width: 400,
+    height: 600,
+    overflow: 'auto',
+  },
+  contents: {
+    padding: theme.spacing(1),
+  },
+  titleTop: {
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1),
+  },
+  title: {
+    marginTop: theme.spacing(2),
+    marginLeft: theme.spacing(1),
+  },
+  jobDetail: {
+    flexWrap: 'wrap',
+    width: 700,
+    height: 600,
+    marginLeft: theme.spacing(5),
+    padding: theme.spacing(1),
+  },
+  avatar: {
+    width: theme.spacing(13),
+    height: theme.spacing(13),
+    marginLeft: theme.spacing(1),
+  },
+  name: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(3),
+  },
+  buttons: {
+    marginTop: theme.spacing(2),
+    '& > *': {
+      width: 140,
+      height: 50,
+      margin: theme.spacing(3),
+    },
+  },
+  notice: {
+    marginLeft: theme.spacing(1),
+    color: theme.palette.text.secondary,
+  },
+}));
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: elements.getElement(CardElement),
+function PaymentPage(props) {
+  const classes = useStyles();
+  const [profileID, setProfileID] = useState();
+  const [bookings, setBookings] = useState([]);
+  const [jobKey, setJobKey] = useState(null);
+  const [jobAccepted, setAccept] = useState(false);
+  const [jobDeclined, setDecline] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`/profile/ref/${props.userID}`)
+      .then(({ data }) => {
+        setProfileID(data._id);
+      })
+      .then(
+        axios.get(`/job/${profileID}`).then(({ data }) => {
+          setBookings(data);
+        })
+      );
+  }, [props.userID, profileID]);
+
+  const handleRequests = () => {
+    const today = moment().format('YYMMDDhhmm');
+    let current = [];
+    let past = [];
+    current.push(
+      <Typography variant="h6" align="left" className={classes.titleTop}>
+        CURRENT JOBS:
+      </Typography>
+    );
+    past.push(
+      <>
+        <Divider style={{ marginTop: '24px' }} />
+        <Typography variant="h6" align="left" className={classes.title}>
+          PAST JOBS:
+        </Typography>
+      </>
+    );
+
+    bookings.forEach((booking, i) => {
+      if (moment(booking.start).format('YYMMDDhhmm') > today) {
+        current.push(<JobComponent booking={booking} jobKey={i} onSubmit={selectJob} />);
+      } else {
+        past.push(<JobComponent booking={booking} jobKey={i} onSubmit={selectJob} />);
+      }
     });
 
-    if (!error) {
-      const { id } = paymentMethod;
+    if (current.length === 1) current.push(<BlankComponent />);
+    if (past.length === 1) past.push(<BlankComponent />);
 
-      try {
-        const { data } = await axios.post('/payment/charge', { id, amount: 2588 });
-        success();
-      } catch {
-        console.log(error);
-      }
-    }
+    return current.concat(past);
   };
 
-  return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto' }}>
-      <h2>Price: $25.88</h2>
-      <CardElement />
-      <Button type="submit" disabled={!stripe}>
-        Pay
-      </Button>
-    </form>
+  const selectJob = (key) => {
+    setJobKey(key);
+  };
+
+  const confirmAccept = (e) => {
+    e.preventDefault();
+    const request = {
+      accepted: true,
+      declined: false,
+    };
+    putConfirmation(request);
+  };
+
+  const confirmDecline = (e) => {
+    e.preventDefault();
+    const request = {
+      accepted: false,
+      declined: true,
+    };
+    putConfirmation(request);
+  };
+
+  const putConfirmation = (request) => {
+    axios
+      .put(`/job/${bookings[jobKey]._id}`, request)
+      .then((res) => {
+        if (!res.data.error) {
+          if (res.data.accepted) {
+            setAccept(true);
+            bookings[jobKey].accepted = true;
+          } else {
+            setDecline(true);
+            bookings[jobKey].declined = true;
+          }
+        }
+      })
+      .catch((error) => {
+        console.log('error: ', error);
+      });
+  };
+
+  const handleMessageClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setAccept(false);
+    setDecline(false);
+  };
+
+  const showDetail = () => {
+    if (jobKey !== null) {
+      return (
+        <>
+          <Typography variant="h6" align="left" className={classes.titleTop}>
+            REQUEST DETAIL:
+          </Typography>
+          <Grid container style={{ marginTop: '3%' }}>
+            <Avatar
+              aria-label="recipe"
+              className={classes.avatar}
+              alt="T"
+              src="/images/profile_3.jpg"
+            />
+            <Typography variant="h1" align="left" className={classes.name}>
+              {bookings[jobKey].ownerProfile[0].firstName}{' '}
+              {bookings[jobKey].ownerProfile[0].lastName}
+            </Typography>
+          </Grid>
+          <Typography
+            variant="h6"
+            align="left"
+            className={classes.titleTop}
+            style={{ marginTop: '4%' }}
+          >
+            SITTNG SCHEDULE:
+          </Typography>
+          <Grid container>
+            <Typography variant="h5" className={classes.titleTop}>
+              {moment(bookings[jobKey].start).format('D MMM YYYY, hh:mmA')} -{' '}
+              {moment(bookings[jobKey].end).format('D MMM YYYY, hh:mmA')}
+            </Typography>
+          </Grid>
+          <Typography
+            variant="h6"
+            align="left"
+            className={classes.titleTop}
+            style={{ marginTop: '4%' }}
+          >
+            SITTNG COST:
+          </Typography>
+          <Grid container>
+            <Typography variant="h5" className={classes.titleTop}>
+              ${bookings[jobKey].cost}
+            </Typography>
+          </Grid>
+          <Typography
+            variant="h6"
+            align="left"
+            className={classes.titleTop}
+            style={{ marginTop: '4%' }}
+          >
+            REQUEST FROM OWNER:
+          </Typography>
+          <Grid container>
+            <TextField
+              disabled
+              id="request"
+              style={{ margin: 0, width: '665px', marginLeft: '1%' }}
+              placeholder="None"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+            />
+          </Grid>
+          <div className={classes.buttons}>
+            {bookings[jobKey].accepted ? (
+              <Button disabled variant="outlined" size="large" color="secondary">
+                Request Accepted
+              </Button>
+            ) : bookings[jobKey].declined ? (
+              <Button disabled variant="outlined" size="large" color="primary">
+                Request Declined
+              </Button>
+            ) : (
+              <>
+                <Button variant="outlined" size="large" color="secondary" onClick={confirmAccept}>
+                  Accept
+                </Button>
+                <Button variant="outlined" size="large" color="primary" onClick={confirmDecline}>
+                  Decline
+                </Button>
+              </>
+            )}
+          </div>
+          <Typography
+            variant="h6"
+            align="left"
+            className={classes.notice}
+            style={{ marginTop: '2%' }}
+          >
+            * Accept / Decline will not be reverted.
+          </Typography>
+        </>
+      );
+    } else
+      return (
+        <Typography variant="h6" align="left" className={classes.titleTop}>
+          SELECT YOUR JOB TO REVIEW
+        </Typography>
+      );
+  };
+
+  return bookings ? (
+    <>
+      <Grid container spacing={0} align="center" justify="center" style={{ marginTop: '1%' }}>
+        <Grid maxwidth="md" className={classes.root}>
+          <Card className={classes.list}>
+            <CardContent className={classes.contents}>{handleRequests()}</CardContent>
+          </Card>
+        </Grid>
+        <div>
+          <Grid container spacing={0} align="center" justify="center">
+            <Paper className={classes.jobDetail}>{showDetail()}</Paper>
+          </Grid>
+        </div>
+      </Grid>
+      <Snackbar open={jobAccepted} autoHideDuration={1500} onClose={handleMessageClose}>
+        <Alert onClose={handleMessageClose} severity="success">
+          Request accepted successfully!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={jobDeclined} autoHideDuration={2000} onClose={handleMessageClose}>
+        <Alert onClose={handleMessageClose} severity="warning">
+          Request declined.. :(
+        </Alert>
+      </Snackbar>
+    </>
+  ) : (
+    <Typography component="h1" variant="h1" align="center" className={classes.search} gutterBottom>
+      Loading...
+    </Typography>
   );
-};
-
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-
-const PaymentPage = () => {
-  const [status, setStatus] = React.useState('');
-
-  if (status === 'success') {
-    return <div>Payment completed!</div>;
-  }
-
-  return (
-    <Elements stripe={stripePromise}>
-      <CheckoutForm
-        success={() => {
-          setStatus('success');
-        }}
-      />
-    </Elements>
-  );
-};
+}
 
 export default PaymentPage;
