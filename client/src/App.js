@@ -60,7 +60,6 @@ class App extends Component {
               <JobPage />
             </Route>
             <Route exact path="/requests">
-              {/* <ManageBookingPage userID="5f07d97055aca11393aeda5e" /> */}
               <ManageRequestPage userID={this.state.userId} />
             </Route>
             <Route exact path="/jobs">

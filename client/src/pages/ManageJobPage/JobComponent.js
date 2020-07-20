@@ -1,46 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import SettingsIcon from '@material-ui/icons/Settings';
-import MuiAlert from '@material-ui/lab/Alert';
+import { Avatar, Card, CardActionArea, CardContent, Typography } from '@material-ui/core';
 import moment from 'moment';
-import {
-  Avatar,
-  Card,
-  CardHeader,
-  CardActions,
-  CardActionArea,
-  CardContent,
-  Grid,
-  TextField,
-  Button,
-  ButtonBase,
-  Snackbar,
-  IconButton,
-  Typography,
-  Modal,
-  Backdrop,
-  Fade,
-} from '@material-ui/core';
-import axios from 'axios';
-import CardMedia from '@material-ui/core/CardMedia';
-
-function Alert(props) {
-  return <MuiAlert elevation={7} variant="filled" {...props} />;
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 360,
     height: 125,
     marginTop: theme.spacing(1),
-  },
-  button: {
-    // width: 358,
-    // height: 123,
-    // padding: 0,
-    // flexDirection: 'row',
-    // display: 'flex',
   },
   header: {
     marginTop: theme.spacing(0),
