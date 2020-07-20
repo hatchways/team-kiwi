@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function BookingComponent(props) {
+export default function RequestComponent(props) {
   const classes = useStyles();
   const [accepted, setAccepted] = useState();
   const [declined, setDeclined] = useState();
@@ -90,6 +90,7 @@ export default function BookingComponent(props) {
   const [modalOpen, setModalOpen] = useState(false);
   const [reqSuccess, setSuccess] = useState(false);
   const [reqError, setError] = useState(false);
+  const cost = 14;
 
   useEffect(() => {
     setAccepted(props.booking.accepted);
@@ -143,9 +144,13 @@ export default function BookingComponent(props) {
       setError(true);
       return;
     }
+    const rawCost =
+      moment.duration(moment(modifiedEnd).diff(moment(modifiedStart))).asHours() * cost;
+
     const request = {
       start: modifiedStart,
       end: modifiedEnd,
+      cost: rawCost.toFixed(2),
     };
 
     await axios
@@ -164,32 +169,37 @@ export default function BookingComponent(props) {
   };
 
   return (
-    <Card className={classes.root} variant="outlined">
-      <CardContent className={classes.header}>
-        <Typography variant="body" className={classes.date}>
-          {handleDate()}
-        </Typography>
-        {!props.closed && (
-          <IconButton aria-label="settings" className={classes.settings} onClick={handleModalOpen}>
-            <SettingsIcon />
-          </IconButton>
-        )}
-      </CardContent>
-      <CardContent className={classes.contents}>
-        <Avatar
-          aria-label="recipe"
-          className={classes.avatar}
-          alt="T"
-          src="/images/profile_3.jpg"
-        />
-        <Typography variant="h6" className={classes.name} gutterBottom>
-          {fullName}
-        </Typography>
-        <Typography variant="h6" className={classes.status} gutterBottom>
-          {handleStatus()}
-        </Typography>
-      </CardContent>
-
+    <>
+      <Card className={classes.root} variant="outlined">
+        <CardContent className={classes.header}>
+          <Typography variant="body" className={classes.date}>
+            {handleDate()}
+          </Typography>
+          {!props.closed && (
+            <IconButton
+              aria-label="settings"
+              className={classes.settings}
+              onClick={handleModalOpen}
+            >
+              <SettingsIcon />
+            </IconButton>
+          )}
+        </CardContent>
+        <CardContent className={classes.contents}>
+          <Avatar
+            aria-label="recipe"
+            className={classes.avatar}
+            alt="T"
+            src="/images/profile_3.jpg"
+          />
+          <Typography variant="h6" className={classes.name} gutterBottom>
+            {fullName}
+          </Typography>
+          <Typography variant="h6" className={classes.status} gutterBottom>
+            {handleStatus()}
+          </Typography>
+        </CardContent>
+      </Card>
       <Modal
         className={classes.modal}
         open={modalOpen}
@@ -279,6 +289,6 @@ export default function BookingComponent(props) {
           Please check request dates and time.
         </Alert>
       </Snackbar>
-    </Card>
+    </>
   );
 }

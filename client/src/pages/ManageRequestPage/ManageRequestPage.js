@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, Typography, Grid, Card, CardContent } from '@material-ui/core';
+import { makeStyles, Typography, Grid, Card, CardContent, Divider } from '@material-ui/core';
 import axios from 'axios';
 import moment from 'moment';
 import Calendar from './Calendar';
-import BookingComponent from './BookingComponent';
+import RequestComponent from './RequestComponent';
 import BlankComponent from './BlankComponent';
 
 const useStyles = makeStyles((theme) => ({
@@ -13,11 +13,15 @@ const useStyles = makeStyles((theme) => ({
   },
   list: {
     width: 400,
-    height: 700,
+    height: 600,
     overflow: 'auto',
   },
   contents: {
     padding: theme.spacing(1),
+  },
+  titleTop: {
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1),
   },
   title: {
     marginTop: theme.spacing(2),
@@ -31,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ManageBookingPage(props) {
+function ManageRequestPage(props) {
   const classes = useStyles();
   const [bookings, setBookings] = useState([]);
 
@@ -41,26 +45,29 @@ function ManageBookingPage(props) {
     });
   }, [props.userID]);
 
-  const handleBookings = () => {
+  const handleRequests = () => {
     const today = moment().format('YYMMDDhhmm');
     let current = [];
     let past = [];
     current.push(
-      <Typography variant="h6" align="left" className={classes.title}>
+      <Typography variant="h6" align="left" className={classes.titleTop}>
         CURRENT BOOKINGS:
       </Typography>
     );
     past.push(
-      <Typography variant="h6" align="left" className={classes.title}>
-        PAST BOOKINGS:
-      </Typography>
+      <>
+        <Divider style={{ marginTop: '24px' }} />
+        <Typography variant="h6" align="left" className={classes.title}>
+          PAST BOOKINGS:
+        </Typography>
+      </>
     );
 
     bookings.forEach((booking) => {
       if (moment(booking.start).format('YYMMDDhhmm') > today) {
-        current.push(<BookingComponent booking={booking} closed={false} />);
+        current.push(<RequestComponent booking={booking} closed={false} />);
       } else {
-        past.push(<BookingComponent booking={booking} closed={true} />);
+        past.push(<RequestComponent booking={booking} closed={true} />);
       }
     });
 
@@ -71,13 +78,13 @@ function ManageBookingPage(props) {
   };
 
   return bookings ? (
-    <Grid container spacing={0} align="center" justify="center" style={{ marginTop: '2%' }}>
+    <Grid container spacing={0} align="center" justify="center" style={{ marginTop: '1%' }}>
       <Grid maxwidth="md" className={classes.root}>
         <Card className={classes.list}>
-          <CardContent className={classes.contents}>{handleBookings()}</CardContent>
+          <CardContent className={classes.contents}>{handleRequests()}</CardContent>
         </Card>
       </Grid>
-      <Card className={classes.calendar} elevation={5}>
+      <Card className={classes.calendar}>
         <Calendar />
       </Card>
     </Grid>
@@ -88,4 +95,4 @@ function ManageBookingPage(props) {
   );
 }
 
-export default ManageBookingPage;
+export default ManageRequestPage;
