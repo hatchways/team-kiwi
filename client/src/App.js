@@ -13,7 +13,8 @@ import SitterDetailPage from './pages/SitterDetailPage/SitterDetailPage';
 import JobPage from './pages/JobPage/JobPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
-import ManageBookingPage from './pages/ManageBookingPage/ManageBookingPage';
+import ManageRequestPage from './pages/ManageRequestPage/ManageRequestPage';
+import ManageJobPage from './pages/ManageJobPage/ManageJobPage';
 
 // import "./App.css";
 export const history = createBrowserHistory();
@@ -43,7 +44,8 @@ class App extends Component {
   }
 
   render() {
-    return this.state.userId ? (
+    // return this.state.userId ? (
+    return (
       <MuiThemeProvider theme={theme}>
         <Router>
           <Navbar userID={this.state.userId} />
@@ -58,13 +60,13 @@ class App extends Component {
               <JobPage />
             </Route>
             <Route exact path="/requests">
-              <ManageBookingPage userID="5f07d97055aca11393aeda5e" />
+              <ManageRequestPage userID={this.state.userId} />
             </Route>
             <Route exact path="/jobs">
-              <JobPage />
+              <ManageJobPage userID={this.state.userId} />
             </Route>
             <Route path="/payment">
-              <PaymentPage />
+              <PaymentPage userID={this.state.userId} />
             </Route>
             <Route path="/messages">
               <MessagePage />
@@ -76,15 +78,16 @@ class App extends Component {
           </Switch>
         </Router>
       </MuiThemeProvider>
-    ) : (
-      <MuiThemeProvider theme={theme}>
-        <Router>
-          <Navbar />
-          <Typography component="h1" variant="h1" align="center" gutterBottom>
-            <ListPage />
-          </Typography>
-        </Router>
-      </MuiThemeProvider>
+      // )
+      // : (
+      //   <MuiThemeProvider theme={theme}>
+      //     <Router>
+      //       <Navbar />
+      //       <Typography component="h1" variant="h1" align="center" gutterBottom>
+      //         <ListPage />
+      //       </Typography>
+      //     </Router>
+      //   </MuiThemeProvider>
     );
   }
 }

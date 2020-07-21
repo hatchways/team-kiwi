@@ -87,7 +87,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SitterDetailPage(props) {
-
   const dogPics = [
     {
       img: '/images/dog_1.jpg',
@@ -162,7 +161,6 @@ function SitterDetailPage(props) {
         setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
 
       if (data.albumImgs !== undefined) setAlbum(data.albumImgs);
-
     });
   }, [props.location.sitterID]);
 

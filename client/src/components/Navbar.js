@@ -67,7 +67,8 @@ function Navbar(props) {
     if (token !== null) {
       setRedirect('/');
       axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
-        setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
+        if (data.profileImg)
+          setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
       });
       setLoggedIn(true);
     }
@@ -76,102 +77,75 @@ function Navbar(props) {
   const { classes } = props;
   const invisible = false;
 
-  return (
+  return loggedIn ? (
+    <>
+      <CssBaseline />
+      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+        <Toolbar className={classes.toolbar}>
+          {/* <Link to="/" className={classes.logo}> */}
+          <img src="/images/logo.png" alt="" />
+          {/* </Link> */}
+          <Button component={Link} to="/list" className={classes.link}>
+            list
+          </Button>
+
+          <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+            <Button component={Link} to="/notifications">
+              Notifications
+            </Button>
+          </Badge>
+          <Button component={Link} to="/requests" className={classes.link}>
+            My Sitters
+          </Button>
+          <Button component={Link} to="/jobs" className={classes.link}>
+            My Jobs
+          </Button>
+          <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+            <Button component={Link} to="/payment">
+              My Payment
+            </Button>
+          </Badge>
+          <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+            <Button component={Link} to="/messages">
+              Messages
+            </Button>
+          </Badge>
+
+          <Button component={Link} to="#" onClick={logout}>
+            logout
+          </Button>
+
+          <Avatar
+            alt="Remy Sharp"
+            src={profileImg}
+            component={Link}
+            to="/profile"
+            className={classes.avatar}
+          />
+        </Toolbar>
+      </AppBar>
+    </>
+  ) : (
     <div>
-      {loggedIn ? (
-        <>
-          <CssBaseline />
-          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-            <Toolbar className={classes.toolbar}>
-              <Link to="/list">
-                <img src="/images/logo.png" alt="" />
-              </Link>
-              <Button component={Link} to="/list" className={classes.link}>
-                list
-              </Button>
+      <Redirect to={{ pathname: redirect }} />
+      <AppBar position="static" color="default">
+        <Toolbar>
+          <img src="/images/logo.png" alt="" />
+          <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
+            <Link
+              href="#"
+              color="inherit"
+              underline="always"
+              style={{ marginRight: '35px', fontWeight: '700' }}
+            >
+              BECOME A SITTER
+            </Link>
 
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/notifications">
-                  Notifications
-                </Button>
-              </Badge>
-              <Button component={Link} to="/jobs" className={classes.link}>
-                My Jobs
-      <div>
-        <CssBaseline />
-        <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-          <Toolbar className={classes.toolbar}>
-            {/* <Link to="/" className={classes.logo}> */}
-            <img src="/images/logo.png" alt="" />
-            {/* </Link> */}
-            <Button component={Link} to="/list" className={classes.link}>
-              list
-            </Button>
-
-            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-              <Button component={Link} to="/notifications">
-                Notifications
-              </Button>
-            </Badge>
-            <Button component={Link} to="/requests" className={classes.link}>
-              My Sitters
-            </Button>
-            <Button component={Link} to="/jobs" className={classes.link}>
-              My Jobs
-            </Button>
-            <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-              <Button component={Link} to="/payment">
-                My Payment
-
-              </Button>
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/payment">
-                  My Payment
-                </Button>
-              </Badge>
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
-                <Button component={Link} to="/messages">
-                  Messages
-                </Button>
-              </Badge>
-
-              <Button component={Link} to="#" onClick={logout}>
-                logout
-              </Button>
-
-              <Avatar
-                alt="Remy Sharp"
-                src={profileImg}
-                component={Link}
-                to="/profile"
-                className={classes.avatar}
-              />
-            </Toolbar>
-          </AppBar>
-        </>
-      ) : (
-        <div>
-          <Redirect to={{ pathname: redirect }} />
-          <AppBar position="static" color="default">
-            <Toolbar>
-              <img src="/images/logo.png" alt="" />
-              <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
-                <Link
-                  href="#"
-                  color="inherit"
-                  underline="always"
-                  style={{ marginRight: '35px', fontWeight: '700' }}
-                >
-                  BECOME A SITTER
-                </Link>
-
-                <Login />
-                <SignUp />
-              </Grid>
-            </Toolbar>
-          </AppBar>
-        </div>
-      )}
+            <Login />
+            <SignUp />
+          </Grid>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 }

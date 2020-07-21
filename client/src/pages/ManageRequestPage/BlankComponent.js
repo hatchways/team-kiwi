@@ -11,12 +11,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   contents: {
-    padding: theme.spacing(0.5),
-  },
-  name: {
-    float: 'left',
-    marginLeft: theme.spacing(1),
-    padding: theme.spacing(1.5),
+    align: 'center',
+    marginTop: theme.spacing(4),
   },
 }));
 
@@ -26,7 +22,7 @@ export default function BlankComponent(props) {
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent className={classes.contents}>
-        <Typography variant="h6" className={classes.name} gutterBottom>
+        <Typography variant="h6" gutterBottom>
           No bookings..
         </Typography>
       </CardContent>
