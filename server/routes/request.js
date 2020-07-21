@@ -16,22 +16,36 @@ router.post('/add', (req, res) => {
   });
 });
 
-// Display all requests
-router.get('/', (req, res) => {
-  Request.find({}, (err, request) => {
-    if (err) {
-      res.status(404).send('No requests were found!');
-    } else {
-      res.status(200).send(request);
-    }
-  });
-});
-
 // Display all requests by UserID
 router.get('/:id', (req, res) => {
   Request.aggregate(
     [
       { $match: { user_id: ObjectId(req.params.id) } },
+      { $sort: { start: 1, end: 1 } },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: 'sitter_id',
+          foreignField: '_id',
+          as: 'sitterProfile',
+        },
+      },
+    ],
+    (err, request) => {
+      if (err) {
+        res.status(404).send('Requests not found!');
+      } else {
+        res.status(200).send(request);
+      }
+    }
+  );
+});
+
+// Display accepted requests by UserID
+router.get('/accepted/:id', (req, res) => {
+  Request.aggregate(
+    [
+      { $match: { user_id: ObjectId(req.params.id), accepted: true } },
       { $sort: { start: 1, end: 1 } },
       {
         $lookup: {
@@ -53,7 +67,7 @@ router.get('/:id', (req, res) => {
   );
 });
 
-// Display a specific request by requestID
+//Display a specific request by requestID
 router.get('/ref/:id', (req, res) => {
   Request.findOne({ _id: req.params.id }, (err, request) => {
     if (err) {
@@ -68,7 +82,6 @@ router.get('/ref/:id', (req, res) => {
 router.put('/:id', async (req, res) => {
   await Request.findOne({ _id: req.params.id }, (err, foundRequest) => {
     if (err) {
-      console.log(err);
       res.status(500).send();
     } else {
       if (!foundRequest) {
@@ -80,7 +93,6 @@ router.put('/:id', async (req, res) => {
         foundRequest.cost = cost;
         foundRequest.save(function (err, savedRequest) {
           if (err) {
-            console.log(err);
           } else {
             res.status(200).send(savedRequest);
           }

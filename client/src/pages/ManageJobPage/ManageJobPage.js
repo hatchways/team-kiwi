@@ -169,10 +169,10 @@ function ManageJobPage(props) {
 
   const handleMessageClose = (event, reason) => {
     if (reason === 'clickaway') {
+      setAccept(false);
+      setDecline(false);
       return;
     }
-    setAccept(false);
-    setDecline(false);
   };
 
   const showDetail = () => {
