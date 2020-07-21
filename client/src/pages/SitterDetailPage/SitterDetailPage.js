@@ -88,8 +88,6 @@ const useStyles = makeStyles((theme) => ({
 
 function SitterDetailPage(props) {
 
-  var defaultTime = Moment('1200', 'HH:mm').add(1, 'day');
-
   const dogPics = [
     {
       img: '/images/dog_1.jpg',
