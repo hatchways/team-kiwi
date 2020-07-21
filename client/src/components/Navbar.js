@@ -202,7 +202,7 @@ function Navbar(props) {
           </AppBar>
         </div>
       )}
-    </div>
+</div>
   );
 }
 

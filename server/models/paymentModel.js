@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const PaymentSchema = {
-  username: { type: String, unique: true, trim: true },
+  request_id: { type: Schema.Types.ObjectId, required: true },
   amount: { type: Number },
-  closed: { type: Boolean },
   created_date: { type: Date, default: Date.now },
 };
 
