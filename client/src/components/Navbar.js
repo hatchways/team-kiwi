@@ -146,6 +146,9 @@ function Navbar(props) {
               <Button component={Link} to="/jobs" className={classes.link}>
                 My Jobs
               </Button>
+              <Button component={Link} to="/requests" className={classes.link}>
+                My Sitters
+              </Button>
               <Badge
                 color="secondary"
                 variant="dot"
@@ -202,7 +205,7 @@ function Navbar(props) {
           </AppBar>
         </div>
       )}
-</div>
+    </div>
   );
 }
 
