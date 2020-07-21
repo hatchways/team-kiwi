@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
 const useStyles = (theme) => ({
   form: {
@@ -50,7 +49,6 @@ function SignUp(props) {
   const [passwordErr, setPasswordErr] = useState('');
   const [onSuccesful, setOnSuccesful] = useState(false);
   const [existEmailErr, setExistEmailErr] = useState(false);
-  const [redirect, setRedirect] = useState(null);
 
   const handleSubmit = (e) => {
     const isValid = validate();
@@ -73,11 +71,9 @@ function SignUp(props) {
             setOpen(false);
             setOnSuccesful(true);
             setExistEmailErr(false);
-            setRedirect('/');
           } else {
             // if the email is already exist in the database.
             setExistEmailErr(true);
-            setRedirect(null);
           }
         })
         .catch((error) => {
@@ -121,133 +117,127 @@ function SignUp(props) {
   };
 
   const { classes } = props;
-  if (redirect) {
-    return (
-      <>
-        <Redirect to={{ pathname: redirect }} />
-        {/* once everthing entered successfully, popup snackbar */}
-        <Snackbar open={onSuccesful} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-          <Alert onClose={handleCloseSnackbar} severity="success">
-            Successfully Signed up!
-          </Alert>
-        </Snackbar>
-      </>
-    );
-  } else {
-    return (
-      <div>
-        <Button size="large" variant="contained" color="secondary" onClick={() => setOpen(!open)}>
-          SIGN UP
-        </Button>
-        <Dialog
-          fullWidth={true}
-          maxWidth="md"
-          open={open}
-          onClose={() => setOpen(!open)}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title" className={classes.title}>
-            <Typography variant="h4">Sign Up</Typography>
-          </DialogTitle>
-          <DialogContent>
-            <form className={classes.form}>
-              <DialogContent className={classes.textFieldContainer}>
-                <InputLabel color="secondary" required={true} className={classes.inputLabel}>
-                  EMAIL ADDRESS
-                </InputLabel>
-                <TextField
-                  autoFocus
-                  fullWidth
-                  margin="dense"
-                  id="email"
-                  placeholder="Your Email"
-                  type="email"
-                  variant="outlined"
-                  color="secondary"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                <div className={classes.errMsg}>
-                  {emailErr.length > 0 ? <Alert severity="error">{emailErr}</Alert> : ''}
-                </div>
-                <br />
-                <InputLabel color="secondary" className={classes.inputLabel}>
-                  FIRST NAME
-                </InputLabel>
-                <TextField
-                  fullWidth
-                  margin="dense"
-                  id="firstName"
-                  placeholder="Your first name"
-                  type="firstName"
-                  variant="outlined"
-                  color="secondary"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-                <div className={classes.errMsg}>
-                  {nameErr.length > 0 ? <Alert severity="error">{nameErr}</Alert> : ''}
-                </div>
-                <br />
-                <InputLabel color="secondary" className={classes.inputLabel}>
-                  LAST NAME
-                </InputLabel>
-                <TextField
-                  fullWidth
-                  margin="dense"
-                  id="lastName"
-                  placeholder="Your last name"
-                  type="lastName"
-                  variant="outlined"
-                  color="secondary"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-                <div className={classes.errMsg}>
-                  {nameErr.length > 0 ? <Alert severity="error">{nameErr}</Alert> : ''}
-                </div>
-                <br />
-                <InputLabel color="secondary" className={classes.inputLabel}>
-                  PASSWORD
-                </InputLabel>
-                <TextField
-                  fullWidth
-                  margin="dense"
-                  id="password"
-                  placeholder="Create a password"
-                  type="password"
-                  variant="outlined"
-                  color="secondary"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <div className={classes.errMsg}>
-                  {passwordErr.length > 0 ? <Alert severity="error">{passwordErr}</Alert> : ''}
-                </div>
-              </DialogContent>
-            </form>
-          </DialogContent>
-          <DialogActions className={classes.form}>
-            <Button variant="contained" color="secondary" size="large" onClick={handleSubmit}>
-              Sign Up
-            </Button>
-            <DialogContentText className={classes.inputLabel}>
-              Already a member?{' '}
-              <Link href="#" color="secondary">
-                Login
-              </Link>
-            </DialogContentText>
-          </DialogActions>
-        </Dialog>
 
-        {/* If user entered already exist email */}
-        <Snackbar open={existEmailErr} autoHideDuration={3000} onClose={handleCloseSnackbar}>
-          <Alert onClose={handleCloseSnackbar} severity="error">
-            Entered email is already exist!
-          </Alert>
-        </Snackbar>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Button size="large" variant="contained" color="secondary" onClick={() => setOpen(!open)}>
+        SIGN UP
+      </Button>
+      <Dialog
+        fullWidth={true}
+        maxWidth="md"
+        open={open}
+        onClose={() => setOpen(!open)}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title" className={classes.title}>
+          <Typography variant="h4">Sign Up</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <form className={classes.form}>
+            <DialogContent className={classes.textFieldContainer}>
+              <InputLabel color="secondary" required={true} className={classes.inputLabel}>
+                EMAIL ADDRESS
+              </InputLabel>
+              <TextField
+                autoFocus
+                fullWidth
+                margin="dense"
+                id="email"
+                placeholder="Your Email"
+                type="email"
+                variant="outlined"
+                color="secondary"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <div className={classes.errMsg}>
+                {emailErr.length > 0 ? <Alert severity="error">{emailErr}</Alert> : ''}
+              </div>
+              <br />
+              <InputLabel color="secondary" className={classes.inputLabel}>
+                FIRST NAME
+              </InputLabel>
+              <TextField
+                fullWidth
+                margin="dense"
+                id="firstName"
+                placeholder="Your first name"
+                type="firstName"
+                variant="outlined"
+                color="secondary"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              <div className={classes.errMsg}>
+                {nameErr.length > 0 ? <Alert severity="error">{nameErr}</Alert> : ''}
+              </div>
+              <br />
+              <InputLabel color="secondary" className={classes.inputLabel}>
+                LAST NAME
+              </InputLabel>
+              <TextField
+                fullWidth
+                margin="dense"
+                id="lastName"
+                placeholder="Your last name"
+                type="lastName"
+                variant="outlined"
+                color="secondary"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+              <div className={classes.errMsg}>
+                {nameErr.length > 0 ? <Alert severity="error">{nameErr}</Alert> : ''}
+              </div>
+              <br />
+              <InputLabel color="secondary" className={classes.inputLabel}>
+                PASSWORD
+              </InputLabel>
+              <TextField
+                fullWidth
+                margin="dense"
+                id="password"
+                placeholder="Create a password"
+                type="password"
+                variant="outlined"
+                color="secondary"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <div className={classes.errMsg}>
+                {passwordErr.length > 0 ? <Alert severity="error">{passwordErr}</Alert> : ''}
+              </div>
+            </DialogContent>
+          </form>
+        </DialogContent>
+        <DialogActions className={classes.form}>
+          <Button variant="contained" color="secondary" size="large" onClick={handleSubmit}>
+            Sign Up
+          </Button>
+          <DialogContentText className={classes.inputLabel}>
+            Already a member?{' '}
+            <Link href="#" color="secondary">
+              Login
+            </Link>
+          </DialogContentText>
+        </DialogActions>
+      </Dialog>
+
+      {/* If user entered already exist email */}
+      <Snackbar open={existEmailErr} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          Entered email is already exist!
+        </Alert>
+      </Snackbar>
+
+      {/* once everthing entered successfully, popup snackbar */}
+      <Snackbar open={onSuccesful} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="success">
+          Successfully Signed up!
+        </Alert>
+      </Snackbar>
+    </div>
+  );
 }
 export default withStyles(useStyles)(SignUp);

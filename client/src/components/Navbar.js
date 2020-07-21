@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,
-  Typography,
   Toolbar,
   CssBaseline,
   Button,
@@ -15,8 +14,9 @@ import {
 import Login from './Login';
 import SignUp from './SignUp';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 import NotificationList from '../pages/NotificationPage/NotificationList';
+import socketIOClient from 'socket.io-client';
+import history from '../history';
 
 const useStyles = (theme) => ({
   appBar: {
@@ -43,22 +43,19 @@ const useStyles = (theme) => ({
 });
 
 function Navbar(props) {
-  const [redirect, setRedirect] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [profileImg, setProfileImg] = useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [badgeInVisible, setBadgeInVisible] = useState(true);
   const logout = (event) => {
-    event.preventDefault();
-
     axios
       .post('/users/logout')
       .then((response) => {
         if (response.status === 200) {
           setLoggedIn(false);
+          history.push('/');
           localStorage.clear();
-          setRedirect('/');
-          window.location.reload();
         }
       })
       .catch((error) => {
@@ -77,16 +74,35 @@ function Navbar(props) {
   useEffect(() => {
     const token = localStorage.getItem('loginToken');
     if (token !== null) {
-      setRedirect('/');
       axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
-        setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
+        setProfileImg(`${process.env.REACT_APP_S3_IMAGE_URL + data.profileImg}`);
+
+        // If current user is on Sitter//
+        // Get available requests by using current sitter ID
+        axios.get(`/request/getSitterRequest/5f12210308f7260dab867b09`).then(({ data }) => {
+          if (data !== null) {
+            // you have request
+            // connect to IO
+            var socket = socketIOClient(process.env.REACT_APP_SOCKET_IO_SERVER);
+            if (socket !== undefined) {
+              socket.emit('getRequest', data);
+              socket.on('requestsFromOwner', function (requests) {
+                if (requests !== null) {
+                  setBadgeInVisible(false);
+                  for (let i = 0; i < requests.length; i++) {
+                    setNotifications((notification) => [...notification, requests[i]]);
+                  }
+                }
+              });
+            }
+          }
+        });
+        setLoggedIn(true);
       });
-      setLoggedIn(true);
     }
   }, [props.userID]);
 
   const { classes } = props;
-  const invisible = false;
   const openNotification = Boolean(anchorEl);
   const popOverId = openNotification ? 'simple-popover' : undefined;
   return (
@@ -103,7 +119,12 @@ function Navbar(props) {
                 list
               </Button>
 
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Badge
+                color="secondary"
+                variant="dot"
+                invisible={badgeInVisible}
+                className={classes.link}
+              >
                 <Button onClick={handleNotificationClick}>Notifications</Button>
                 <Popover
                   id={popOverId}
@@ -119,24 +140,34 @@ function Navbar(props) {
                     horizontal: 'center',
                   }}
                 >
-                  <NotificationList />
+                  <NotificationList notifications={notifications} />
                 </Popover>
               </Badge>
               <Button component={Link} to="/jobs" className={classes.link}>
                 My Jobs
               </Button>
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Badge
+                color="secondary"
+                variant="dot"
+                invisible={badgeInVisible}
+                className={classes.link}
+              >
                 <Button component={Link} to="/payment">
                   My Payment
                 </Button>
               </Badge>
-              <Badge color="secondary" variant="dot" invisible={invisible} className={classes.link}>
+              <Badge
+                color="secondary"
+                variant="dot"
+                invisible={badgeInVisible}
+                className={classes.link}
+              >
                 <Button component={Link} to="/messages">
                   Messages
                 </Button>
               </Badge>
 
-              <Button component={Link} to="#" onClick={logout}>
+              <Button component={Link} to="/" onClick={logout}>
                 logout
               </Button>
 
@@ -152,7 +183,6 @@ function Navbar(props) {
         </>
       ) : (
         <div>
-          <Redirect to={{ pathname: redirect }} />
           <AppBar position="static" color="default">
             <Toolbar>
               <img src="/images/logo.png" alt="" />
@@ -165,7 +195,6 @@ function Navbar(props) {
                 >
                   BECOME A SITTER
                 </Link>
-
                 <Login />
                 <SignUp />
               </Grid>

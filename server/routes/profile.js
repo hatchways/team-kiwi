@@ -59,8 +59,8 @@ router.put('/uploadAlbum/:id', uploadAlbum, (req, res) => {
     res.status(400).send('uploaded file is empty');
   } else {
     files.forEach((file) => {
-      let uploadedImg = file.originalname.split('.'); // filename without the file type
-      let fileType = uploadedImg[uploadedImg.length - 1]; // file type
+      let uploadedImg = file.originalname.split('.');
+      let fileType = uploadedImg[uploadedImg.length - 1];
 
       const params = {
         Bucket: process.env.AWS_BUCKET_NAME,

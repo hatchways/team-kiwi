@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import history from '../history';
 import {
   withStyles,
   InputLabel,
@@ -46,9 +46,8 @@ function Login(props) {
   const [emailErr, setEmailErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
   const [loginErr, setLoginErr] = useState(false);
-  const [redirect, setRedirect] = useState(null);
 
-  const onLoginSubmit = () => {
+  const onLoginSubmit = (event) => {
     const isValid = validate();
     if (isValid) {
       axios
@@ -63,7 +62,7 @@ function Login(props) {
             setPassword('');
             setEmailErr('');
             setPasswordErr('');
-            setRedirect('/');
+            history.push('/list');
             window.location.reload();
           }
         })
@@ -103,8 +102,7 @@ function Login(props) {
   const { classes } = props;
 
   return (
-    <div>
-      <Redirect to={{ pathname: redirect }} />
+    <form>
       <Button
         size="large"
         variant="outlined"
@@ -171,6 +169,8 @@ function Login(props) {
             variant="contained"
             color="secondary"
             size="large"
+            component={Link}
+            to="/list"
             onClick={onLoginSubmit}
             style={{ marginTop: '20px' }}
           >
@@ -190,7 +190,7 @@ function Login(props) {
           Incorrect Email or Password!
         </Alert>
       </Snackbar>
-    </div>
+    </form>
   );
 }
 

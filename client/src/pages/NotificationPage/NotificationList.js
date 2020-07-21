@@ -19,11 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NotificationList() {
+export default function NotificationList(props) {
   const classes = useStyles();
 
   const notificationList = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < props.notifications.length; i++) {
     notificationList.push(
       <>
         <ListItem key={i} alignItems="flex-start">
@@ -31,7 +31,7 @@ export default function NotificationList() {
             <Avatar alt="Remy Sharp" src="/images/profile_1.jpg" />
           </ListItemAvatar>
           <ListItemText
-            primary="Marry has requested your service for 2 hours"
+            primary={`${props.notifications[i]} has requested your service for 2 hours`}
             secondary={
               <Fragment>
                 <Typography variant="body2">Dog sitting</Typography>
