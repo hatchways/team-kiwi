@@ -88,7 +88,7 @@ function Photo(props) {
             setFile('');
             setFileName('');
             setOnSuccesful(true);
-            window.location.reload();
+            // window.location.reload();
           }
         })
         .catch((error) => {

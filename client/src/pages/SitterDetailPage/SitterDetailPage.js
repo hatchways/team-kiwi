@@ -156,11 +156,18 @@ function SitterDetailPage(props) {
 
   useEffect(() => {
     axios.get(`/profile/${props.location.sitterID}`).then(({ data }) => {
+      console.log(props.location.sitterID);
       setSitter(data);
-      if (data.profileImg !== undefined)
-        setProfileImg(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${data.profileImg}`);
-
-      if (data.albumImgs !== undefined) setAlbum(data.albumImgs);
+      if (data.profileImg !== undefined) {
+        setProfileImg(`${process.env.REACT_APP_S3_IMAGE_URL + data.profileImg}`);
+      } else {
+        setProfileImg('N/A');
+      }
+      if (data.albumImgs !== undefined) {
+        setAlbum(data.albumImgs);
+      } else {
+        setAlbum([]);
+      }
     });
   }, [props.location.sitterID]);
 
@@ -208,10 +215,7 @@ function SitterDetailPage(props) {
             <GridList className={classes.gridList} cols={4} spacing={10}>
               {album.map((pic) => (
                 <GridListTile key={pic} style={{ marginBottom: '25px' }}>
-                  <img
-                    src={`https://team-kiwi.s3.ca-central-1.amazonaws.com/${pic}`}
-                    alt={'albumImg'}
-                  />
+                  <img src={`${process.env.REACT_APP_S3_IMAGE_URL + pic}`} alt={'albumImg'} />
                 </GridListTile>
               ))}
             </GridList>

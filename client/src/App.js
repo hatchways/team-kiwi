@@ -41,36 +41,34 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-        <Router>
-          <Navbar userID={this.state.userId} />
-          <Switch>
-            <Route exact path="/">
-              <LandingPage />
-            </Route>
-            <Route exact path="/list">
-              <ListPage userID={this.state.userId} />
-            </Route>
-            <Route exact path="/notifications">
-              <JobPage />
-            </Route>
-            <Route exact path="/requests">
-              <ManageRequestPage userID={this.state.userId} />
-            </Route>
-            <Route exact path="/jobs">
-              <ManageJobPage userID={this.state.userId} />
-            </Route>
-            <Route path="/payment">
-              <PaymentPage userID={this.state.userId} />
-            </Route>
-            <Route path="/messages">
-              <MessagePage />
-            </Route>
-            <Route path="/profile">
-              <ProfilePage userID={this.state.userId} />
-            </Route>
-            <Route path="/details" component={SitterDetailPage} />
-          </Switch>
-        </Router>
+        <Navbar userID={this.state.userId} />
+        <Switch>
+          <Route exact path="/">
+            <LandingPage />
+          </Route>
+          <Route exact path="/list">
+            <ListPage userID={this.state.userId} />
+          </Route>
+          <Route exact path="/notifications">
+            <JobPage />
+          </Route>
+          <Route exact path="/requests">
+            <ManageRequestPage userID={this.state.userId} />
+          </Route>
+          <Route exact path="/jobs">
+            <ManageJobPage userID={this.state.userId} />
+          </Route>
+          <Route path="/payment">
+            <PaymentPage userID={this.state.userId} />
+          </Route>
+          <Route path="/messages">
+            <MessagePage />
+          </Route>
+          <Route path="/profile">
+            <ProfilePage userID={this.state.userId} />
+          </Route>
+          <Route path="/details" component={SitterDetailPage} />
+        </Switch>
       </MuiThemeProvider>
     );
   }

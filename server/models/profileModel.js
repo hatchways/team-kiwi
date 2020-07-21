@@ -13,6 +13,8 @@ const profileSchema = new Schema(
     address: { type: String },
     description: { type: String },
     available: { type: Boolean, default: false },
+    profileImg: { type: String },
+    albumImgs: { type: [String] },
     userID: { type: Schema.Types.ObjectId, ref: 'User' },
   },
   { timestamps: true }
