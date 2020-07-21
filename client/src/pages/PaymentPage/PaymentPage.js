@@ -9,13 +9,14 @@ import {
   Paper,
   Avatar,
   TextField,
+  Box,
   Button,
   Snackbar,
   Dialog,
   Backdrop,
   Fade,
 } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
+import { Alert as MuiAlert, Rating } from '@material-ui/lab';
 import axios from 'axios';
 import moment from 'moment';
 import PayComponent from './PayComponent';
@@ -88,9 +89,10 @@ function PaymentPage(props) {
   const [payments, setPayments] = useState([]);
   const [payKey, setPayKey] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-
   const [payAccepted, setAccept] = useState(false);
   const [payDeclined, setDecline] = useState(false);
+  const [value, setValue] = React.useState(2.5);
+  const [hover, setHover] = React.useState(-1);
 
   useEffect(() => {
     axios.get(`/request/accepted/${props.userID}`).then(({ data }) => {
@@ -159,6 +161,19 @@ function PaymentPage(props) {
     }
   };
 
+  const labels = {
+    0.5: 'Useless',
+    1: 'Useless+',
+    1.5: 'Poor',
+    2: 'Poor+',
+    2.5: 'Ok',
+    3: 'Ok+',
+    3.5: 'Good',
+    4: 'Good+',
+    4.5: 'Excellent',
+    5: 'Excellent+',
+  };
+
   const showDetail = () => {
     if (payKey !== null) {
       return (
@@ -214,15 +229,25 @@ function PaymentPage(props) {
             RATE THIS SITTER:
           </Typography>
           <Grid container>
-            <TextField
-              disabled
-              id="request"
-              style={{ margin: 0, width: '665px', marginLeft: '1%' }}
-              placeholder="None"
-              fullWidth
-              margin="normal"
-              variant="outlined"
+            <Rating
+              name="hover-feedback"
+              size="large"
+              value={value}
+              precision={0.5}
+              onChange={(event, newValue) => {
+                setValue(newValue);
+              }}
+              onChangeActive={(event, newHover) => {
+                setHover(newHover);
+              }}
+              disabled={payments[payKey].paid === true ? true : false}
+              style={{ marginLeft: '1%' }}
             />
+            {value !== null && (
+              <Typography variant="h6" style={{ marginLeft: '1.5%' }}>
+                {labels[hover !== -1 ? hover : value]}
+              </Typography>
+            )}
           </Grid>
 
           <div className={classes.buttons}>
