@@ -70,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     width: 345,
     height: 400,
-    marginLeft: theme.spacing(10),
   },
   datePicker: {
     marginRight: theme.spacing(1),
@@ -220,7 +219,7 @@ export default function RequestComponent(props) {
                   gutterBottom
                   style={{ marginTop: '25px', fontWeight: '800' }}
                 >
-                  Change your Booking
+                  CHANGE YOUR BOOKING
                 </Typography>
               </Grid>
               <Typography variant="h2" align="center" style={{ margin: '30px' }}>

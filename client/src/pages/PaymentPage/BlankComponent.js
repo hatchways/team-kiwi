@@ -23,7 +23,7 @@ export default function BlankComponent(props) {
     <Card className={classes.root} variant="outlined">
       <CardContent className={classes.contents}>
         <Typography variant="h6" gutterBottom>
-          No bookings right now.
+          {props.isPaid ? 'No requests paid right now.' : 'No requests to pay right now.'}
         </Typography>
       </CardContent>
     </Card>
