@@ -80,7 +80,7 @@ function Edit(props) {
       setDescription(data.description);
       setLoaded(true);
     });
-  }, []);
+  }, [props.userID]);
 
   const validate = () => {
     let firstNameErr = '';

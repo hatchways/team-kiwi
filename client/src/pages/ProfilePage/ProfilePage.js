@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import Edit from './Edit';
@@ -17,23 +17,25 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-function ProfilePage(props) {
-  const useStyles = makeStyles((theme) => ({
-    list: {
-      color: theme.palette.text.secondary,
-      width: '100%',
-      maxWidth: 360,
-    },
-    listItem: {
-      padding: theme.spacing(3),
-    },
-  }));
+const useStyles = makeStyles((theme) => ({
+  list: {
+    color: theme.palette.text.secondary,
+    width: '100%',
+    maxWidth: 360,
+  },
+  listItem: {
+    padding: theme.spacing(3),
+  },
+}));
 
+function ProfilePage(props) {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
   };
+
+  useEffect(() => {}, [props.userID]);
 
   function ListItemLink(props) {
     const { primary, to, index } = props;

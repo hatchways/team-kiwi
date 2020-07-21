@@ -14,78 +14,87 @@ import MuiAlert from '@material-ui/lab/Alert';
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    '& > *': {
+      width: theme.spacing(100),
+      height: theme.spacing(80),
+    },
+  },
+  box: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(5),
+  },
+  uploadBtn: {
+    margin: theme.spacing(2),
+    padding: theme.spacing(2),
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(5),
+  },
+  deleteBtn: {
+    color: theme.palette.text.secondary,
+  },
+  saveBtn: {
+    margin: theme.spacing(2),
+    padding: theme.spacing(2),
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(5),
+  },
+  photo: {
+    margin: theme.spacing(5),
+    width: theme.spacing(25),
+    height: theme.spacing(25),
+  },
+}));
 
 function Photo(props) {
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      '& > *': {
-        width: theme.spacing(100),
-        height: theme.spacing(80),
-      },
-    },
-    box: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      padding: theme.spacing(5),
-    },
-    uploadBtn: {
-      margin: theme.spacing(2),
-      padding: theme.spacing(2),
-      paddingLeft: theme.spacing(5),
-      paddingRight: theme.spacing(5),
-    },
-    deleteBtn: {
-      color: theme.palette.text.secondary,
-    },
-    saveBtn: {
-      margin: theme.spacing(2),
-      padding: theme.spacing(2),
-      paddingLeft: theme.spacing(5),
-      paddingRight: theme.spacing(5),
-    },
-    photo: {
-      margin: theme.spacing(5),
-      width: theme.spacing(25),
-      height: theme.spacing(25),
-    },
-  }));
   const [fileName, setFileName] = useState('');
   const [file, setFile] = useState('');
   const [onSuccesful, setOnSuccesful] = useState(false);
+  const [uploadErr, setUploadErr] = useState(false);
   const [sitter, setSitter] = useState(null);
+  const [dataLoaded, setLoaded] = useState(false);
   const [imgUrl, setImgUrl] = useState(null);
+
   useEffect(() => {
     axios
       .get(`/profile/ref/${props.userID}`)
       .then((res) => {
         setSitter(res.data);
         if (res.data.profileImg !== undefined)
-          setImgUrl(`https://team-kiwi.s3.ca-central-1.amazonaws.com/${res.data.profileImg}`);
+          setImgUrl(`${process.env.REACT_APP_S3_IMAGE_URL + res.data.profileImg}`);
+        setLoaded(true);
       })
       .catch((error) => {
         console.log('error: ', error);
       });
-  }, []);
+  }, [props.userID]);
 
   const uploadFile = (e) => {
     const formData = new FormData();
     formData.append('image', file);
-
-    axios
-      .post(`/profile/uploadPhoto/${sitter.userID}`, formData)
-      .then((res) => {
-        if (!res.data.error) {
-          setFile('');
-          setFileName('');
-          setOnSuccesful(true);
-        }
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-      });
+    if (file.length === 0) {
+      setUploadErr(true);
+    } else {
+      axios
+        .post(`/profile/uploadPhoto/${sitter.userID}`, formData)
+        .then((res) => {
+          if (!res.data.error) {
+            setImgUrl(res.data.Location);
+            setFile('');
+            setFileName('');
+            setOnSuccesful(true);
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          console.log('error: ', error);
+        });
+    }
   };
 
   const handleDeleteFile = (e) => {
@@ -101,11 +110,12 @@ function Photo(props) {
       return;
     }
     setOnSuccesful(false);
+    setUploadErr(false);
   };
 
   const classes = useStyles();
 
-  return sitter ? (
+  return dataLoaded ? (
     <Fragment>
       <Container maxWidth="lg" className={classes.root}>
         <Paper elevation={3}>
@@ -139,7 +149,7 @@ function Photo(props) {
                 </Button>
               </label>
               <Button
-                color="textSecondary"
+                color="default"
                 className={classes.deleteBtn}
                 startIcon={<DeleteIcon />}
                 onClick={handleDeleteFile}
@@ -160,6 +170,11 @@ function Photo(props) {
       <Snackbar open={onSuccesful} autoHideDuration={3000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity="success">
           Profile photo updated successfully!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={uploadErr} autoHideDuration={3000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          Please upload image to update
         </Alert>
       </Snackbar>
     </Fragment>

@@ -14,7 +14,6 @@ export default function Album(props) {
       display: 'flex',
       flexWrap: 'wrap',
       '& > *': {
-        // margin: theme.spacing(1),
         width: theme.spacing(100),
         height: theme.spacing(80),
       },
@@ -47,7 +46,7 @@ export default function Album(props) {
       .catch((error) => {
         console.log('error: ', error);
       });
-  }, []);
+  }, [props.userID]);
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
