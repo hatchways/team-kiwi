@@ -26,16 +26,13 @@ const useStyles = (theme) => ({
   toolbar: {
     display: 'flex',
     flexDirection: 'row',
-    margin: theme.spacing(1),
-    '& > *': {
-      margin: theme.spacing(1),
-    },
+    margin: theme.spacing(0.5),
   },
   logo: {
     flexGrow: 1,
   },
   link: {
-    margin: theme.spacing(0, 5),
+    margin: theme.spacing(0, 4.5),
   },
   avatar: {
     width: theme.spacing(6),
@@ -116,72 +113,64 @@ function Navbar(props) {
               <Link to="/list">
                 <img src="/images/logo.png" alt="" />
               </Link>
-              <Button component={Link} to="/list" className={classes.link}>
-                list
-              </Button>
-
-              <Badge
-                color="secondary"
-                variant="dot"
-                invisible={badgeInVisible}
-                className={classes.link}
-              >
-                <Button onClick={handleNotificationClick}>Notifications</Button>
-                <Popover
-                  id={popOverId}
-                  open={openNotification}
-                  anchorEl={anchorEl}
-                  onClose={handleNotificationClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                  }}
+              <Grid container alignItems="center" justify="flex-end" direction="row">
+                <Button component={Link} to="/list" className={classes.link}>
+                  sitter list
+                </Button>
+                <Badge
+                  color="secondary"
+                  variant="dot"
+                  invisible={badgeInVisible}
+                  className={classes.link}
                 >
-                  <NotificationList notifications={notifications} />
-                </Popover>
-              </Badge>
-              <Button component={Link} to="/jobs" className={classes.link}>
-                My Jobs
-              </Button>
-              <Button component={Link} to="/requests" className={classes.link}>
-                My Sitters
-              </Button>
-              <Badge
-                color="secondary"
-                variant="dot"
-                invisible={badgeInVisible}
-                className={classes.link}
-              >
-                <Button component={Link} to="/payment">
+                  <Button onClick={handleNotificationClick}>Notifications</Button>
+                  <Popover
+                    id={popOverId}
+                    open={openNotification}
+                    anchorEl={anchorEl}
+                    onClose={handleNotificationClose}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'center',
+                    }}
+                  >
+                    <NotificationList notifications={notifications} />
+                  </Popover>
+                </Badge>
+                <Button component={Link} to="/jobs" className={classes.link}>
+                  My Jobs
+                </Button>
+                <Button component={Link} to="/requests" className={classes.link}>
+                  My Sitters
+                </Button>
+                <Button component={Link} to="/payment" className={classes.link}>
                   My Payment
                 </Button>
-              </Badge>
-              <Badge
-                color="secondary"
-                variant="dot"
-                invisible={badgeInVisible}
-                className={classes.link}
-              >
-                <Button component={Link} to="/messages">
+                <Button component={Link} to="/messages" className={classes.link}>
                   Messages
                 </Button>
-              </Badge>
-
-              <Button component={Link} to="/" onClick={logout}>
-                logout
-              </Button>
-
-              <Avatar
-                alt="Remy Sharp"
-                src={profileImg}
-                component={Link}
-                to="/profile"
-                className={classes.avatar}
-              />
+                <Avatar
+                  alt="Remy Sharp"
+                  src={profileImg}
+                  component={Link}
+                  to="/profile"
+                  className={classes.avatar}
+                />
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  component={Link}
+                  to="/"
+                  onClick={logout}
+                  style={{ marginLeft: '3%' }}
+                >
+                  logout
+                </Button>
+              </Grid>
             </Toolbar>
           </AppBar>
         </>
@@ -194,9 +183,9 @@ function Navbar(props) {
               <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
                 <Link
                   href="#"
-                  color="inherit"
+                  color=""
                   underline="always"
-                  style={{ marginRight: '35px', fontWeight: '700' }}
+                  style={{ marginRight: '35px', fontWeight: '700', color: '#ff0000' }}
                 >
                   BECOME A SITTER
                 </Link>

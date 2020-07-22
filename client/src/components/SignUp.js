@@ -21,7 +21,7 @@ const useStyles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     margin: 'auto',
-    width: '50vw',
+    width: 450,
   },
   title: {
     textAlign: 'center',
@@ -120,11 +120,11 @@ function SignUp(props) {
 
   return (
     <div>
-      <Button size="large" variant="contained" color="secondary" onClick={() => setOpen(!open)}>
+      <Button size="large" variant="contained" color="primary" onClick={() => setOpen(!open)}>
         SIGN UP
       </Button>
       <Dialog
-        fullWidth={true}
+        // fullWidth={true}
         maxWidth="md"
         open={open}
         onClose={() => setOpen(!open)}
@@ -136,7 +136,7 @@ function SignUp(props) {
         <DialogContent>
           <form className={classes.form}>
             <DialogContent className={classes.textFieldContainer}>
-              <InputLabel color="secondary" required={true} className={classes.inputLabel}>
+              <InputLabel color="primary" required={true} className={classes.inputLabel}>
                 EMAIL ADDRESS
               </InputLabel>
               <TextField
@@ -147,7 +147,7 @@ function SignUp(props) {
                 placeholder="Your Email"
                 type="email"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -155,7 +155,7 @@ function SignUp(props) {
                 {emailErr.length > 0 ? <Alert severity="error">{emailErr}</Alert> : ''}
               </div>
               <br />
-              <InputLabel color="secondary" className={classes.inputLabel}>
+              <InputLabel color="primary" className={classes.inputLabel}>
                 FIRST NAME
               </InputLabel>
               <TextField
@@ -165,7 +165,7 @@ function SignUp(props) {
                 placeholder="Your first name"
                 type="firstName"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
@@ -173,7 +173,7 @@ function SignUp(props) {
                 {nameErr.length > 0 ? <Alert severity="error">{nameErr}</Alert> : ''}
               </div>
               <br />
-              <InputLabel color="secondary" className={classes.inputLabel}>
+              <InputLabel color="primary" className={classes.inputLabel}>
                 LAST NAME
               </InputLabel>
               <TextField
@@ -183,7 +183,7 @@ function SignUp(props) {
                 placeholder="Your last name"
                 type="lastName"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
@@ -191,7 +191,7 @@ function SignUp(props) {
                 {nameErr.length > 0 ? <Alert severity="error">{nameErr}</Alert> : ''}
               </div>
               <br />
-              <InputLabel color="secondary" className={classes.inputLabel}>
+              <InputLabel color="primary" className={classes.inputLabel}>
                 PASSWORD
               </InputLabel>
               <TextField
@@ -201,7 +201,7 @@ function SignUp(props) {
                 placeholder="Create a password"
                 type="password"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -212,12 +212,12 @@ function SignUp(props) {
           </form>
         </DialogContent>
         <DialogActions className={classes.form}>
-          <Button variant="contained" color="secondary" size="large" onClick={handleSubmit}>
+          <Button variant="contained" color="primary" size="large" onClick={handleSubmit}>
             Sign Up
           </Button>
           <DialogContentText className={classes.inputLabel}>
             Already a member?{' '}
-            <Link href="#" color="secondary">
+            <Link href="#" color="primary">
               Login
             </Link>
           </DialogContentText>

@@ -26,7 +26,7 @@ const useStyles = (theme) => ({
     display: 'flex',
     flexDirection: 'column',
     margin: 'auto',
-    width: '50vw',
+    width: 450,
   },
   title: {
     textAlign: 'center',
@@ -106,14 +106,14 @@ function Login(props) {
       <Button
         size="large"
         variant="outlined"
-        color="secondary"
+        color="primary"
         onClick={() => setOpen(!open)}
         style={{ marginRight: '17px' }}
       >
         LOGIN
       </Button>
       <Dialog
-        fullWidth={true}
+        // fullWidth={true}
         maxWidth="md"
         open={open}
         onClose={() => setOpen(!open)}
@@ -125,7 +125,7 @@ function Login(props) {
         <DialogContent>
           <form className={classes.form}>
             <DialogContent className={classes.textFieldContainer}>
-              <InputLabel color="secondary" required={true} className={classes.inputLabel}>
+              <InputLabel color="primary" required={true} className={classes.inputLabel}>
                 EMAIL ADDRESS
               </InputLabel>
               <TextField
@@ -136,7 +136,7 @@ function Login(props) {
                 placeholder="Your Email"
                 type="email"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -144,7 +144,7 @@ function Login(props) {
                 {emailErr.length > 0 ? <Alert severity="error">{emailErr}</Alert> : ''}
               </div>
               <br />
-              <InputLabel color="secondary" className={classes.inputLabel}>
+              <InputLabel color="primary" className={classes.inputLabel}>
                 PASSWORD
               </InputLabel>
               <TextField
@@ -154,7 +154,7 @@ function Login(props) {
                 placeholder="Your password"
                 type="password"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -167,7 +167,7 @@ function Login(props) {
         <DialogActions className={classes.form}>
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             size="large"
             component={Link}
             to="/list"
@@ -178,7 +178,7 @@ function Login(props) {
           </Button>
           <DialogContentText className={classes.inputLabel}>
             Not a member?{' '}
-            <Link href="#" color="secondary">
+            <Link href="#" color="primary">
               Sign Up
             </Link>
           </DialogContentText>
