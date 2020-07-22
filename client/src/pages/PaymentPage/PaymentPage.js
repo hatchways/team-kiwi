@@ -176,18 +176,15 @@ function PaymentPage(props) {
 
   const showDetail = () => {
     if (payKey !== null) {
+      const profileImg =
+        process.env.REACT_APP_S3_IMAGE_URL + payments[payKey].sitterProfile[0].profileImg;
       return (
         <>
           <Typography variant="h6" align="left" className={classes.titleTop}>
             REQUEST DETAIL:
           </Typography>
           <Grid container style={{ marginTop: '3%' }}>
-            <Avatar
-              aria-label="recipe"
-              className={classes.avatar}
-              alt="T"
-              src="/images/profile_3.jpg"
-            />
+            <Avatar aria-label="recipe" className={classes.avatar} alt="" src={profileImg} />
             <Typography variant="h1" align="left" className={classes.name}>
               {payments[payKey].sitterProfile[0].firstName}{' '}
               {payments[payKey].sitterProfile[0].lastName}

@@ -91,7 +91,7 @@ function ListPage(props) {
                 <Grid item key={sitter._id} xs={12} sm={6} md={4}>
                   <Card className={classes.card} elevation={3}>
                     <Avatar
-                      alt="Remy Sharp"
+                      alt=""
                       src={process.env.REACT_APP_S3_IMAGE_URL + sitter.profileImg}
                       className={classes.avatar}
                     />

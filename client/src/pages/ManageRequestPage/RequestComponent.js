@@ -102,6 +102,9 @@ export default function RequestComponent(props) {
 
   const fullName =
     props.booking.sitterProfile[0].firstName + ' ' + props.booking.sitterProfile[0].lastName;
+
+  const profileImg = process.env.REACT_APP_S3_IMAGE_URL + props.booking.sitterProfile[0].profileImg;
+
   const handleStatus = () => {
     if (accepted) return 'ACCEPTED';
     else if (declined) return 'DECLINED';
@@ -185,12 +188,7 @@ export default function RequestComponent(props) {
           )}
         </CardContent>
         <CardContent className={classes.contents}>
-          <Avatar
-            aria-label="recipe"
-            className={classes.avatar}
-            alt="T"
-            src="/images/profile_3.jpg"
-          />
+          <Avatar aria-label="recipe" className={classes.avatar} alt="" src={profileImg} />
           <Typography variant="h6" className={classes.name} gutterBottom>
             {fullName}
           </Typography>
