@@ -62,7 +62,7 @@ class App extends Component {
             <PaymentPage userID={this.state.userId} />
           </Route>
           <Route path="/messages">
-            <MessagePage />
+            <MessagePage userID={this.state.userId} />
           </Route>
           <Route path="/profile">
             <ProfilePage userID={this.state.userId} />

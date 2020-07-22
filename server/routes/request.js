@@ -6,6 +6,7 @@ const User = require('../models/userModel');
 const { request } = require('express');
 const client = require('socket.io').listen(4000).sockets;
 var async = require('async');
+const ObjectId = mongoose.Types.ObjectId;
 
 // Connect to Socket.io
 client.on('connection', function (socket) {
@@ -44,9 +45,6 @@ router.get('/getSitterRequest/:id', (req, res) => {
     }
   });
 });
-
-const ObjectId = mongoose.Types.ObjectId;
-
 
 // Add a new request
 router.post('/add', (req, res) => {
@@ -105,7 +103,6 @@ router.get('/accepted/:id', (req, res) => {
         res.status(404).send('Requests not found!');
       } else {
         res.status(200).send(request);
-        // res.json(request);
       }
     }
   );

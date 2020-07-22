@@ -63,6 +63,8 @@ export default function JobComponent(props) {
   const fullName =
     props.booking.ownerProfile[0].firstName + ' ' + props.booking.ownerProfile[0].lastName;
 
+  const profileImg = process.env.REACT_APP_S3_IMAGE_URL + props.booking.ownerProfile[0].profileImg;
+
   const handleStatus = () => {
     return accepted ? 'ACCEPTED' : declined ? 'DECLINED' : 'PENDING';
   };
@@ -97,12 +99,7 @@ export default function JobComponent(props) {
               </Typography>
             </CardContent>
             <CardContent className={classes.contents}>
-              <Avatar
-                aria-label="recipe"
-                className={classes.avatar}
-                alt="T"
-                src="/images/profile_3.jpg"
-              />
+              <Avatar aria-label="recipe" className={classes.avatar} alt="" src={profileImg} />
               <Typography variant="h6" className={classes.name} gutterBottom>
                 {fullName}
               </Typography>
