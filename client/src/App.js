@@ -8,7 +8,6 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import ListPage from './pages/ListPage/ListPage';
 import MessagePage from './pages/MessagePage/MessagePage';
 import SitterDetailPage from './pages/SitterDetailPage/SitterDetailPage';
-import JobPage from './pages/JobPage/JobPage';
 import PaymentPage from './pages/PaymentPage/PaymentPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ManageRequestPage from './pages/ManageRequestPage/ManageRequestPage';
@@ -48,9 +47,6 @@ class App extends Component {
           </Route>
           <Route exact path="/list">
             <ListPage userID={this.state.userId} />
-          </Route>
-          <Route exact path="/notifications">
-            <JobPage />
           </Route>
           <Route exact path="/requests">
             <ManageRequestPage userID={this.state.userId} />
