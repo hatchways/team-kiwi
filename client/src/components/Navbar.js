@@ -20,6 +20,7 @@ import history from '../history';
 
 const useStyles = (theme) => ({
   appBar: {
+    height: theme.spacing(9),
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   toolbar: {
@@ -186,8 +187,9 @@ function Navbar(props) {
         </>
       ) : (
         <div>
-          <AppBar position="static" color="default">
-            <Toolbar>
+          <CssBaseline />
+          <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+            <Toolbar className={classes.toolbar}>
               <img src="/images/logo.png" alt="" />
               <Grid container alignItems="center" justify="flex-end" direction="row" spacing={4}>
                 <Link
