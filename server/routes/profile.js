@@ -107,9 +107,9 @@ router.post('/add', (req, res) => {
   }
 });
 
-// GET all the profiles
-router.get('/', (req, res) => {
-  Profile.find({}, (err, foundProfile) => {
+// GET all the profiles except User for list page
+router.get('/list/:id', (req, res) => {
+  Profile.find({ userID: { $ne: req.params.id } }, (err, foundProfile) => {
     if (err) {
       res.status(404).send('No profiles were found!');
     } else {

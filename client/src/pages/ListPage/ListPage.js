@@ -52,10 +52,10 @@ function ListPage(props) {
   const [sitters, setSitters] = useState();
 
   useEffect(() => {
-    axios.get('/profile').then(({ data }) => {
+    axios.get(`/profile/list/${props.userID}`).then(({ data }) => {
       setSitters(data);
     });
-  }, []);
+  }, [props.userID]);
 
   return sitters ? (
     <React.Fragment>

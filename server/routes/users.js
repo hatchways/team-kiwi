@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 let User = require('../models/userModel');
 let Profile = require('../models/profileModel');
 const jwt = require('jsonwebtoken');
@@ -19,6 +21,40 @@ router.get('/', (req, res, next) => {
   } else {
     res.json({ user: null });
   }
+});
+
+//Get all users and profile except user for messaging
+// router.get('/all/:id', (req, res) => {
+//   User.find({ _id: { $ne: req.params.id } }, (err, users) => {
+//     if (err) {
+//       res.status(404).send('No profiles were found!');
+//     } else {
+//       res.status(200).send(users);
+//     }
+//   });
+// });
+
+router.get('/all/:id', (req, res) => {
+  User.aggregate(
+    [
+      { $match: { _id: { $ne: ObjectId(req.params.id) } } },
+      {
+        $lookup: {
+          from: 'profiles',
+          localField: '_id',
+          foreignField: 'userID',
+          as: 'userProfile',
+        },
+      },
+    ],
+    (err, users) => {
+      if (err) {
+        res.status(404).send('No profiles were found!');
+      } else {
+        res.status(200).send(users);
+      }
+    }
+  );
 });
 
 router.route('/add').post((req, res) => {
