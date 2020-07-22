@@ -6,7 +6,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: 340,
     height: 80,
-    // marginTop: theme.spacing(1),
   },
   header: {
     marginTop: theme.spacing(0),
@@ -61,7 +60,6 @@ export default function MessageComponent(props) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {/* <Card className={classes.root}> */}
         <CardActionArea className={classes.root} onClick={handleSubmit}>
           <CardContent className={classes.contents}>
             <Avatar aria-label="recipe" className={classes.avatar} alt="" src={profileImg} />
@@ -70,7 +68,6 @@ export default function MessageComponent(props) {
             </Typography>
           </CardContent>
         </CardActionArea>
-        {/* </Card> */}
         <Divider />
       </form>
     </>

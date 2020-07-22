@@ -24,16 +24,6 @@ router.get('/', (req, res, next) => {
 });
 
 //Get all users and profile except user for messaging
-// router.get('/all/:id', (req, res) => {
-//   User.find({ _id: { $ne: req.params.id } }, (err, users) => {
-//     if (err) {
-//       res.status(404).send('No profiles were found!');
-//     } else {
-//       res.status(200).send(users);
-//     }
-//   });
-// });
-
 router.get('/all/:id', (req, res) => {
   User.aggregate(
     [
