@@ -73,11 +73,14 @@ function ListPage(props) {
               <Grid item>
                 <TextField id="input-with-icon-grid" label="Location" />
               </Grid>
-              <Grid item>
+              <Grid item style={{ marginLeft: '3%' }}>
                 <DateRangeIcon />
               </Grid>
               <Grid item>
-                <TextField id="input-with-icon-grid" label="Date" />
+                <TextField id="input-with-icon-grid" label="DROP IN" />
+              </Grid>
+              <Grid item>
+                <TextField id="input-with-icon-grid" label="DROP OFF" />
               </Grid>
             </Grid>
           </div>

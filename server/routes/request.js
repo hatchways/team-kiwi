@@ -38,7 +38,6 @@ client.on('connection', function (socket) {
 router.get('/getSitterRequest/:id', (req, res) => {
   Request.find({ sitter_id: req.params.id }, (err, request) => {
     if (err) {
-      console.log('not found');
       res.status(404).send('Request not found!');
     } else {
       res.status(200).send(request);

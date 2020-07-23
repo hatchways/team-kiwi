@@ -177,7 +177,7 @@ export default function RequestComponent(props) {
           <Typography variant="body" className={classes.date}>
             {handleDate()}
           </Typography>
-          {!props.closed && (
+          {!props.closed && !accepted && !declined && (
             <IconButton
               aria-label="settings"
               className={classes.settings}

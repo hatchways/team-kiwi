@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
   },
   contents: {
+    height: 75,
     padding: theme.spacing(0.5),
   },
   date: {
