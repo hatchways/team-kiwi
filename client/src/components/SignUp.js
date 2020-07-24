@@ -77,7 +77,6 @@ function SignUp(props) {
           }
         })
         .catch((error) => {
-          console.log('signup error: ');
           console.log(error);
         });
     }
@@ -124,7 +123,6 @@ function SignUp(props) {
         SIGN UP
       </Button>
       <Dialog
-        // fullWidth={true}
         maxWidth="md"
         open={open}
         onClose={() => setOpen(!open)}
