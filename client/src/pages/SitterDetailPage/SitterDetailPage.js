@@ -21,6 +21,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import moment from 'moment';
 import MuiAlert from '@material-ui/lab/Alert';
+import socketIOClient from 'socket.io-client';
 
 function Alert(props) {
   return <MuiAlert elevation={7} variant="filled" {...props} />;
@@ -87,17 +88,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SitterDetailPage(props) {
-  const dogPics = [
-    {
-      img: '/images/dog_1.jpg',
-      title: 'Dog_1',
-    },
-    {
-      img: '/images/dog_2.jpg',
-      title: 'Dog_2',
-    },
-  ];
-
   const defaultTime = moment('1200', 'HH:mm').add(1, 'day');
 
   const classes = useStyles();
@@ -145,6 +135,8 @@ function SitterDetailPage(props) {
       .post('/request/add', request)
       .then((response) => {
         if (!response.data.error) {
+          var socket = socketIOClient(process.env.REACT_APP_SOCKET_IO_SERVER + '/request');
+          socket.emit('addRequestNotify', response);
           handleModalClose();
           setSuccess(true);
         }

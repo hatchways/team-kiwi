@@ -17,6 +17,7 @@ import axios from 'axios';
 import moment from 'moment';
 import JobComponent from './JobComponent';
 import BlankComponent from './BlankComponent';
+import socketIOClient from 'socket.io-client';
 
 function Alert(props) {
   return <MuiAlert elevation={7} variant="filled" {...props} />;
@@ -153,10 +154,14 @@ function ManageJobPage(props) {
       .put(`/job/${bookings[jobKey]._id}`, request)
       .then((res) => {
         if (!res.data.error) {
+          var socket = socketIOClient(process.env.REACT_APP_SOCKET_IO_SERVER + '/confirm');
+
           if (res.data.accepted) {
+            socket.emit('addConfirmNotify', res);
             setAccept(true);
             bookings[jobKey].accepted = true;
           } else {
+            socket.emit('addConfirmNotify', res);
             setDecline(true);
             bookings[jobKey].declined = true;
           }

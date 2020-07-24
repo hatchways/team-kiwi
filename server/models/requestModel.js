@@ -10,6 +10,8 @@ const requestSchema = new Schema({
   accepted: { type: Boolean, default: false },
   declined: { type: Boolean, default: false },
   paid: { type: Boolean, default: false },
+  readByOwner: { type: Boolean, default: false },
+  readBySitter: { type: Boolean, default: false },
 });
 
 const Request = mongoose.model('Request', requestSchema);
