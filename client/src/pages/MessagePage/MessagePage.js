@@ -5,10 +5,12 @@ import {
   Grid,
   CardContent,
   Paper,
+  Card,
   Avatar,
   TextField,
   Button,
   Divider,
+  Box,
 } from '@material-ui/core';
 import axios from 'axios';
 import MessageComponent from './MessageComponent';
@@ -27,9 +29,13 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
   },
   messageRoot: {
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
     width: 900,
     height: 800,
+  },
+  messageGrid: {
+    height: '80%',
+    overflow: 'auto',
   },
   avatar: {
     width: theme.spacing(8),
@@ -38,8 +44,24 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   name: {
-    marginTop: theme.spacing(3.5),
+    marginTop: theme.spacing(3),
     marginLeft: theme.spacing(3),
+  },
+  send: {
+    maxWidth: 300,
+    marginLeft: theme.spacing(73),
+  },
+  receive: {
+    maxWidth: 300,
+    color: theme.palette.primary,
+    margin: theme.spacing(1),
+  },
+  receiveBox: {
+    backgroundColor: '#FFB6C1',
+  },
+  messageTxt: {
+    variant: 'body',
+    component: 'p',
   },
 }));
 
@@ -47,7 +69,8 @@ function MessagePage(props) {
   const classes = useStyles();
   const [users, setUsers] = useState([]);
   const [userKey, setUserKey] = useState(null);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState();
+  const [conversation, setConversation] = useState();
 
   useEffect(() => {
     axios.get(`/users/all/${props.userID}`).then(({ data }) => {
@@ -57,7 +80,6 @@ function MessagePage(props) {
 
   const handleUsers = () => {
     let userList = [];
-
     userList.push(
       <>
         <CardContent className={classes.header}>
@@ -72,7 +94,6 @@ function MessagePage(props) {
     users.forEach((user, i) => {
       userList.push(<MessageComponent user={user} userKey={i} onSubmit={selectUser} />);
     });
-
     return userList;
   };
 
@@ -80,7 +101,45 @@ function MessagePage(props) {
     setUserKey(key);
   };
 
-  const handleMessage = () => {};
+  // const getMessages = () => {
+  //   const participant = { partner: users[userKey]._id, me: props.userID };
+
+  //   axios.get('/message', participant).then(({ data }) => {
+  //     setConversation(data);
+  //   });
+  // };
+
+  const handleMessage = () => {
+    if (userKey) {
+      // const participant = { partner: users[userKey]._id, me: props.userID };
+      // axios.post('/message', participant).then(({ data }) => {
+      //   console.log(data);
+      // });
+      // console.log(conversation);
+      // var chat = [];
+      // if (conversation) {
+      //   conversation.forEach((message, i) => {
+      //     chat.push(
+      //       <div className={message.sender === props.userID ? classes.send : classes.receive}>
+      //         <Card>
+      //           <CardContent className={message.sender !== props.userID && classes.receiveBox}>
+      //             <Typography className={classes.messageTxt}>{message.content}</Typography>
+      //           </CardContent>
+      //         </Card>
+      //       </div>
+      //     );
+      //   });
+      // }
+    }
+    // return chat;
+  };
+
+  const sendMessage = () => {
+    const participant = { partner: users[userKey]._id, me: props.userID };
+    axios.post('/message', participant).then(({ data }) => {
+      console.log(data);
+    });
+  };
 
   const showMessage = () => {
     if (userKey !== null) {
@@ -98,7 +157,11 @@ function MessagePage(props) {
           <Divider />
 
           {/* Chat Window */}
-          <Grid container style={{ height: '80%' }}></Grid>
+          <Grid container className={classes.messageGrid}>
+            <Box display="flex" flexDirection="column" width="900px">
+              {handleMessage()}
+            </Box>
+          </Grid>
           <Divider />
           {/* Message Input */}
           <Grid container style={{ height: '10%' }}>
@@ -117,7 +180,7 @@ function MessagePage(props) {
                 variant="contained"
                 color="primary"
                 style={{ width: '150px', height: '45px', marginTop: '5.5%' }}
-                onClick={handleMessage}
+                onClick={sendMessage}
               >
                 SEND
               </Button>
