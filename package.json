@@ -1,12 +1,4 @@
 {
-  "name": "loving-sitter",
-  "version": "1.0.0",
-  "description": "connecting dog lovers",
-  "engines": {
-    "node": "12.x",
-    "npm": "6.x"
-  },
-  "private": true,
   "scripts": {
     "prepare-client": "cd client && npm install && npm run build",
     "prepare-server": "cd server && npm install",
