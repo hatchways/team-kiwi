@@ -1,6 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
-const { join } = require('path');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require('mongoose');
@@ -36,7 +36,7 @@ app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(join(__dirname, 'public')));
+// app.use(express.static(join(__dirname, 'public')));
 
 // Sessions
 app.use(
@@ -76,5 +76,17 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
 });
+
+//Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  // index.html for all page routes
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+    // res.sendFile(__dirname, '../client/build/index.html');
+  });
+}
 
 module.exports = app;
