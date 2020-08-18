@@ -14,6 +14,7 @@ const jobRouter = require('./routes/job');
 const messageRouter = require('./routes/message');
 const passport = require('./passport');
 const session = require('express-session');
+const path = require('path');
 
 const { json, urlencoded } = express;
 
