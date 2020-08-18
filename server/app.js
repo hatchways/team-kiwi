@@ -18,6 +18,18 @@ const path = require('path');
 
 const { json, urlencoded } = express;
 
+var app = express();
+
+app.use(logger('dev'));
+app.use(json());
+app.use(urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(join(__dirname, 'public')));
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
+
 // mongoose connection
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASE_CONNECT, {
@@ -30,18 +42,6 @@ mongoose.connection.once('open', () => {
   console.log('MongoDB database connection established!');
 });
 mongoose.set('useFindAndModify', false);
-
-var app = express();
-
-app.use(logger('dev'));
-app.use(json());
-app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(join(__dirname, 'public')));
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-}
 
 // Sessions
 app.use(
