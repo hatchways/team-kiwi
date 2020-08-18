@@ -42,19 +42,6 @@ mongoose.connection.once('open', () => {
 });
 mongoose.set('useFindAndModify', false);
 
-// Sessions
-app.use(
-  session({
-    secret: 'fraggle-rock', //pick a random string to make the hash that is generated secure
-    resave: false, //required
-    saveUninitialized: false, //required
-  })
-);
-
-// Passport
-app.use(passport.initialize());
-app.use(passport.session()); // calls the deserializeUser
-
 // Routes
 app.use('/', indexRouter);
 app.use('/ping', pingRouter);
@@ -68,6 +55,19 @@ app.use('/message', messageRouter);
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
+
+// Sessions
+app.use(
+  session({
+    secret: 'fraggle-rock', //pick a random string to make the hash that is generated secure
+    resave: false, //required
+    saveUninitialized: false, //required
+  })
+);
+
+// Passport
+app.use(passport.initialize());
+app.use(passport.session()); // calls the deserializeUser
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
