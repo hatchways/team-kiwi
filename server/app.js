@@ -18,18 +18,6 @@ const path = require('path');
 
 const { json, urlencoded } = express;
 
-var app = express();
-
-app.use(logger('dev'));
-app.use(json());
-app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(join(__dirname, 'public')));
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-}
-
 // mongoose connection
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASE_CONNECT, {
@@ -43,19 +31,13 @@ mongoose.connection.once('open', () => {
 });
 mongoose.set('useFindAndModify', false);
 
-// Routes
-app.use('/', indexRouter);
-app.use('/ping', pingRouter);
-app.use('/profile', profileRouter);
-app.use('/users', usersRouter);
-app.use('/payment', paymentRouter);
-app.use('/request', requestRouter);
-app.use('/job', jobRouter);
-app.use('/message', messageRouter);
+var app = express();
 
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+app.use(logger('dev'));
+app.use(json());
+app.use(urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(join(__dirname, 'public')));
 
 // Sessions
 app.use(
@@ -69,6 +51,16 @@ app.use(
 // Passport
 app.use(passport.initialize());
 app.use(passport.session()); // calls the deserializeUser
+
+// Routes
+app.use('/', indexRouter);
+app.use('/ping', pingRouter);
+app.use('/profile', profileRouter);
+app.use('/users', usersRouter);
+app.use('/payment', paymentRouter);
+app.use('/request', requestRouter);
+app.use('/job', jobRouter);
+app.use('/message', messageRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -84,6 +76,14 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({ error: err });
+});
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 module.exports = app;
