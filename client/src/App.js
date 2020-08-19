@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+// import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MuiThemeProvider } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
@@ -13,61 +14,103 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ManageRequestPage from './pages/ManageRequestPage/ManageRequestPage';
 import ManageJobPage from './pages/ManageJobPage/ManageJobPage';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      userId: null,
-    };
-    this.getUser = this.getUser.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
-  }
+// class App extends Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       userId: null,
+//     };
+//     this.getUser = this.getUser.bind(this);
+//     this.componentDidMount = this.componentDidMount.bind(this);
+//   }
 
-  componentDidMount() {
-    this.getUser();
-  }
+//   componentDidMount() {
+//     this.getUser();
+//   }
 
-  getUser() {
+//   getUser() {
+//     axios.get('/users/').then((response) => {
+//       if (response.data.user) {
+//         this.setState({
+//           userId: response.data.user.id,
+//         });
+//       }
+//     });
+//   }
+
+//   render() {
+//     return (
+//       <MuiThemeProvider theme={theme}>
+//         <Navbar userID={this.state.userId} />
+//         <Switch>
+//           <Route exact path="/">
+//             <LandingPage />
+//           </Route>
+//           <Route exact path="/list">
+//             <ListPage userID={this.state.userId} />
+//           </Route>
+//           <Route exact path="/requests">
+//             <ManageRequestPage userID={this.state.userId} />
+//           </Route>
+//           <Route exact path="/jobs">
+//             <ManageJobPage userID={this.state.userId} />
+//           </Route>
+//           <Route path="/payment">
+//             <PaymentPage userID={this.state.userId} />
+//           </Route>
+//           <Route path="/messages">
+//             <MessagePage userID={this.state.userId} />
+//           </Route>
+//           <Route path="/profile">
+//             <ProfilePage userID={this.state.userId} />
+//           </Route>
+//           <Route path="/details" component={SitterDetailPage} />
+//         </Switch>
+//       </MuiThemeProvider>
+//     );
+//   }
+// }
+
+function App() {
+  const [userId, setUserID] = useState(null);
+
+  useEffect(() => {
     axios.get('/users/').then((response) => {
       if (response.data.user) {
-        this.setState({
-          userId: response.data.user.id,
-        });
+        setUserID(response.data.user.id);
       }
     });
-  }
+  });
 
-  render() {
-    return (
-      <MuiThemeProvider theme={theme}>
-        <Navbar userID={this.state.userId} />
-        <Switch>
-          <Route exact path="/">
-            <LandingPage />
-          </Route>
-          <Route exact path="/list">
-            <ListPage userID={this.state.userId} />
-          </Route>
-          <Route exact path="/requests">
-            <ManageRequestPage userID={this.state.userId} />
-          </Route>
-          <Route exact path="/jobs">
-            <ManageJobPage userID={this.state.userId} />
-          </Route>
-          <Route path="/payment">
-            <PaymentPage userID={this.state.userId} />
-          </Route>
-          <Route path="/messages">
-            <MessagePage userID={this.state.userId} />
-          </Route>
-          <Route path="/profile">
-            <ProfilePage userID={this.state.userId} />
-          </Route>
-          <Route path="/details" component={SitterDetailPage} />
-        </Switch>
-      </MuiThemeProvider>
-    );
-  }
+  return (
+    <MuiThemeProvider theme={theme}>
+      <Navbar userID={userId} />
+      <Switch>
+        <Route exact path="/">
+          <LandingPage />
+        </Route>
+        <Route exact path="/list">
+          <ListPage userID={userId} />
+        </Route>
+        <Route exact path="/requests">
+          <ManageRequestPage userID={userId} />
+        </Route>
+        <Route exact path="/jobs">
+          <ManageJobPage userID={userId} />
+        </Route>
+        <Route path="/payment">
+          <PaymentPage userID={userId} />
+        </Route>
+        <Route path="/messages">
+          <MessagePage userID={userId} />
+        </Route>
+        <Route path="/profile">
+          <ProfilePage userID={userId} />
+        </Route>
+        <Route path="/details" component={SitterDetailPage} />
+      </Switch>
+    </MuiThemeProvider>
+  );
 }
 
 export default App;

@@ -71,7 +71,7 @@ function Navbar(props) {
 
   useEffect(() => {
     const token = localStorage.getItem('loginToken');
-    if (token !== null) {
+    if ((token !== null) & (props.userID !== null)) {
       axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
         setProfileImg(`${process.env.REACT_APP_S3_IMAGE_URL + data.profileImg}`);
         const currentUser = data;

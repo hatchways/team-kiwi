@@ -62,7 +62,7 @@ function Login(props) {
             setPassword('');
             setEmailErr('');
             setPasswordErr('');
-            history.push('/list');
+            history.replace('/list');
             window.location.reload();
           }
         })
