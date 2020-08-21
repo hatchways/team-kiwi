@@ -32,7 +32,7 @@ function App() {
         <Route exact path="/">
           <LandingPage />
         </Route>
-        <Route path="/list">
+        <Route exact path="/list">
           <ListPage userID={userId} />
         </Route>
         <Route path="/requests">

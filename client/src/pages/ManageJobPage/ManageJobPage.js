@@ -76,24 +76,22 @@ const useStyles = makeStyles((theme) => ({
 
 function ManageJobPage(props) {
   const classes = useStyles();
-  const [profileID, setProfileID] = useState();
+  // const [profileID, setProfileID] = useState();
   const [bookings, setBookings] = useState([]);
   const [jobKey, setJobKey] = useState(null);
   const [jobAccepted, setAccept] = useState(false);
   const [jobDeclined, setDecline] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`/profile/ref/${props.userID}`)
-      .then(({ data }) => {
-        setProfileID(data._id);
-      })
-      .then(
-        axios.get(`/job/${profileID}`).then(({ data }) => {
-          setBookings(data);
-        })
-      );
-  }, [props.userID, profileID]);
+    axios.get(`/profile/ref/${props.userID}`).then(({ data }) => {
+      //   setProfileID(data._id);
+      // })
+      // .then(
+      axios.get(`/job/${data._id}`).then(({ data }) => {
+        setBookings(data);
+      });
+    });
+  }, [props.userID]);
 
   const handleRequests = () => {
     const today = moment().format('YYMMDDhhmm');
