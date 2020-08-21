@@ -62,6 +62,7 @@ function Login(props) {
             setPassword('');
             setEmailErr('');
             setPasswordErr('');
+            setOpen(false);
             history.replace('/list');
             window.location.reload();
           }
@@ -82,8 +83,9 @@ function Login(props) {
   const validate = () => {
     let emailErr = '';
     let passwordErr = '';
+    var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
-    if (!email.includes('@')) {
+    if (!email.match(regExp)) {
       emailErr = 'Invalid email';
     }
     if (password.length < 6) {

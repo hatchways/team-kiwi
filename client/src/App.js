@@ -14,63 +14,6 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ManageRequestPage from './pages/ManageRequestPage/ManageRequestPage';
 import ManageJobPage from './pages/ManageJobPage/ManageJobPage';
 
-// class App extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       userId: null,
-//     };
-//     this.getUser = this.getUser.bind(this);
-//     this.componentDidMount = this.componentDidMount.bind(this);
-//   }
-
-//   componentDidMount() {
-//     this.getUser();
-//   }
-
-//   getUser() {
-//     axios.get('/users/').then((response) => {
-//       if (response.data.user) {
-//         this.setState({
-//           userId: response.data.user.id,
-//         });
-//       }
-//     });
-//   }
-
-//   render() {
-//     return (
-//       <MuiThemeProvider theme={theme}>
-//         <Navbar userID={this.state.userId} />
-//         <Switch>
-//           <Route exact path="/">
-//             <LandingPage />
-//           </Route>
-//           <Route exact path="/list">
-//             <ListPage userID={this.state.userId} />
-//           </Route>
-//           <Route exact path="/requests">
-//             <ManageRequestPage userID={this.state.userId} />
-//           </Route>
-//           <Route exact path="/jobs">
-//             <ManageJobPage userID={this.state.userId} />
-//           </Route>
-//           <Route path="/payment">
-//             <PaymentPage userID={this.state.userId} />
-//           </Route>
-//           <Route path="/messages">
-//             <MessagePage userID={this.state.userId} />
-//           </Route>
-//           <Route path="/profile">
-//             <ProfilePage userID={this.state.userId} />
-//           </Route>
-//           <Route path="/details" component={SitterDetailPage} />
-//         </Switch>
-//       </MuiThemeProvider>
-//     );
-//   }
-// }
-
 function App() {
   const [userId, setUserID] = useState(null);
 
@@ -89,13 +32,13 @@ function App() {
         <Route exact path="/">
           <LandingPage />
         </Route>
-        <Route exact path="/list">
+        <Route path="/list">
           <ListPage userID={userId} />
         </Route>
-        <Route exact path="/requests">
+        <Route path="/requests">
           <ManageRequestPage userID={userId} />
         </Route>
-        <Route exact path="/jobs">
+        <Route path="/jobs">
           <ManageJobPage userID={userId} />
         </Route>
         <Route path="/payment">

@@ -137,9 +137,7 @@ function Navbar(props) {
           <CssBaseline />
           <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
             <Toolbar className={classes.toolbar}>
-              <Link to="/list">
-                <img src="/images/logo.png" alt="" />
-              </Link>
+              <img src="/images/logo.png" alt="" />
               <Grid container alignItems="center" justify="flex-end" direction="row">
                 <Button component={Link} to="/list" className={classes.link}>
                   sitter list
@@ -181,7 +179,7 @@ function Navbar(props) {
                   Messages
                 </Button>
                 <Avatar
-                  alt="Remy Sharp"
+                  alt=""
                   src={profileImg}
                   component={Link}
                   to="/profile"
