@@ -52,9 +52,19 @@ function ListPage(props) {
   const [sitters, setSitters] = useState();
 
   useEffect(() => {
-    axios.get(`/profile/list/${props.userID}`).then(({ data }) => {
-      setSitters(data);
-    });
+    if (props.userID !== null) {
+      axios.get(`/profile/list/${props.userID}`).then(({ data }) => {
+        setSitters(data);
+      });
+    } else {
+      axios.get('/users/').then((response) => {
+        if (response.data.user) {
+          axios.get(`/profile/list/${response.data.user.id}`).then(({ data }) => {
+            setSitters(data);
+          });
+        }
+      });
+    }
   }, [props.userID]);
 
   return sitters ? (

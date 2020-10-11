@@ -148,7 +148,6 @@ function SitterDetailPage(props) {
 
   useEffect(() => {
     axios.get(`/profile/${props.location.sitterID}`).then(({ data }) => {
-      console.log(props.location.sitterID);
       setSitter(data);
       if (data.profileImg !== undefined) {
         setProfileImg(`${process.env.REACT_APP_S3_IMAGE_URL + data.profileImg}`);

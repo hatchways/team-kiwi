@@ -14,8 +14,21 @@ const jobRouter = require('./routes/job');
 const messageRouter = require('./routes/message');
 const passport = require('./passport');
 const session = require('express-session');
+const path = require('path');
 
 const { json, urlencoded } = express;
+
+var app = express();
+
+app.use(logger('dev'));
+app.use(json());
+app.use(urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(join(__dirname, 'public')));
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+}
 
 // mongoose connection
 mongoose.Promise = global.Promise;
@@ -30,23 +43,6 @@ mongoose.connection.once('open', () => {
 });
 mongoose.set('useFindAndModify', false);
 
-var app = express();
-
-app.use(logger('dev'));
-app.use(json());
-app.use(urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(join(__dirname, 'public')));
-
-// Sessions
-app.use(
-  session({
-    secret: 'fraggle-rock', //pick a random string to make the hash that is generated secure
-    resave: false, //required
-    saveUninitialized: false, //required
-  })
-);
-
 // Passport
 app.use(passport.initialize());
 app.use(passport.session()); // calls the deserializeUser
@@ -60,6 +56,19 @@ app.use('/payment', paymentRouter);
 app.use('/request', requestRouter);
 app.use('/job', jobRouter);
 app.use('/message', messageRouter);
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+
+// Sessions
+app.use(
+  session({
+    secret: 'fraggle-rock', //pick a random string to make the hash that is generated secure
+    resave: false, //required
+    saveUninitialized: false, //required
+  })
+);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

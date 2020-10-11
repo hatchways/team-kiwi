@@ -1,0 +1,14 @@
+{
+  "name": "loving-sitters",
+  "version": "1.0.0",
+  "description": "connecting dog lovers",
+  "scripts": {
+    "prepare-client": "cd client && npm install && npm run build",
+    "prepare-server": "cd server && npm install",
+    "heroku-postbuild": "npm run prepare-client && npm run prepare-server",
+    "start": "cd server && npm start",
+    "backend": "cd server && npm run dev",
+    "frontend": "cd client && npm start",
+    "dev": "concurrently \"npm run backend\""
+  }
+}

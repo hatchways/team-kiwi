@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-
 import Edit from './Edit';
 import Album from './Album';
 import Photo from './Photo';
@@ -8,14 +7,8 @@ import Availability from './Availability';
 import Payment from './Payment';
 import Security from './Security';
 import Settings from './Settings';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
-
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { Box, Container, Grid, List, ListItem, ListItemText } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   list: {

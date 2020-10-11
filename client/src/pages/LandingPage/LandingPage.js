@@ -1,17 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import {
-  makeStyles,
-  Typography,
-  Grid,
-  CardContent,
-  Paper,
-  Avatar,
-  TextField,
-  Button,
-  Divider,
-} from '@material-ui/core';
+import React, { useState } from 'react';
+import { makeStyles, Typography, Grid, TextField, Button, Snackbar } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import DateRangeIcon from '@material-ui/icons/DateRange';
+import MuiAlert from '@material-ui/lab/Alert';
 import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,12 +36,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={7} variant="filled" {...props} />;
+}
+
 export default function LandingPage() {
   const classes = useStyles();
-  const defaultTime = moment('1200', 'HH:mm').add(1, 'day');
   const [location, setLocation] = useState('');
+  const [messageOpen, setMessageOpen] = useState(false);
+  const defaultTime = moment('1200', 'HH:mm').add(1, 'day');
   const [start, setStart] = useState(defaultTime.format('YYYY-MM-DDTHH:mm'));
   const [end, setEnd] = useState(defaultTime.add(1, 'day').format('YYYY-MM-DDTHH:mm'));
+
+  const findSitters = (e) => {
+    e.preventDefault();
+    setMessageOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      setMessageOpen(false);
+      return;
+    }
+  };
+
   return (
     <>
       <Grid container spacing={0} align="center" justify="center">
@@ -114,7 +122,13 @@ export default function LandingPage() {
                 </Grid>
               </Grid>
             </Grid>
-            <Button variant="contained" size="large" color="primary" className={classes.button}>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              className={classes.button}
+              onClick={findSitters}
+            >
               FIND MY DOG SITTER
             </Button>
           </div>
@@ -127,6 +141,11 @@ export default function LandingPage() {
           ></img>
         </Grid>
       </Grid>
+      <Snackbar open={messageOpen} autoHideDuration={1500} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info">
+          This feature is currently under construction.
+        </Alert>
+      </Snackbar>
     </>
   );
 }

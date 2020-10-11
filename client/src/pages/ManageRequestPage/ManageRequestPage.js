@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   calendar: {
     flexWrap: 'wrap',
     width: 380,
-    height: 400,
+    height: 440,
     marginLeft: theme.spacing(5),
   },
 }));
