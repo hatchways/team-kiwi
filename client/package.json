@@ -20,7 +20,7 @@
     "react-input-mask": "^2.0.4",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.4.3",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "socket.io-client": "^2.3.0",
@@ -53,12 +53,5 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
-  },
-  "devDependencies": {
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^6.11.0",
-    "husky": "^4.2.5",
-    "prettier": "^2.0.5",
-    "pretty-quick": "^2.0.1"
   }
 }
